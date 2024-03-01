@@ -21,7 +21,7 @@
 
 ## Github URL
 
-[Github Respository](https://github.com/sumedhbadnore/CS_515_Project_3)
+[Github Respository](https://github.com/Onkar2706/CS546_Project_Group37.git)
 
 ## Description
 
