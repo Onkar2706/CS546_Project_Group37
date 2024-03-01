@@ -6,4 +6,6 @@ Sumedh Badnore<sbadnore@stevens.edu>  <br>
 Chaitanya Ratnaparkhi<br>
 Charan Konkepudi<br>
 Aryaman Srivastava<br>
+<https://www.markdownguide.org>
+<fake@example.com>
 
