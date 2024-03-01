@@ -13,11 +13,11 @@
 - Name: Chaitanya Ratnaparkhi
 - Email: 
 
-- Name: 
-- Email:
+- Name: Charan Konkepudi
+- Email:ckonkepu@stevens.edu
 
-- Name:
-- Email: 
+- Name:Aryaman Srivastava
+- Email: arsh.0005.ac@gmail.com
 
 ## Github URL
 
