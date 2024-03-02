@@ -17,7 +17,7 @@
 - Email:ckonkepu@stevens.edu
 
 - Name:Aryaman Srivastava
-- Email: arsh.0005.ac@gmail.com
+- Email: asriva10@stevens.edu
 
 ## Github URL
 
