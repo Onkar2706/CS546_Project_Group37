@@ -1,7 +1,7 @@
 {
   "name": "cs546_projectgroup37",
   "version": "1.0.0",
-  "description": "<p><em><em>This a Group 37 of CS546 Spring24</em><br>",
+  "description": "This a Group 37 of CS546 Spring24",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,11 +11,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Onkar2706/CS546_Project_Group37.git",
-    "type":"module"
-
+    "url": "git+https://github.com/Onkar2706/CS546_Project_Group37.git"
   },
-  "author": "Sumedh Badnore, Onkar Mahamuni, Chaitanya Ratnaparkhi, Aryaman Srivastava",
+  "author": "Group_37 (Sumedh Badnore, Onkar Mahamuni, Chaitanya Ratnaparkhi, Aryaman Srivastava, Charan Konkepudi)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Onkar2706/CS546_Project_Group37/issues"
