@@ -13,7 +13,7 @@
 - Name: Chaitanya Ratnaparkhi
 - Email: cratnapa@stevens.edu 
 
-- Name: Charan Konkepudi
+- Name: Charan konkepudi
 - Email: ckonkepu@stevens.edu
 
 - Name:Aryaman Srivastava
