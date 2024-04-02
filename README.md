@@ -16,7 +16,7 @@
 - Name: Charan konkepudi
 - Email: ckonkepu@stevens.edu
 
-- Name:Aryaman Srivastava
+- Name: Aryaman Srivastava
 - Email: asriva10@stevens.edu
 
 ## Github URL
