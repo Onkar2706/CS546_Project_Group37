@@ -22,20 +22,20 @@ const exportMethods = {
     posts,
     Artist_Id
   ) {
-    if (
-      !validateString(firstName) ||
-      !validateString(lastName) ||
-      !validateString(lastName) ||
-      !validateString(userName) ||
-      !validateEmailAddress(email) ||
-      !validateState(State) ||
-      !validateCity(City) ||
-      !validateArray(cart) ||
-      !validateArray(purchases) ||
-      !validateArray(posts) ||
-      !validateObjectId(Artist_Id)
-    )
-      throw "error thrown";
+    // if (
+    // //   !validateString(firstName) ||
+    // //   !validateString(lastName) ||
+    // //   !validateString(lastName) ||
+    // //   !validateString(userName) ||
+    // //   !validateEmailAddress(email) ||
+    // //   !validateState(State) ||
+    // //   !validateCity(City) ||
+    // //   !validateArray(cart) ||
+    // //   !validateArray(purchases) ||
+    // //   !validateArray(posts) 
+    // //   !validateObjectId(Artist_Id)
+    // )
+    //   throw "error thrown1";
 
     let newUser = {
       firstName: firstName.trim(),
@@ -43,10 +43,11 @@ const exportMethods = {
       userName: userName.trim(),
       email: email.trim(),
       State: State.trim(),
-      City: City.trim(),
-      cart: cart.map((cart) => cart.trim()),
-      purchases: purchases.map((purchases) => purchases.trim()),
-      posts: posts.map((posts) => posts.trim()),
+      City: City,
+      cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
+      purchases: Array.isArray(purchases) ? purchases.map((item) => item.trim()) : [],
+      posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
+      Artist_Id: Artist_Id
     };
 
     const usercollection = await users();
