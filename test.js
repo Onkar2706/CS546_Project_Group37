@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import validate from "./helpers.js";
 import user from "./data/users.js";
 
 const saltRounds = 10;
@@ -34,4 +35,11 @@ catch (error) {
     console.log(error)
 }
 
+// try{
+//   validate.checkIfProperInput("tr");
+//   console.log("Success")
+// }
+// catch(e){
+//   console.log(e);
+// }
 

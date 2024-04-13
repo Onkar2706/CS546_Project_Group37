@@ -1,12 +1,6 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import {
-  validateEmailAddress,
-  validateString,
-  validateState,
-  validateArray,
-  validateObjectId,
-} from "../helpers.js";
+import validate from "../helpers.js";
 
 const exportMethods = {
   async create(
