@@ -1,7 +1,7 @@
 import user from "./data/users.js";
 
 console.log(
-  await cre(
+  await user.create(
     "Ross",
     "Geller",
     "RS27",
