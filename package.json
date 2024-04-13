@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This a Group 37 of CS546 Spring24",
   "main": "app.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
@@ -20,7 +20,9 @@
   "homepage": "https://github.com/Onkar2706/CS546_Project_Group37#readme",
   "dependencies": {
     "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
     "handlebars": "^4.7.8",
     "mongo": "^0.1.0"
   }
