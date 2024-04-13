@@ -1,27 +1,37 @@
+import bcrypt from "bcryptjs";
 import user from "./data/users.js";
-try {
 
-    console.log(
-    
-        await user.create(
-          "Ross",
-          "Geller",
-          "RS27",
-          "RS27@email.com",
-          "NJ",
-          "Hoboken",
-          ["Book", "Arts", "Cars"],
-          ["Test1", "Test2", "Test3", "Test4"],
-          ["Test5", "Test6", "Test7"],
-          ["Test5", "Test6", "Test7"],
-          "abc1266665b"
-        )
-      
-      );
-    
-} catch (error) {
+const saltRounds = 10;
+const pw = "MyDummyPassword";
+let hash = null;
+
+try{
+  // Securing password
+  hash = await bcrypt.hash(pw, saltRounds);
+}
+catch(e){
+  console.log("unable to hash password")
+}
+
+try {
+  console.log(
+    await user.create(
+      "Ross",
+      "Geller",
+      "Rossy",
+      hash,
+      "RS27@email.com",
+      "NJ",
+      "Hoboken",
+      ["Book", "Arts", "Cars"],
+      ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
+      ["Post1", "Post2", "Post3"],
+      "abc1266665b"
+    )
+  );    
+} 
+catch (error) {
     console.log(error)
-    
 }
 
 

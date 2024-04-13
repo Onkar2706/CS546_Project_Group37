@@ -10,17 +10,17 @@ import {
 
 const exportMethods = {
   async create(
-    id,
     firstName,
     lastName,
     userName,
+    password,
     email,
-    State,
-    City,
+    state,
+    city,
     cart,
     purchases,
     posts,
-    Artist_Id
+    artist_Id
   ) {
     // if (
     // //   !validateString(firstName) ||
@@ -41,13 +41,14 @@ const exportMethods = {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       userName: userName.trim(),
+      password: password.trim(),
       email: email.trim(),
-      State: State.trim(),
-      City: City,
+      state: state.trim(),
+      city: city,
       cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
       purchases: Array.isArray(purchases) ? purchases.map((item) => item.trim()) : [],
       posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
-      Artist_Id: Artist_Id
+      artist_Id: artist_Id
     };
 
     const usercollection = await users();
@@ -77,21 +78,4 @@ const exportMethods = {
 };
 
 export default exportMethods;
-
-
-
-
-    // test=await create(
-    //   "Ross",
-    //   "Geller",
-    //   "RS27",
-    //   "RS27@email.com",
-    //   "NJ",
-    //   "Hoboken",
-    //   ["Book", "Arts", "Cars"],
-    //   ["Test1", "Test2", "Test3", "Test4"],
-    //   ["Test5", "Test6", "Test7"],
-    //   "abc1266665b"
-    // )
-    // console.log(test)
  
