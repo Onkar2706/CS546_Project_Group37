@@ -69,6 +69,10 @@ const exportMethods = {
     user._id = user._id.toString();
     return user;
   },
+
+  async getAll(){
+    
+  }
 };
 
 export default exportMethods;
