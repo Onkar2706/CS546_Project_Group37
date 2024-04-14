@@ -1,6 +1,7 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
+import bcrypt from "bcryptjs";
 
 const exportMethods = {
   async create(
@@ -16,20 +17,7 @@ const exportMethods = {
     posts,
     artist_Id
   ) {
-    // if (
-    // //   !validateString(firstName) ||
-    // //   !validateString(lastName) ||
-    // //   !validateString(lastName) ||
-    // //   !validateString(userName) ||
-    // //   !validateEmailAddress(email) ||
-    // //   !validateState(State) ||
-    // //   !validateCity(City) ||
-    // //   !validateArray(cart) ||
-    // //   !validateArray(purchases) ||
-    // //   !validateArray(posts) 
-    // //   !validateObjectId(Artist_Id)
-    // )
-    //   throw "error thrown1";
+    password = await validate.generatePassword(password);
 
     let newUser = {
       firstName: firstName.trim(),
@@ -40,9 +28,11 @@ const exportMethods = {
       state: state.trim(),
       city: city,
       cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
-      purchases: Array.isArray(purchases) ? purchases.map((item) => item.trim()) : [],
+      purchases: Array.isArray(purchases)
+        ? purchases.map((item) => item.trim())
+        : [],
       posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
-      artist_Id: artist_Id
+      artist_Id: artist_Id,
     };
 
     const usercollection = await users();
@@ -69,7 +59,22 @@ const exportMethods = {
     user._id = user._id.toString();
     return user;
   },
+
+  async getAll() {
+    const usercollection = await users();
+    let userList = await usercollection.find({}).toArray();
+    if (!userList) throw "Could not get any user";
+    userList = userList.map((element) => {
+      element._id = element._id.toString();
+
+      return {
+        _id: element._id.toString(),
+        userName: element.userName,
+      };
+    });
+
+    return userList;
+  },
 };
 
 export default exportMethods;
- 

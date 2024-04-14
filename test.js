@@ -2,25 +2,13 @@ import bcrypt from "bcryptjs";
 import validate from "./helpers.js";
 import user from "./data/users.js";
 
-const saltRounds = 10;
-const pw = "MyDummyPassword";
-let hash = null;
-
-try{
-  // Securing password
-  hash = await bcrypt.hash(pw, saltRounds);
-}
-catch(e){
-  console.log("unable to hash password")
-}
-
 try {
   console.log(
     await user.create(
-      "Ross",
-      "Geller",
-      "Rossy",
-      hash,
+      "Chandler",
+      "Bing",
+      "Monica27",
+      "MyDummyPassword",
       "RS27@email.com",
       "NJ",
       "Hoboken",
@@ -35,11 +23,16 @@ catch (error) {
     console.log(error)
 }
 
-// try{
-//   validate.checkIfProperInput("tr");
-//   console.log("Success")
+
+// try {
+
+//     console.log(await user.getAll())
+    
+// } catch (error) {
+//     console.log(error)
+    
 // }
-// catch(e){
-//   console.log(e);
-// }
+
+
+
 
