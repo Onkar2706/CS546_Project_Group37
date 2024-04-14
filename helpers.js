@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import {ObjectId} from 'mongodb';
 
 const validate = {
   async generatePassword() {
@@ -24,7 +25,15 @@ const validate = {
     if (typeof inp !== "string" || inp.trim().length === 0)
       throw "Error: Input parameter must be non-empty string";
   },
-
+  checkIfValidObjectId: (inp) => {
+    //function to check if id is a valid ObjectId
+    checkIfProperInput(inp);
+    checkIfString(inp);
+    inp = inp.trim();
+    if (!ObjectId.isValid(inp)) {
+      throw `Error, provided input is not a valid ObjectID`;
+    }
+  },
   checkIfPositiveNumber: (inp) => {
     if (typeof inp !== "number" || inp === NaN)
       throw "Error: Input parameter must be a positive number";
