@@ -18,8 +18,24 @@ const exportMethods = {
     purchases,
     posts,
     artist_Id
-  ) {
-    password = await validate.generatePassword(password);
+  ){
+    try{
+      validate.checkIfProperInput(firstName);
+      validate.checkIfProperInput(lastName);
+      validate.checkIfProperInput(userName);
+      validate.checkIfProperInput(password);
+      validate.checkIfProperInput(email);
+      validate.checkIfProperInput(state);
+      validate.checkIfProperInput(city);
+    }
+    catch(e){}
+    
+    try{
+      password = await validate.hashPassword(password);
+    }
+    catch(e){
+      console.log("Unable to hash password")
+    }
 
     let newUser = {
       firstName: firstName.trim(),
@@ -30,9 +46,7 @@ const exportMethods = {
       state: state.trim(),
       city: city,
       cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
-      purchases: Array.isArray(purchases)
-        ? purchases.map((item) => item.trim())
-        : [],
+      purchases: Array.isArray(purchases) ? purchases.map((item) => item.trim()) : [],
       posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
       artist_Id: artist_Id,
     };

@@ -1,18 +1,12 @@
 import bcrypt from "bcryptjs";
+import {ObjectId} from 'mongodb';
 
 const validate = {
-  async generatePassword() {
+  async hashPassword(inp) {
     const saltRounds = 10;
-    const pw = "MyDummyPassword";
     let hash = null;
-
-    try {
-      // Securing password
-      hash = await bcrypt.hash(pw, saltRounds);
-    } catch (e) {
-      console.log("unable to hash password");
-    }
-
+    inp = inp.trim();
+    hash = await bcrypt.hash(inp, saltRounds);
     return hash
   },
 
@@ -24,7 +18,15 @@ const validate = {
     if (typeof inp !== "string" || inp.trim().length === 0)
       throw "Error: Input parameter must be non-empty string";
   },
-
+  checkIfValidObjectId: (inp) => {
+    //function to check if id is a valid ObjectId
+    validate.checkIfProperInput(inp);
+    validate.checkIfString(inp);
+    inp = inp.trim();
+    if (!ObjectId.isValid(inp)) {
+      throw `Error, provided input is not a valid ObjectID`;
+    }
+  },
   checkIfPositiveNumber: (inp) => {
     if (typeof inp !== "number" || inp === NaN)
       throw "Error: Input parameter must be a positive number";
@@ -52,10 +54,9 @@ const validate = {
   checkIfValidArray: (inp) => {
     if (typeof inp !== "object" || Array.isArray(inp) !== true)
       throw "Error: Input parameter must be an array";
-    if (inp.length === 0) throw "Error: Empty array provided";
-
+    // if (inp.length === 0) throw "Error: Empty array provided";
     for (let string of inp) {
-      checkIfString(string);
+      validate.checkIfString(string);
     }
   },
 
