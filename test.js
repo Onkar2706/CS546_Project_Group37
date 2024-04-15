@@ -5,79 +5,80 @@ import artist from "./data/artists.js";
 
 let oId = null;
 
-try {
+// try {
   // oId= this._id
 
-  let usercreated = await user.create(
-    "Chandler",
-    "Bing",
-    "Monica27",
-    "MyDummyPassword",
-    "RS27@email.com",
-    "NJ",
-    "Hoboken",
-    ["Book", "Arts", "Cars"],
-    ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
-    ["Post1", "Post2", "Post3"],
-    "abc1266665b"
-  );
+//   let usercreated = await user.create(
+//     "Chandler1",
+//     "Bing",
+//     "Monica27",
+//     "MyDummyPassword",
+//     "RS27@email.com",
+//     "NJ",
+//     "Hoboken",
+//     ["Book", "Arts", "Cars"],
+//     ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
+//     ["Post1", "Post2", "Post3"],
+//     "abc1266665b"
+//   );
 
-  console.log(usercreated);
+//   console.log(usercreated);
 
-  oId = usercreated._id;
-  console.log(oId);
-} catch (error) {
-  console.log(error);
-}
+//   oId = usercreated._id;
+//   console.log(oId);
+// } catch (error) {
+//   console.log(error);
+// }
 
-try {
-  console.log(
-    await user.updateUserInfo(
-      oId,
-      "Chandler",
-      "Geller",
-      "Monica27",
-      "MyDummyPassword",
-      "RS27@email.com",
-      "NJ",
-      "Hoboken",
-      ["Book", "Arts", "Cars"],
-      ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
-      ["Post1", "Post2", "Post3"],
-      "abc1266665b"
-    )
-  );
-} catch (error) {
-  console.log(error);
-}
+// try {
+//   console.log(
+//     await user.updateUserInfo(
+//       oId,
+//       "Chandler2",
+//       "Geller",
+//       "Monica27",
+//       "MyDummyPassword",
+//       "RS27@email.com",
+//       "NJ",
+//       "Hoboken",
+//       ["Book", "Arts", "Cars"],
+//       ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
+//       ["Post1", "Post2", "Post3"],
+//       "abc1266665b"
+//     )
+//   );
+// } catch (error) {
+//   console.log(error);
+// }
 
-try {
-  let testUser = await user.create(
-    "Chandler",
-    "Bing",
-    "Monica27",
-    "MyDummyPassword",
-    "RS27@email.com",
-    "NJ",
-    "Hoboken",
-    ["Book", "Arts", "Cars"],
-    ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
-    ["Post1", "Post2", "Post3"],
-    "abc1266665b"
-  );
-  console.log(testUser._id);
-  console.log(
-    await artist.create(
-      testUser._id,
-      "hi this is a test",
-      "http://www.youtube.com",
-      ["661c8ad8029f017b7b271d1b"],
-      1.0
-    )
-  );
-} catch (e) {
-  console.log(e);
-}
+// try {
+  // let testUser = await user.create(
+  //   "Chandler",
+  //   "Bing",
+  //   "Monica27",
+  //   "MyDummyPassword",
+  //   "RS27@email.com",
+  //   "NJ",
+  //   "Hoboken",
+  //   ["Book", "Arts", "Cars"],
+  //   ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
+  //   ["Post1", "Post2", "Post3"],
+  //   "abc1266665b"
+  // );
+  // console.log(testUser._id);
+  
+//   console.log(
+//     await artist.create(
+//       "661d792cf18995dfc2fb3e0b",
+//       "second artist",
+//       "http://www.youtube.com",
+//       ["661c8ad8029f017b7b271d1b"],
+//       1.0
+//     )
+//   );
+// } catch (e) {
+//   console.log(e);
+// }
 
 // try {
 
@@ -87,3 +88,10 @@ try {
 //     console.log(error)
 
 // }
+
+try{
+  console.log(await user.getAll());
+}
+catch(e){
+  console.log(e);
+}

@@ -122,17 +122,17 @@ const exportMethods = {
     )
       throw "Error found";
 
-    if (
-      //   !pkg.isMongoId(id) || need to check for valid input of mongoId
-      !pkg.isAlpha(firstName) ||
-      !pkg.isAlpha(lastName) ||
-      !pkg.isAlphanumeric(lastName) ||
-      !pkg.isAlphanumeric(password) ||
-      !pkg.isEmail(email) ||
-      !validate.validateState(state) ||
-      !pkg.isAlpha(city)
-    )
-      throw "Error: Validation failed";
+    // if (
+    //   //   !pkg.isMongoId(id) || need to check for valid input of mongoId
+    //   !pkg.isAlpha(firstName) ||
+    //   !pkg.isAlpha(lastName) ||
+    //   !pkg.isAlphanumeric(lastName) ||
+    //   !pkg.isAlphanumeric(password) ||
+    //   !pkg.isEmail(email) ||
+    //   !validate.validateState(state) ||
+    //   !pkg.isAlpha(city)
+    // )
+    //   throw "Error: Validation failed";
 
     const usercollection = await users();
     const updateduser = await usercollection.findOneAndUpdate(
