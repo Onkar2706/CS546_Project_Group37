@@ -2,6 +2,8 @@ import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import bcrypt from "bcryptjs";
+import pkg from "validator";
+const {validator} = pkg;
 
 const exportMethods = {
   async create(
@@ -89,6 +91,73 @@ const exportMethods = {
 
     return userList;
   },
+
+  async updateUserInfo(
+    id,
+    firstName,
+    lastName,
+    userName,
+    password,
+    email,
+    state,
+    city,
+    cart,
+    purchases,
+    posts,
+    artist_Id
+  ) {
+    if (
+      !id ||
+      !firstName ||
+      !lastName ||
+      !userName ||
+      !password ||
+      !email ||
+      !state ||
+      !city ||
+      !cart ||
+      !purchases ||
+      !posts ||
+      !artist_Id
+    )
+      throw "Error found";
+
+    // if (
+    // // //   !validator.isMongoId(id) ||
+    // //   !validator.isAlpha(userName) ||
+    // //   !validator.isAlpha(lastName) ||
+    // //   !validator.isAlphanumeric(lastName) ||
+    // //   !validator.isAlphanumeric(password) ||
+    // //   !validator.isEmail(email) ||
+    // //   !validate.validateState(state) ||
+    // //   !validator.isAlpha(city)
+    // )
+    //   throw "Error: Validation failed";
+
+    const usercollection = await users();
+    const updateduser = await usercollection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          userName: userName.trim(),
+          password: password.trim(),
+          email: email.trim(),
+          state: state.trim(),
+          city: city.trim(),
+          cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
+          purchases: Array.isArray(purchases) ? purchases.map((item) => item.trim()): [],
+          posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
+          artist_Id: artist_Id,
+        },
+      },
+      { returnDocument: "after" }
+    );
+    return updateduser;
+    
+  },
+  
 };
 
 export default exportMethods;
