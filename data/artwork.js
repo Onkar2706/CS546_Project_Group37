@@ -88,7 +88,7 @@ const exportMethods = {
   
   async remove(id){
     validate.checkIfProperInput(id);
-    validate.validate.checkIfString(id);
+    validate.checkIfString(id);
     id = id.trim();
     if (!ObjectId.isValid(id)) throw 'Error: Invalid object ID';
   

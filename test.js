@@ -90,9 +90,34 @@ let oId = null;
 
 // }
 
+let prodID = null;
 try{
-  console.log(await productMethods.create("661d85d6fc783a1f5ae0c933", "Necklace", "Chimni cha chan sa ghar", ["bird", "house", "little"], 20, ["https://www.ugaoo.com/cdn/shop/articles/shutterstock_573560338.jpg?v=1661880404"], ["I love it!"]));
+  let prod = await productMethods.create("661d85d6fc783a1f5ae0c933", "Painting", "Waterfall", ["bird", "house", "little"], 20, ["https://www.ugaoo.com/cdn/shop/articles/shutterstock_573560338.jpg?v=1661880404"], ["I love it!"]);
+  prodID = prod._id;
 }
 catch(e){
   console.log(e);
 }
+
+try{
+  console.log(await productMethods.get(prodID));
+}
+catch(e){
+  console.log(e);
+}
+
+try{
+  console.log("getAll method:")
+  console.log(await productMethods.getAll());
+}
+catch(e){
+  console.log(e);
+}
+try{
+  console.log("remove method:")
+  console.log(await productMethods.remove(prodID));
+}
+catch(e){
+  console.log(e);
+}
+
