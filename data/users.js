@@ -123,10 +123,10 @@ const exportMethods = {
       throw "Error found";
 
     if (
-    
+      
       !pkg.isAlpha(firstName) ||
       !pkg.isAlpha(lastName) ||
-      !pkg.isAlphanumeric(lastName) ||
+      !pkg.isAlphanumeric(userName) ||
       !pkg.isAlphanumeric(password) ||
       !pkg.isEmail(email) ||
       !validate.validateState(state) ||

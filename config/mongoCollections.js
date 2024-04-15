@@ -18,3 +18,4 @@ export const users = getCollectionFn("Users");
 export const artists = getCollectionFn("Artists");
 export const artwork = getCollectionFn("Artwork");
 export const artPurchases = getCollectionFn("ArtPurchases");
+export const posts = getCollectionFn("Post")
