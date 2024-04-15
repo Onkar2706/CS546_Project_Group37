@@ -2,18 +2,11 @@ import bcrypt from "bcryptjs";
 import {ObjectId} from 'mongodb';
 
 const validate = {
-  async generatePassword() {
+  async hashPassword(inp) {
     const saltRounds = 10;
-    const pw = "MyDummyPassword";
     let hash = null;
-
-    try {
-      // Securing password
-      hash = await bcrypt.hash(pw, saltRounds);
-    } catch (e) {
-      console.log("unable to hash password");
-    }
-
+    inp = inp.trim();
+    hash = await bcrypt.hash(inp, saltRounds);
     return hash
   },
 
@@ -61,8 +54,7 @@ const validate = {
   checkIfValidArray: (inp) => {
     if (typeof inp !== "object" || Array.isArray(inp) !== true)
       throw "Error: Input parameter must be an array";
-    if (inp.length === 0) throw "Error: Empty array provided";
-
+    // if (inp.length === 0) throw "Error: Empty array provided";
     for (let string of inp) {
       validate.checkIfString(string);
     }
