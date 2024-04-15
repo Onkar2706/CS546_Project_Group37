@@ -19,6 +19,10 @@ const exportedMethods = {
         for (let element of portfolio) {
             validate.checkIfValidObjectId(element);
         }
+        user_id = user_id.trim();
+        if (!users.get(user_id)) {
+            throw `given user id does not exist`;
+        }
         validate.checkIfValidRating(ratings);
         let newArtist = {
             user_id: user_id.trim(),
