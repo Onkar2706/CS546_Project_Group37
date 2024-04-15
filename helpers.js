@@ -27,8 +27,8 @@ const validate = {
   },
   checkIfValidObjectId: (inp) => {
     //function to check if id is a valid ObjectId
-    checkIfProperInput(inp);
-    checkIfString(inp);
+    validate.checkIfProperInput(inp);
+    validate.checkIfString(inp);
     inp = inp.trim();
     if (!ObjectId.isValid(inp)) {
       throw `Error, provided input is not a valid ObjectID`;
@@ -64,7 +64,7 @@ const validate = {
     if (inp.length === 0) throw "Error: Empty array provided";
 
     for (let string of inp) {
-      checkIfString(string);
+      validate.checkIfString(string);
     }
   },
 
