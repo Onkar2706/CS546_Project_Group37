@@ -3,7 +3,10 @@ h1 {
 }
 
 body {
-    background-color: antiquewhite;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
 }
 .banner {
     width: auto;
@@ -45,3 +48,178 @@ body {
 .navbar ul li:hover::after{
     width: 100%;
 }
+
+
+.container {
+    width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333; /* Dark grey */
+    margin-bottom: 20px; /* Add spacing below the heading */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/*login page */
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    background-color: #3b5998; /* Facebook blue */
+    color: white;
+    padding: 14px 20px;
+    margin: 20px 0 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.input-group-icon i {
+    cursor: pointer;
+}
+
+.input-group-icon i:hover {
+    color: #666;
+}
+
+.separator {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.separator-text {
+    background-color: #f0f2f5;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #999;
+}
+
+.btn-social {
+    width: 100%;
+    background-color: #4CAF50; /* green */
+    color: white;
+    padding: 14px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-social:hover {
+    background-color: #195e10; /* Darker shade of green on hover */
+}
+
+.create-account-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.create-account-text a {
+    color: #4CAF50; 
+    text-decoration: none;
+}
+
+.create-account-text a:hover {
+    text-decoration: underline;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Eye icon for password visibility */
+.input-group-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #aaa; /* Light grey */
+}
+
+.input-group-icon i {
+    cursor: pointer;
+}
+
+.input-group-icon i:hover {
+    color: #666; /* Darker grey on hover */
+}
+
+/* register page  */
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 14px 20px;
+    margin: 10px 0; /* Add spacing between button and input fields */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049; /* Darker shade of green on hover */
+}
+
+/* Link styles */
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #4CAF50; /* Green */
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+
+
