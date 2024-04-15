@@ -66,6 +66,18 @@ const exportedMethods = {
     });
     return allPurchases;
   },
+  async remove(id) {
+    validate.checkIfValidObjectId(id);
+    id = id.trim();
+    const artPurchasesCollection = await artPurchases();
+    const removePurchase = await artPurchasesCollection.findOneAndDelete({
+      _id: new ObjectId(id),
+    });
+    if (!removePurchase) {
+      throw `purchase could not be removed`;
+    }
+    return { _id: id, delete: true };
+  },
 };
 
 export default exportedMethods;
