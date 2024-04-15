@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import bcrypt from "bcryptjs";
 import pkg from "validator";
-const {validator} = pkg;
+// const {validator} = pkg;
 
 const exportMethods = {
   async create(
@@ -122,17 +122,17 @@ const exportMethods = {
     )
       throw "Error found";
 
-    // if (
-    // // //   !validator.isMongoId(id) ||
-    // //   !validator.isAlpha(userName) ||
-    // //   !validator.isAlpha(lastName) ||
-    // //   !validator.isAlphanumeric(lastName) ||
-    // //   !validator.isAlphanumeric(password) ||
-    // //   !validator.isEmail(email) ||
-    // //   !validate.validateState(state) ||
-    // //   !validator.isAlpha(city)
-    // )
-    //   throw "Error: Validation failed";
+    if (
+    //   !pkg.isMongoId(id) || need to check for valid input of mongoId 
+      !pkg.isAlpha(firstName) ||
+      !pkg.isAlpha(lastName) ||
+      !pkg.isAlphanumeric(lastName) ||
+      !pkg.isAlphanumeric(password) ||
+      !pkg.isEmail(email) ||
+      !validate.validateState(state) ||
+      !pkg.isAlpha(city)
+    )
+      throw "Error: Validation failed";
 
     const usercollection = await users();
     const updateduser = await usercollection.findOneAndUpdate(
