@@ -19,6 +19,10 @@ const exportedMethods = {
         for (let element of portfolio) {
             validate.checkIfValidObjectId(element);
         }
+        user_id = user_id.trim();
+        if (!users.get(user_id)) {
+            throw `given user id does not exist`;
+        }
         validate.checkIfValidRating(ratings);
         let newArtist = {
             user_id: user_id.trim(),
@@ -48,6 +52,50 @@ const exportedMethods = {
         }
         artist._id = artist._id.toString();
         return artist;
+    }, 
+    async getAll() {
+        //retrieves all artists in the artists collection
+        let artistCollection = await artists();
+        let artistList = await artistCollection.find({}).toArray();
+        if(!artistList) {
+            throw `couldn't get artists`;
+        }
+        artistList.map((element) => {
+            return {_id: element._id.toString(), user_id: element.user_id.toString()};
+        });
+        return artistList;
+    },
+    async updateArtist(artist_id, user_id, bio, profilePic, portfolio, ratings) {
+       if (!artist_id || !user_id || !bio || !profilePic || !portfolio || !ratings) {
+        throw `please provide proper input`;
+       }
+       if (!validate.checkIfValidObjectId(artist_id) || !validate.checkIfValidObjectId(user_id)) {
+        throw `provided id(s) is not a valid id`;
+       }
+       if (!validate.checkIfString(bio) || !validate.checkIfValidArray(portfolio) || !validate.checkIfPositiveNumber(ratings) ||
+            !validate.checkIfValidURL(profilePic)) {
+        throw `please provide valid input`;
+       }
+       let artistCollection = await artists();
+       let updatedArtist = artistCollection.findOneAndUpdate(
+        {_id: new ObjectId(artist_id)},
+        {
+            $set: {
+                user_id: user_id.trim(),
+                bio: bio.trim(),
+                profilePic: profilePic.trim(),
+                portfolio: portfolio.map((element) => {
+                    element.trim();
+                }),
+                ratings: ratings
+            }
+        },
+        {returnDocument: "after"}
+       );
+       if (!updatedArtist) {
+        throw `could not update artist`;
+       }
+       return updatedArtist;
     }
 };
 export default exportedMethods;

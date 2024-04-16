@@ -123,7 +123,11 @@ const exportMethods = {
       throw "Error found";
 
     if (
+<<<<<<< HEAD
         !pkg.isMongoId(id) || // need to check for valid input of mongoId
+=======
+    
+>>>>>>> 1e3eaff5f5cb3cf5fb598909efe4697f1a24e314
       !pkg.isAlpha(firstName) ||
       !pkg.isAlpha(lastName) ||
       !pkg.isAlphanumeric(lastName) ||
