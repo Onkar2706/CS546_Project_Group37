@@ -18,8 +18,8 @@ const exportMethods = {
     purchases,
     posts,
     artist_Id
-  ){
-    try{
+  ) {
+    try {
       validate.checkIfProperInput(firstName);
       validate.checkIfProperInput(lastName);
       validate.checkIfProperInput(userName);
@@ -27,14 +27,12 @@ const exportMethods = {
       validate.checkIfProperInput(email);
       validate.checkIfProperInput(state);
       validate.checkIfProperInput(city);
-    }
-    catch(e){}
-    
-    try{
+    } catch (e) {}
+
+    try {
       password = await validate.hashPassword(password);
-    }
-    catch(e){
-      console.log("Unable to hash password")
+    } catch (e) {
+      console.log("Unable to hash password");
     }
 
     let newUser = {
@@ -46,7 +44,9 @@ const exportMethods = {
       state: state.trim(),
       city: city,
       cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
-      purchases: Array.isArray(purchases) ? purchases.map((item) => item.trim()) : [],
+      purchases: Array.isArray(purchases)
+        ? purchases.map((item) => item.trim())
+        : [],
       posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
       artist_Id: artist_Id,
     };
@@ -123,10 +123,11 @@ const exportMethods = {
       throw "Error found";
 
     if (
-    //   !pkg.isMongoId(id) || need to check for valid input of mongoId 
+        !pkg.isMongoId(id) || // need to check for valid input of mongoId
+      
       !pkg.isAlpha(firstName) ||
       !pkg.isAlpha(lastName) ||
-      !pkg.isAlphanumeric(lastName) ||
+      !pkg.isAlphanumeric(userName) ||
       !pkg.isAlphanumeric(password) ||
       !pkg.isEmail(email) ||
       !validate.validateState(state) ||
@@ -147,7 +148,9 @@ const exportMethods = {
           state: state.trim(),
           city: city.trim(),
           cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
-          purchases: Array.isArray(purchases) ? purchases.map((item) => item.trim()): [],
+          purchases: Array.isArray(purchases)
+            ? purchases.map((item) => item.trim())
+            : [],
           posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
           artist_Id: artist_Id,
         },
@@ -155,9 +158,7 @@ const exportMethods = {
       { returnDocument: "after" }
     );
     return updateduser;
-    
   },
-  
 };
 
 export default exportMethods;
