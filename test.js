@@ -3,6 +3,7 @@ import validate from "./helpers.js";
 import user from "./data/users.js";
 import artist from "./data/artists.js";
 import productMethods from "./data/artwork.js";
+import posts from "./data/posts.js";
 
 let oId = null;
 
@@ -90,9 +91,18 @@ let oId = null;
 
 // }
 
+// try{
+//   console.log(await productMethods.create("661d85d6fc783a1f5ae0c933", "Necklace", "Chimni cha chan sa ghar", ["bird", "house", "little"], 20, ["https://www.ugaoo.com/cdn/shop/articles/shutterstock_573560338.jpg?v=1661880404"], ["I love it!"]));
+// }
+// catch(e){
+//   console.log(e);
+// }
+
+
 try{
-  console.log(await productMethods.create("661d85d6fc783a1f5ae0c933", "Necklace", "Chimni cha chan sa ghar", ["bird", "house", "little"], 20, ["https://www.ugaoo.com/cdn/shop/articles/shutterstock_573560338.jpg?v=1661880404"], ["I love it!"]));
+ console.log(await posts.addPost("122344hdgcbvjc","hello","heteebdbjcbjbcs","hhhsbvxjsvb"))
 }
 catch(e){
   console.log(e);
 }
+
