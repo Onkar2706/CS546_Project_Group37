@@ -7,8 +7,11 @@ const saltRounds = 10;
 let hash = null;
 const router = express.Router();
 router
-  .route('/register')
-  .post(async (req, res) => {
+.route('/register')
+.get(async (req, res) => {
+    res.render('home/register', {title: "Register"})
+  })
+.post(async (req, res) => {
     const createUserData = req.body;
     if (!createUserData || Object.keys(createUserData).length === 0) {
       return res.status(400).json({ Error: "No fields in the request body" });

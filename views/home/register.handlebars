@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Create Account</h2>
-        <form action="/user/register" id="registerForm">
+        <form action="/user/register" id="registerForm" method="POST">
             {{!-- <div class="input-group">
                 <label for="userType">I am a:</label>
                 <select id="userType" name="userType" required>
@@ -26,8 +26,8 @@
                 <input type="text" id="lastName" name="lastName" required>
             </div>
             <div class="input-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="userName">Username:</label>
+                <input type="text" id="userName" name="userName" required>
             </div>
             <div class="input-group">
                 <label for="password">Password:</label>
