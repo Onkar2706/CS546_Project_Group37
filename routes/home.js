@@ -10,6 +10,15 @@ router
     catch (e) {
       return res.status(400).json(e);
     }
-  });
+  })
 
+// .route('/user')
+//   .post(async (req, res) => {
+//     try {
+//         res.render("home/home.handlebars", {title: "Home Page"})
+//     }
+//     catch (e) {
+//       return res.status(400).json(e);
+//     }
+//   })
 export default router;

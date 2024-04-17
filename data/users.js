@@ -48,7 +48,9 @@ const exportMethods = {
         ? purchases.map((item) => item.trim())
         : [],
       posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
-      artist_Id: artist_Id,
+      // artist_Id: artist_Id,
+      artist_Id: "30458049ndfkjdj",
+
     };
 
     const usercollection = await users();
