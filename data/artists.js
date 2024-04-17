@@ -53,6 +53,18 @@ const exportedMethods = {
         artist._id = artist._id.toString();
         return artist;
     }, 
+    
+  async remove(id){
+    validate.checkIfProperInput(id);
+    validate.checkIfString(id);
+    id = id.trim();
+    if (!ObjectId.isValid(id)) throw 'Error: Invalid object ID';
+  
+    const artistCollection = await artists();
+    const removeArtist = await artistCollection.findOneAndDelete({ _id: new ObjectId(id) })
+    if (!removeArtist) throw `Error: Could not remove the product with id ${id}`;
+    return {_id: id, deleted: true};
+  },
     async getAll() {
         //retrieves all artists in the artists collection
         let artistCollection = await artists();

@@ -10,13 +10,6 @@
     <div class="container">
         <h2>Create Account</h2>
         <form action="/user/register" id="registerForm" method="POST">
-            {{!-- <div class="input-group">
-                <label for="userType">I am a:</label>
-                <select id="userType" name="userType" required>
-                    <option value="artist">Artist</option>
-                    <option value="buyer">Buyer (User)</option>
-                </select>
-            </div> --}}
             <div class="input-group">
                 <label for="firstName">First Name:</label>
                 <input type="text" id="firstName" name="firstName" required>
@@ -48,10 +41,11 @@
             </div>
             <input type="submit" value="Register">
         </form>
-        <p class="login-link">Already have an account? 
+        <p class="login-link"> 
             <form action="/user/login" id="loginForm" method="POST"></form>
-
-            <a href="/user/login">Login here </a></p>
+            Already have an account? 
+            <a href="/user/login">Login here </a> 
+        </p>
     </div>
 </body>
 </html>
