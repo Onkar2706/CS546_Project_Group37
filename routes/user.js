@@ -69,6 +69,8 @@ router
  const final= bcrypt.compareSync(req.body.password,fetcheduser.password, function(err, result) {
     console.log(result)
 });
+console.log(req.body.password)
+console.log(fetcheduser.password)
 
   console.log("Authentication Successfull")
   console.log(final)
