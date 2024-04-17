@@ -94,6 +94,45 @@ const exportedMethods = {
     );
     return { _id: id, deleted: true };
   },
+  async update(
+    id,
+    user_id,
+    artwork_id,
+    quantity,
+    total_price,
+    payment_status,
+    timeStamp
+  ) {
+    validate.checkIfValidObjectId(id);
+    validate.checkIfValidObjectId(user_id);
+    validate.checkIfValidObjectId(artwork_id);
+    validate.checkIfPositiveNumber(quantity);
+    validate.checkIfPositiveNumber(total_price);
+    validate.checkIfBoolean(payment_status);
+    validate.checkIfValidDate(timeStamp);
+    id = id.trim();
+    user_id = user_id.trim();
+    artwork_id = artwork_id.trim();
+    const artPurchasesCollection = await artPurchases();
+    const updatedInfo = artPurchasesCollection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          user_id: user_id,
+          artwork_id: artwork_id,
+          quantity: quantity,
+          total_price: total_price,
+          payment_status: payment_status,
+          timeStamp: timeStamp,
+        },
+      },
+      { returnDocument: "after" }
+    );
+    if (!updatedInfo) {
+      throw `could not update purchase`;
+    }
+    return updatedInfo;
+  },
 };
 
 export default exportedMethods;
