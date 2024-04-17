@@ -76,7 +76,23 @@ const exportedMethods = {
     if (!removePurchase) {
       throw `purchase could not be removed`;
     }
-    return { _id: id, delete: true };
+    let user = await users.get(removePurchase.user_id);
+    let updatedPurchases = user.purchases.filter((purchase) => purchase != id);
+    await users.updateUserInfo(
+      user._id,
+      user.firstName,
+      user.lastName,
+      user.username,
+      user.password,
+      user.email,
+      user.state,
+      user.city,
+      user.cart,
+      updatedPurchases,
+      user.posts,
+      user.artist_Id
+    );
+    return { _id: id, deleted: true };
   },
 };
 
