@@ -99,10 +99,13 @@ let oId = null;
 // }
 
 
-try{
- console.log(await posts.addPost("122344hdgcbvjc","hello","heteebdbjcbjbcs","hhhsbvxjsvb"))
-}
-catch(e){
-  console.log(e);
-}
+// try{
+//  console.log(await posts.addPost("122344hdgcbvjc","hello","heteebdbjcbjbcs","hhhsbvxjsvb"))
+// }
+// catch(e){
+//   console.log(e);
+// }
+const hashpw = await bcrypt.hash("abc12", 10)
 
+const check = await bcrypt.compare("abc12", hashpw )
+console.log(check)

@@ -20,7 +20,8 @@ router
 
     try{
         // Securing password
-        hash = await bcrypt.hash(createUserData.password, saltRounds);
+        const pw = createUserData.password.trim();
+        hash = await bcrypt.hash(pw, saltRounds);
     }
     catch(e){
         console.log("unable to hash password")
@@ -34,7 +35,7 @@ router
         const newUser = await userMethods.create(firstName,lastName,userName,hash,email,state,city,
         cart,purchases,posts,artist_Id);
         console.log("user Created!");
-        return res.status(200).json("User Created!");
+        res.render("home/home");
     }
     catch (e) {
       return res.status(400).json(e);
@@ -56,34 +57,18 @@ router
   const usercollection= await users()
 
   try {
-    hash = await bcrypt.hash(authorizeUser.password, saltRounds);
-
   const fetcheduser = await usercollection.findOne({ userName: authorizeUser.userName});
   console.log(fetcheduser)
   !fetcheduser && res.status(400).json("User Not Found")
 
-  // const validatedPassword = await bcrypt.compare(hash,fetcheduser.password)
-  // console.log(validatedPassword)
-  // !validatedPassword !== "boolean" && res.status(400).json("Invalid Id or Password")
-
- const final= bcrypt.compareSync(req.body.password,fetcheduser.password, function(err, result) {
-    console.log(result)
-});
-console.log(req.body.password)
-console.log(fetcheduser.password)
-
-  console.log("Authentication Successfull")
-  console.log(final)
-    
-  } catch (error) {
+  const validatedPassword = await bcrypt.compare(authorizeUser.password, fetcheduser.password)
+  console.log(validatedPassword)
+  !validatedPassword !== "boolean" && res.status(400).json("Invalid Id or Password")
+  } 
+  
+  catch (error) {
     res.status(500).json(error)
-    
   }
-
-
-   
-
-
 })
 
 export default router;
