@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import {ObjectId} from 'mongodb';
+import { ObjectId } from "mongodb";
 
 const validate = {
   async hashPassword(inp) {
@@ -7,7 +7,7 @@ const validate = {
     let hash = null;
     inp = inp.trim();
     hash = await bcrypt.hash(inp, saltRounds);
-    return hash
+    return hash;
   },
 
   checkIfProperInput: (inp) => {
@@ -15,6 +15,7 @@ const validate = {
   },
 
   checkIfString: (inp) => {
+    validate.checkIfProperInput(inp);
     if (typeof inp !== "string" || inp.trim().length === 0)
       throw "Error: Input parameter must be non-empty string";
   },
@@ -28,6 +29,7 @@ const validate = {
     }
   },
   checkIfPositiveNumber: (inp) => {
+    checkIfProperInput(inp);
     if (typeof inp !== "number" || inp === NaN)
       throw "Error: Input parameter must be a positive number";
     if (inp < 1) throw "Error: Price must be positive";
@@ -38,6 +40,7 @@ const validate = {
   },
 
   checkIfValidURL: (inp) => {
+    checkIfProperInput(inp);
     inp = inp.trim();
     let strLength = inp.length;
     const url = new URL(inp);
@@ -52,6 +55,7 @@ const validate = {
   },
 
   checkIfValidArray: (inp) => {
+    checkIfProperInput(inp);
     if (typeof inp !== "object" || Array.isArray(inp) !== true)
       throw "Error: Input parameter must be an array";
     // if (inp.length === 0) throw "Error: Empty array provided";
@@ -61,6 +65,7 @@ const validate = {
   },
 
   checkIfValidDate: (inp) => {
+    checkIfProperInput(inp);
     inp = inp.trim();
     let inpDate = new Date(inp);
     let todayDate = new Date();
@@ -80,11 +85,13 @@ const validate = {
   },
 
   checkIfBoolean: (inp) => {
+    checkIfProperInput(inp);
     if (typeof inp !== "boolean")
       throw "Error: Input parameter must be boolean";
   },
 
   checkIfValidRating: (inp) => {
+    checkIfProperInput(inp);
     if (typeof inp !== "number" || inp === NaN) throw "Error: Invalid Rating";
     if (inp < 1 || inp > 5) throw "Error: Invalid Rating";
     if (!Number.isInteger(inp)) {
