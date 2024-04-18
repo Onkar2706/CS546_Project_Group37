@@ -1,7 +1,7 @@
-import { artworks } from "./artwork.js";
-import { users } from "./users.js";
+import artworks from "./artwork.js";
+import users from "./users.js";
 import validate from "../helpers.js";
-import { artPurchases } from "../config/mongoCollections";
+import { artPurchases } from "../config/mongoCollections.js";
 
 const exportedMethods = {
   async create(

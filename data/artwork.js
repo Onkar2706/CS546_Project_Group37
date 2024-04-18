@@ -1,5 +1,5 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
-import { artwork } from "../config/mongoCollections.js";
+import { artworks } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
@@ -12,7 +12,7 @@ const exportMethods = {
     validate.checkIfString(id);
     id = id.trim();
     if (!ObjectId.isValid(id)) throw "Error: Invalid object ID";
-    const productCollection = await artwork();
+    const productCollection = await artworks();
     const product = await productCollection.findOne({ _id: new ObjectId(id) });
     if (product === null) throw "Error: No product with provided ID";
     product._id = product._id.toString();
@@ -52,7 +52,7 @@ const exportMethods = {
       reviews: Array.isArray(reviews) ? reviews.map((item) => item.trim()) : [],
     };
 
-    const productCollection = await artwork();
+    const productCollection = await artworks();
     const insertInfo = await productCollection.insertOne(newProduct);
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
       throw "Error: Could not add the product";
@@ -73,7 +73,7 @@ const exportMethods = {
   },
 
   async getAll() {
-    const productCollection = await artwork();
+    const productCollection = await artworks();
     let allProducts = await productCollection.find({}).toArray();
     if (!allProducts) throw "Error: Could not get all products";
     allProducts = allProducts.map((element) => {
@@ -93,7 +93,7 @@ const exportMethods = {
     id = id.trim();
     if (!ObjectId.isValid(id)) throw "Error: Invalid object ID";
 
-    const productCollection = await artwork();
+    const productCollection = await artworks();
     const removeProduct = await productCollection.findOneAndDelete({
       _id: new ObjectId(id),
     });
@@ -167,7 +167,7 @@ const exportMethods = {
   //     dateReleased: dateReleased.trim(),
   //     discontinued: discontinued,
   //   };
-  //   const productCollection = await artwork();
+  //   const productCollection = await artworks();
   //   const updatedProduct = await productCollection.findOneAndUpdate(
   //     { _id: new ObjectId(productId) },
   //     { $set: updateProduct },

@@ -108,7 +108,7 @@ let oId = null;
 //   console.log(e);
 // }
 
-const remUser = await artist.remove(oId)
+// const remUser = await artist.remove(oId)
 // try{
 //  console.log(await posts.addPost("122344hdgcbvjc","hello","heteebdbjcbjbcs","hhhsbvxjsvb"))
 // }
