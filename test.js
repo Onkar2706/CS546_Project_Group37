@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
-import validate from "./helpers.js";
-import user from "./data/users.js";
-import artist from "./data/artists.js";
-import productMethods from "./data/artwork.js";
-import posts from "./data/posts.js";
+// import validate from "./helpers.js";
+// import user from "./data/users.js";
+// import artist from "./data/artists.js";
+// import productMethods from "./data/artwork.js";
+// import posts from "./data/posts.js";
 
-let oId = null;
+// let oId = null;
 
 // try {
   
@@ -70,15 +70,15 @@ let oId = null;
   // );
   // console.log(testUser._id);
   
-//   console.log(
-    const createA = await artist.create(
-      "661d792cf18995dfc2fb3e0b",
-      "second artist",
-      "http://www.youtube.com",
-      ["661c8ad8029f017b7b271d1b"],
-      1.0
-    )
-    oId = createA._id;
+// //   console.log(
+//     const createA = await artist.create(
+//       "661d792cf18995dfc2fb3e0b",
+//       "second artist",
+//       "http://www.youtube.com",
+//       ["661c8ad8029f017b7b271d1b"],
+//       1.0
+//     )
+//     oId = createA._id;
   // );
 // } catch (e) {
 //   console.log(e);

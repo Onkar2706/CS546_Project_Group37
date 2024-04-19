@@ -38,7 +38,7 @@ const exportMethods = {
     let newUser = {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      userName: userName.trim(),
+      userName: userName.trim().toLowerCase(),
       password: password.trim(),
       email: email.trim(),
       state: state.trim(),

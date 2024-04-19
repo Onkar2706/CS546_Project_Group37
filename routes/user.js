@@ -13,34 +13,32 @@ router
     res.render('home/register', {title: "Register"})
   })
 .post(async (req, res) => {
-    const createUserData = req.body;
-    if (!createUserData || Object.keys(createUserData).length === 0) {
-      return res.status(400).json({ Error: "No fields in the request body" });
-    }
+  const createUserData = req.body;
+  if (!createUserData || Object.keys(createUserData).length === 0) {
+    return res.status(400).json({ Error: "No fields in the request body" });
+  }
 
-    try{
-        // Securing password
-        const pw = createUserData.password.trim();
-        hash = await bcrypt.hash(pw, saltRounds);
-    }
-    catch(e){
-        console.log("unable to hash password")
-        return res.status(500).json("unable to hash password");
-    }
+  try{
+    const {firstName,lastName,userName,email,state,city,
+        cart,purchases,posts,artist_Id } = createUserData;
+    
+    const userCollection = await users();
+    const ifUserExist = await userCollection.findOne({ userName: userName.toLowerCase()});
+    if(ifUserExist) throw "Error: User with same UserID already exists";
 
-    try {
-        const {firstName,lastName,userName,email,state,city,
-            cart,purchases,posts,artist_Id } = createUserData;
+    // Securing password
+    const pw = createUserData.password.trim();
+    hash = await bcrypt.hash(pw, 10);
 
-        const newUser = await userMethods.create(firstName,lastName,userName,hash,email,state,city,
-        cart,purchases,posts,artist_Id);
-        console.log("user Created!");
-        res.render("home/home");
-    }
-    catch (e) {
-      return res.status(400).json(e);
-    }
-  });
+    const newUser = await userMethods.create(firstName,lastName,userName,hash,email,state,city,
+    cart,purchases,posts,artist_Id);
+    console.log("user Created!");
+    res.render("home/home");
+  }
+  catch (e) {
+    return res.status(500).json(e);
+  }
+});
 
 
 router
@@ -54,21 +52,20 @@ router
   if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
     return res.status(400).json({ Error: "No fields in the request body" });
   }
-  const usercollection= await users()
+  const userCollection = await users()
 
   try {
-  const fetcheduser = await usercollection.findOne({ userName: authorizeUser.userName});
-  console.log(fetcheduser)
-  !fetcheduser && res.status(400).json("User Not Found")
-
-  const validatedPassword = await bcrypt.compare(authorizeUser.password, fetcheduser.password)
+  const fetcheduser = await userCollection.findOne({ userName: authorizeUser.userName.toLowerCase()});
+  if (!fetcheduser) res.status(400).json("User Not Found");
+  const validatedPassword = await bcrypt.compare(authorizeUser.password.trim(), fetcheduser.password)
   console.log(validatedPassword)
-  !validatedPassword !== "boolean" && res.status(400).json("Invalid Id or Password")
+  if(!validatedPassword) res.status(400).json("Invalid Id or Password")
   } 
   
   catch (error) {
-    res.status(500).json(error)
+    // res.status(500).json(error)
+    console.log(error)
   }
-})
+});
 
 export default router;
