@@ -21,47 +21,28 @@ router
       return res.status(400).json({ Error: "No fields in the request body" });
     }
 
-    try {
-      // Securing password
-      hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
-    } catch (e) {
-      console.log("unable to hash password");
-      return res.status(500).json("unable to hash password");
+    try{
+        // Securing password
+        hash = await bcrypt.hash(createUserData.password, saltRounds);
+    }
+    catch(e){
+        console.log("unable to hash password")
+        return res.status(500).json("unable to hash password");
     }
 
     try {
-      const {
-        firstName,
-        lastName,
-        userName,
-        email,
-        state,
-        city,
-        cart,
-        purchases,
-        posts,
-        role,
-      } = createUserData;
+        const {firstName,lastName,userName,email,state,city,
+            cart,purchases,posts,artist_Id } = createUserData;
 
-      const newUser = await userMethods.create(
-        firstName,
-        lastName,
-        userName,
-        hash,
-        email,
-        state,
-        city,
-        cart,
-        purchases,
-        posts,
-        role
-      );
-      console.log("user Created!");
-      return res.status(200).json("User Created!");
-    } catch (e) {
-      return res.status(400).json(e);
-    }
-  });
+    const newUser = await userMethods.create(firstName,lastName,userName,hash,email,state,city,
+    cart,purchases,posts,artist_Id);
+    console.log("user Created!");
+    res.render("home/home");
+  }
+  catch (e) {
+    return res.status(500).json(e);
+  }
+});
 
 router
   .route("/login")
@@ -169,5 +150,23 @@ router
 
 
   })
+  if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
+    return res.status(400).json({ Error: "No fields in the request body" });
+  }
+  const userCollection = await users()
+
+  try {
+  const fetcheduser = await userCollection.findOne({ userName: authorizeUser.userName.toLowerCase()});
+  if (!fetcheduser) res.status(400).json("User Not Found");
+  const validatedPassword = await bcrypt.compare(authorizeUser.password.trim(), fetcheduser.password)
+  console.log(validatedPassword)
+  if(!validatedPassword) res.status(400).json("Invalid Id or Password")
+  } 
+  
+  catch (error) {
+    // res.status(500).json(error)
+    console.log(error)
+  }
+
 
 export default router;

@@ -10,10 +10,10 @@
 }
 
 body {
-  background: linear-gradient(#f2f0f4, #D3CCE3);
+  background: linear-gradient(#f2f0f4, #d3cce3);
   margin: 0;
   padding: 0;
-  font-family: 'Abhaya Libre', sans-serif; /* Change default font */
+  font-family: "Abhaya Libre", sans-serif; /* Change default font */
 }
 
 h1,
@@ -66,11 +66,15 @@ h1 {
 }
 
 .banner {
-  height: 175vh; /* Use 100vh for full viewport height */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.05)),
+  height: calc(100vh - 70px); /* Adjusted height to account for navbar */
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.05)
+    ),
     url('/public/images/background.jpg');
   background-size: cover;
   background-position: center;
+  margin-top: 70px; /* Ensure content starts below the navbar */
 }
 
 .container {

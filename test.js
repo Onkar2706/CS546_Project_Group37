@@ -1,30 +1,31 @@
 import bcrypt from "bcryptjs";
-import validate from "./helpers.js";
-import user from "./data/users.js";
-import artist from "./data/artists.js";
-import productMethods from "./data/artwork.js";
-import posts from "./data/posts.js";
+// import validate from "./helpers.js";
+// import user from "./data/users.js";
+// import artist from "./data/artists.js";
+// import productMethods from "./data/artwork.js";
+// import posts from "./data/posts.js";
 
-let oId = null;
+// let oId = null;
 
 // try {
-  // oId= this._id
+  
 
-//   let usercreated = await user.create(
-//     "Chandler1",
-//     "Bing",
-//     "Monica27",
-//     "MyDummyPassword",
-//     "RS27@email.com",
-//     "NJ",
-//     "Hoboken",
-//     ["Book", "Arts", "Cars"],
-//     ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
-//     ["Post1", "Post2", "Post3"],
-//     "abc1266665b"
-//   );
+  // let usercreated = await user.create(
+  //   "Chandler1",
+  //   "Bing",
+  //   "Monica27",
+  //   "MyDummyPassword",
+  //   "RS27@email.com",
+  //   "NJ",
+  //   "Hoboken",
+  //   ["Book", "Arts", "Cars"],
+  //   ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
+  //   ["Post1", "Post2", "Post3"],
+  //   "abc1266665b"
+  // );
+  // oId= usercreated._id
 
-//   console.log(usercreated);
+  // console.log(usercreated);
 
 //   oId = usercreated._id;
 //   console.log(oId);
@@ -69,15 +70,16 @@ let oId = null;
   // );
   // console.log(testUser._id);
   
-//   console.log(
-//     await artist.create(
+// //   console.log(
+//     const createA = await artist.create(
 //       "661d792cf18995dfc2fb3e0b",
 //       "second artist",
 //       "http://www.youtube.com",
 //       ["661c8ad8029f017b7b271d1b"],
 //       1.0
 //     )
-//   );
+//     oId = createA._id;
+  // );
 // } catch (e) {
 //   console.log(e);
 // }
@@ -99,10 +101,21 @@ let oId = null;
 // }
 
 
-try{
- console.log(await posts.addPost("122344hdgcbvjc","hello","heteebdbjcbjbcs","hhhsbvxjsvb"))
-}
-catch(e){
-  console.log(e);
-}
+// try{
+//  console.log(await posts.addPost("122344hdgcbvjc","hello","heteebdbjcbjbcs","hhhsbvxjsvb"))
+// }
+// catch(e){
+//   console.log(e);
+// }
 
+// const remUser = await artist.remove(oId)
+// try{
+//  console.log(await posts.addPost("122344hdgcbvjc","hello","heteebdbjcbjbcs","hhhsbvxjsvb"))
+// }
+// catch(e){
+//   console.log(e);
+// }
+const hashpw = await bcrypt.hash("abc12", 10)
+
+const check = await bcrypt.compare("abc12", hashpw )
+console.log(check)
