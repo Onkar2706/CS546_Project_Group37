@@ -17,7 +17,7 @@ const exportMethods = {
     cart,
     purchases,
     posts,
-    artist_Id
+    role
   ) {
     try {
       validate.checkIfProperInput(firstName);
@@ -29,11 +29,11 @@ const exportMethods = {
       validate.checkIfProperInput(city);
     } catch (e) {}
 
-    try {
-      password = await validate.hashPassword(password);
-    } catch (e) {
-      console.log("Unable to hash password");
-    }
+    // try {
+    //   password = await validate.hashPassword(password);
+    // } catch (e) {
+    //   console.log("Unable to hash password");
+    // }
 
     let newUser = {
       firstName: firstName.trim(),
@@ -49,8 +49,7 @@ const exportMethods = {
         : [],
       posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
       // artist_Id: artist_Id,
-      artist_Id: "30458049ndfkjdj",
-
+      role: role,
     };
 
     const usercollection = await users();
@@ -106,7 +105,7 @@ const exportMethods = {
     cart,
     purchases,
     posts,
-    artist_Id
+    role
   ) {
     if (
       !id ||
@@ -120,13 +119,12 @@ const exportMethods = {
       !cart ||
       !purchases ||
       !posts ||
-      !artist_Id
+      !role
     )
       throw "Error found";
 
     if (
-        !pkg.isMongoId(id) || // need to check for valid input of mongoId
-      
+      !pkg.isMongoId(id) || // need to check for valid input of mongoId
       !pkg.isAlpha(firstName) ||
       !pkg.isAlpha(lastName) ||
       !pkg.isAlphanumeric(userName) ||
@@ -154,13 +152,38 @@ const exportMethods = {
             ? purchases.map((item) => item.trim())
             : [],
           posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
-          artist_Id: artist_Id,
+          role: role,
         },
       },
       { returnDocument: "after" }
     );
     return updateduser;
   },
+  async loginUser(userName,password){
+    userName = userName.trim().toLowerCase();
+    password = password.trim();
+
+    if (!userName || userName === "String")
+      throw "Either the username or password is invalid";
+    if (!password || password === "String")
+      throw "Either the username or password is invalid ";
+
+      const usercollection = await users();
+      const usernameDB =await usercollection.findOne({userName:userName})
+      if (!usernameDB) throw "Error";
+
+      if (!(usernameDB.userName == userName))
+      throw "Either the username or password is invalid";
+
+      const validatedPassword = await bcrypt.compare(
+        password,
+        usernameDB.password
+      );
+
+      if (validatedPassword !== true)
+      throw "Either the username or password is invalid";
+  
+  }
 };
 
 export default exportMethods;

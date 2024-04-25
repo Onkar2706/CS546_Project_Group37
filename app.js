@@ -2,7 +2,15 @@
 import express from 'express';
 import configRoutes from './routes/index.js';
 import exphbs from 'express-handlebars';
+import session from 'express-session';
 const app = express();
+app.use(session({
+    name: 'AuthenticationState',
+    secret: 'some secret string!',
+    resave: false,
+    saveUninitialized: false
+  }));
+  app.use(express.json());
 
 
 app.use('/public', express.static('public'));
