@@ -10,6 +10,7 @@ import { users } from "../config/mongoCollections.js";
 const saltRounds = 10;
 let hash = null;
 const router = express.Router();
+//////////Register Routing//////////////////////
 router
   .route("/register")
   .get(async (req, res) => {
@@ -21,28 +22,51 @@ router
       return res.status(400).json({ Error: "No fields in the request body" });
     }
 
-    try{
-        // Securing password
-        hash = await bcrypt.hash(createUserData.password, saltRounds);
-    }
-    catch(e){
-        console.log("unable to hash password")
-        return res.status(500).json("unable to hash password");
+    try {
+      // Securing password
+      hash = await bcrypt.hash(createUserData.password, saltRounds);
+    } catch (e) {
+      console.log("unable to hash password");
+      return res.status(500).json("unable to hash password");
     }
 
     try {
-        const {firstName,lastName,userName,email,state,city,
-            cart,purchases,posts,artist_Id } = createUserData;
+      const {
+        firstName,
+        lastName,
+        userName,
+        email,
+        state,
+        city,
+        cart,
+        purchases,
+        posts,
+        artist_Id,
+      } = createUserData;
 
-    const newUser = await userMethods.create(firstName,lastName,userName,hash,email,state,city,
-    cart,purchases,posts,artist_Id);
-    console.log("user Created!");
-    res.render("home/home");
-  }
-  catch (e) {
-    return res.status(500).json(e);
-  }
-});
+      const newUser = await userMethods.create(
+        firstName,
+        lastName,
+        userName,
+        hash,
+        email,
+        state,
+        city,
+        cart,
+        purchases,
+        posts,
+        artist_Id
+      );
+      console.log("user Created!");
+      res.render("home/home");
+    } catch (e) {
+      return res.status(500).json(e);
+    }
+  });
+
+
+
+  ///////Login./////////
 
 router
   .route("/login")
@@ -55,47 +79,47 @@ router
     if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
       return res.status(400).json({ Error: "No fields in the request body" });
     }
-    try{
-    const usercollection = await users();
-
     try {
-      //   hash = await bcrypt.hash(authorizeUser.password, saltRounds);
+      const usercollection = await users();
 
-      const fetcheduser = await usercollection.findOne({
-        userName: authorizeUser.userName,
-      });
-      console.log(fetcheduser);
-      if (fetcheduser) {
-        // Store user information in session
+      try {
+        //   hash = await bcrypt.hash(authorizeUser.password, saltRounds);
 
-        req.session.user = {
-          firstName: fetcheduser.firstName,
-          lastName: fetcheduser.lastName,
-          username: fetcheduser.userName,
-          posts: fetcheduser.posts,
-          purchases: fetcheduser.purchases,
-          email:fetcheduser.email,
-          city:fetcheduser.city,
-          cart:fetcheduser.cart,
-          role: fetcheduser.role,
-        };
-        console.log("Session",req.session.user)
+        const fetcheduser = await usercollection.findOne({
+          userName: authorizeUser.userName,
+        });
+        console.log(fetcheduser);
+        if (fetcheduser) {
+          // Store user information in session
+
+          req.session.user = {
+            firstName: fetcheduser.firstName,
+            lastName: fetcheduser.lastName,
+            username: fetcheduser.userName,
+            posts: fetcheduser.posts,
+            purchases: fetcheduser.purchases,
+            email: fetcheduser.email,
+            city: fetcheduser.city,
+            cart: fetcheduser.cart,
+            role: fetcheduser.role,
+          };
+          console.log("Session", req.session.user);
+        } else {
+          return res
+            .status(400)
+            .json({ Error: "Invalid username or password" });
+        }
+        if (fetcheduser.role == "admin") {
+          return res.render("home/admin");
+        }
+        if (fetcheduser.role == "user") {
+          return res.redirect("/user");
+        } else {
+          return res.redirect("/artist");
+        }
+      } catch (error) {
+        return res.status(500).json({ Error: "Internal Server Error" });
       }
-    else {
-      return res.status(400).json({ Error: "Invalid username or password" });
-    }
-    if (fetcheduser.role == "admin") {
-      return res.render("home/admin");
-    } if(fetcheduser.role == "user"){
-      return res.redirect("/user");
-    }  else{
-      return res.redirect("/artist");
-
-    }
-  }catch(error){
-    return res.status(500).json({ Error: "Internal Server Error" });
-
-  }
 
       // !fetcheduser && res.status(400).json("User Not Found")
 
@@ -119,54 +143,14 @@ router
     }
   });
 
+  /////// Admin Routing//////////////////
 
-  router
-  .route("/admin")
-  .get(async(req,res)=>{
-    res.render("home/admin", { title: "Admin" });
+router.route("/admin").get(async (req, res) => {
+  res.render("home/admin", { title: "Admin" });
+});
 
-
-  })
-
-
-  router
-  .route("/admin")
-  .post(async(req,res)=>{
-
-    if (req.session.user && req.session.user.role === "admin") {
-    const admin = req.session.user
-    const currentTime = new Date().toLocaleString(); 
-
-    res.render("home/admin", {
-      firstName: admin.firstName,
-      lastName: admin.lastName,
-      userName:admin.userName,
-      currentTime: currentTime,
-      
-    });
-    }
-   
-   
-
-
-  })
-  if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
-    return res.status(400).json({ Error: "No fields in the request body" });
-  }
-  const userCollection = await users()
-
-  try {
-  const fetcheduser = await userCollection.findOne({ userName: authorizeUser.userName.toLowerCase()});
-  if (!fetcheduser) res.status(400).json("User Not Found");
-  const validatedPassword = await bcrypt.compare(authorizeUser.password.trim(), fetcheduser.password)
-  console.log(validatedPassword)
-  if(!validatedPassword) res.status(400).json("Invalid Id or Password")
-  } 
+router.route("/admin").get(async (req, res) => {
   
-  catch (error) {
-    // res.status(500).json(error)
-    console.log(error)
-  }
-
+});
 
 export default router;
