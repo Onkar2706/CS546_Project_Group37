@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 // import validate from "./helpers.js";
 // import user from "./data/users.js";
 // import artist from "./data/artists.js";
@@ -70,16 +70,15 @@ import bcrypt from "bcryptjs";
   // );
   // console.log(testUser._id);
   
-// //   console.log(
-//     const createA = await artist.create(
-//       "661d792cf18995dfc2fb3e0b",
-//       "second artist",
+//   console.log(
+//     await artist.create(
+//       "662c23dc683221a9f9d38bd4",
+//       "Picaso",
 //       "http://www.youtube.com",
-//       ["661c8ad8029f017b7b271d1b"],
-//       1.0
+//       "https://images.pexels.com/photos/1589282/pexels-photo-1589282.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 //     )
-//     oId = createA._id;
-  // );
+//   );
+//     // oId = createA._id;
 // } catch (e) {
 //   console.log(e);
 // }
@@ -115,7 +114,15 @@ import bcrypt from "bcryptjs";
 // catch(e){
 //   console.log(e);
 // }
-const hashpw = await bcrypt.hash("abc12", 10)
+// const hashpw = await bcrypt.hash("abc12", 10)
 
-const check = await bcrypt.compare("abc12", hashpw )
-console.log(check)
+// const check = await bcrypt.compare("abc12", hashpw )
+// console.log(check)
+
+import { artistMethods } from "./data/index.js";
+
+console.log(await artistMethods.create(
+  "662c366183742d374a2bfcb3",
+  "Jai Bhavani Jai Shivaji 🚩🚩",
+  "https://images.pexels.com/photos/15867003/pexels-photo-15867003/free-photo-of-garlands-on-shivaji-maharaj-statue.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+))
