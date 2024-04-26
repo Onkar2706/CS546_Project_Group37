@@ -66,8 +66,8 @@ const exportedMethods = {
       !user_id ||
       !bio ||
       !profilePic ||
-      !portfolio ||
-      !ratings
+      !portfolio 
+      // !ratings
     ) {
       throw `please provide proper input`;
     }
@@ -116,5 +116,10 @@ const exportedMethods = {
     }
     return updatedArtist;
   },
+
+
+  async addArtist(firstName,lastName,userName,profilePic){
+
+  }
 };
 export default exportedMethods;
