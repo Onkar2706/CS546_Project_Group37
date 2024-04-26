@@ -1,7 +1,7 @@
 //data functions for artists collection
 import { artists } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import { productMethods } from "./index.js";
+import { productMethods, userMethods } from "./index.js";
 import validate from "../helpers.js";
 import users from "./users.js";
 const exportedMethods = {
@@ -13,13 +13,16 @@ const exportedMethods = {
   ) {
     validate.checkIfValidObjectId(user_id);
     validate.checkIfString(bio);
-    validate.checkIfValidURL(profilePic);
+    // validate.checkIfValidURL(profilePic);
     user_id = user_id.trim();
     if (!users.get(user_id)) {
       throw `given user id does not exist`;
     }
+    const artistName = await userMethods.get(user_id);
     let newArtist = {
       user_id: user_id.trim(),
+      firstName: artistName.firstName,
+      lastName: artistName.lastName,
       bio: bio.trim(),
       profilePic: profilePic.trim(),
       portfolio: [],

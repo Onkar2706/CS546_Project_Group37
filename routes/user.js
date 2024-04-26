@@ -57,7 +57,7 @@ router
         role
       );
       console.log("user Created!");
-      return res.status(200).json("User Created!");
+      return res.render("home/home.handlebars", {title: "Home Page"});
     } catch (e) {
       return res.status(400).json(e);
     }
