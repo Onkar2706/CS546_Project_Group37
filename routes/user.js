@@ -106,9 +106,9 @@ router
     if (fetcheduser.role == "admin") {
       return res.render("home/admin");
     } if(fetcheduser.role == "user"){
-      return res.redirect("/user");
+      return res.render("home/user");
     }  else{
-      return res.redirect("/artist");
+      return res.render("home/artist");
 
     }
   }catch(error){
@@ -164,6 +164,73 @@ router
       
     });
     }
+   
+   
+
+
+  })
+
+
+
+  router
+  .route("/user")
+  .get(async(req,res)=>{
+    res.render("home/user", { title: "User" });
+
+
+  })
+
+
+  router
+  .route("/user")
+  .post(async(req,res)=>{
+
+    if (req.session.user && req.session.user.role === "user") {
+    const admin = req.session.user
+    const currentTime = new Date().toLocaleString(); 
+
+    res.render("home/user", {
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      userName:admin.userName,
+      currentTime: currentTime,
+      
+    });
+    }
+
+
+
+
+    router
+    .route("/artist")
+    .get(async(req,res)=>{
+      res.render("home/artist", { title: "artist" });
+  
+  
+    })
+  
+  
+    router
+    .route("/artist")
+    .post(async(req,res)=>{
+  
+      if (req.session.user && req.session.user.role === "artist") {
+      const admin = req.session.user
+      const currentTime = new Date().toLocaleString(); 
+  
+      res.render("home/artist", {
+        firstName: admin.firstName,
+        lastName: admin.lastName,
+        userName:admin.userName,
+        currentTime: currentTime,
+        
+      });
+      }
+     
+     
+  
+  
+    })
    
    
 
