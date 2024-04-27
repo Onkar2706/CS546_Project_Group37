@@ -108,7 +108,7 @@ router
     if (fetcheduser.role == "admin") {
       return res.render("home/admin");
     } if(fetcheduser.role == "user"){
-      return res.render("home/home");
+      return res.render("home/home",{firstName:`${fetcheduser.firstName}`,lastName:`${fetcheduser.lastName}`});
     }  else{
       return res.render("home/artist");
 
