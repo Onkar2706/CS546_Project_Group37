@@ -93,72 +93,20 @@ const exportMethods = {
     return userList;
   },
 
-  async updateUserInfo(
-    id,
-    firstName,
-    lastName,
-    userName,
-    password,
-    email,
-    state,
-    city,
-    cart,
-    purchases,
-    posts,
-    role
-  ) {
-    if (
-      !id ||
-      !firstName ||
-      !lastName ||
-      !userName ||
-      !password ||
-      !email ||
-      !state ||
-      !city ||
-      !cart ||
-      !purchases ||
-      !posts ||
-      !role
-    )
-      throw "Error found";
+  async updateArtistId(userId, artistId){
+    if (!artistId || !userId) throw "Error: Must provide Id";
 
-    if (
-      !pkg.isMongoId(id) || // need to check for valid input of mongoId
-      !pkg.isAlpha(firstName) ||
-      !pkg.isAlpha(lastName) ||
-      !pkg.isAlphanumeric(userName) ||
-      !pkg.isAlphanumeric(password) ||
-      !pkg.isEmail(email) ||
-      !validate.validateState(state) ||
-      !pkg.isAlpha(city)
-    )
-      throw "Error: Validation failed";
+    if (!pkg.isMongoId(artistId)) throw "Error: Validation failed";
 
     const usercollection = await users();
-    const updateduser = await usercollection.findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      {
-        $set: {
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
-          userName: userName.trim(),
-          password: password.trim(),
-          email: email.trim(),
-          state: state.trim(),
-          city: city.trim(),
-          cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
-          purchases: Array.isArray(purchases)
-            ? purchases.map((item) => item.trim())
-            : [],
-          posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
-          role: role,
-        },
-      },
+    const updateduser = await usercollection.updateOne(
+      { _id: userId},
+      {$set: { artistId: artistId}},
       { returnDocument: "after" }
     );
     return updateduser;
   },
+
   async loginUser(userName,password){
     userName = userName.trim().toLowerCase();
     password = password.trim();

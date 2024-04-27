@@ -33,9 +33,6 @@ const exportedMethods = {
     if (!insertInfo) {
       throw `Artist could not be created`;
     }
-    const newId = insertInfo.insertedId.toString();
-    const artist = await this.get(newId);
-    return artist;
   },
   async get(id) {
     //retrieves an artist if the artist exists in the database

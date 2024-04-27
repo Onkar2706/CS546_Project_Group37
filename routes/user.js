@@ -81,6 +81,7 @@ router
 
     try {
       //   hash = await bcrypt.hash(authorizeUser.password, saltRounds);
+      const artists = await artistMethods.getAll();
 
       const fetcheduser = await usercollection.findOne({
         userName: authorizeUser.userName,
@@ -108,7 +109,7 @@ router
     if (fetcheduser.role == "admin") {
       return res.render("home/admin");
     } if(fetcheduser.role == "user"){
-      return res.render("home/home");
+      return res.render("home/home",{userName:`${fetcheduser.userName}`,loggedIn:true,artists, title: "Home Page"});
     }  else{
       return res.render("home/artist");
 
