@@ -108,7 +108,7 @@ router
     if (fetcheduser.role == "admin") {
       return res.render("home/admin");
     } if(fetcheduser.role == "user"){
-      return res.render("home/user");
+      return res.render("home/home");
     }  else{
       return res.render("home/artist");
 
@@ -177,7 +177,7 @@ router
   router
   .route("/user")
   .get(async(req,res)=>{
-    res.render("home/user", { title: "User" });
+    res.render("home/home", { title: "User" });
 
 
   })
@@ -191,7 +191,7 @@ router
     const admin = req.session.user
     const currentTime = new Date().toLocaleString(); 
 
-    res.render("home/user", {
+    res.render("home/home", {
       firstName: admin.firstName,
       lastName: admin.lastName,
       userName:admin.userName,
@@ -204,7 +204,7 @@ router
 
 
     router
-    .route("/artist")
+    .route("/registerArtist")
     .get(async(req,res)=>{
       res.render("home/artist", { title: "artist" });
   
@@ -213,7 +213,7 @@ router
   
   
     router
-    .route("/artist")
+    .route("/registerArtist")
     .post(async(req,res)=>{
   
       if (req.session.user && req.session.user.role === "artist") {
