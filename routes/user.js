@@ -81,6 +81,7 @@ router
 
     try {
       //   hash = await bcrypt.hash(authorizeUser.password, saltRounds);
+      const artists = await artistMethods.getAll();
 
       const fetcheduser = await usercollection.findOne({
         userName: authorizeUser.userName,
