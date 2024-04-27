@@ -81,7 +81,7 @@ router
 
     try {
       //   hash = await bcrypt.hash(authorizeUser.password, saltRounds);
-      const artists = await artistMethods.getAll();
+      // const artists = await artistMethods.getAll();
 
       const fetcheduser = await usercollection.findOne({
         userName: authorizeUser.userName,
@@ -102,18 +102,20 @@ router
           role: fetcheduser.role,
         };
         console.log("Session",req.session.user)
+        return res.redirect('/');
       }
     else {
       return res.status(400).json({ Error: "Invalid username or password" });
     }
-    if (fetcheduser.role == "admin") {
-      return res.render("home/admin");
-    } if(fetcheduser.role == "user"){
-      return res.render("home/home",{userName:`${fetcheduser.userName}`,loggedIn:true,artists, title: "Home Page"});
-    }  else{
-      return res.render("home/artist");
+    
+    // if (fetcheduser.role == "admin") {
+    //   return res.render("home/admin");
+    // } if(fetcheduser.role == "user"){
+    //   return res.redirect("/",{userName:`${fetcheduser.userName}`,loggedIn: true});
+    // }  else{
+    //   return res.render("home/artist");
 
-    }
+    // }
   }catch(error){
     return res.status(500).json({ Error: "Internal Server Error" });
 
