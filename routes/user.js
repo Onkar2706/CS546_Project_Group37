@@ -37,10 +37,11 @@ router
         email,
         state,
         city,
-        cart,
+        cart ,
         purchases,
         posts,
-        role,
+        
+        
       } = createUserData;
 
       const newUser = await userMethods.create(
@@ -51,14 +52,15 @@ router
         email,
         state,
         city,
-        cart,
+        cart ,
         purchases,
         posts,
-        role
+        
       );
       console.log("user Created!");
-      return res.render("home/home.handlebars", {title: "Home Page"});
+      return res.render("home/home", {title: "Home Page"});
     } catch (e) {
+      // console.log(newUser)
       return res.status(400).json(e);
     }
   });

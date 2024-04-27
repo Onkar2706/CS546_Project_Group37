@@ -16,8 +16,8 @@ const exportMethods = {
     city,
     cart,
     purchases,
-    posts,
-    role
+    posts
+    
   ) {
     try {
       validate.checkIfProperInput(firstName);
@@ -49,7 +49,7 @@ const exportMethods = {
         : [],
       posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
       // artist_Id: artist_Id,
-      role: role,
+      role: "user",
     };
 
     const usercollection = await users();
