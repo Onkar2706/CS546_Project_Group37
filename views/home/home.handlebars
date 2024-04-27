@@ -17,12 +17,26 @@
       <header>
         <nav>
             <div class="logo">
-                <h1>ArtisanHub</h1>
+                <h1>ArtisanHub</h1> 
             </div>
             <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/products">Products</a></li>
-                <li><a href="/artists">Artists</a></li>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/products">PRODUCTS</a></li>
+                <li><a href="/artists">ARTISTS</a></li>
+                <li><a href="/blogs">EXHIBITIONS</a></li>
+                <li><a href="/about">ART ADVISORY</a></li>
+                <li><a href="/blogs/create">ART BLOG</a></li>
+                {{!-- <li><a href="/user/register">Register</a></li> --}}
+                {{!-- <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
+                <li><a href = "/artistreg">BECOME AN ARTIST</a></li> --}}
+
+                {{#if loggedIn}}
+                <li><a href="/home/user">{{userName}}</a></li>
+                <li><a href="/artistreg">SIGNUP AS ARTIST</a></li>
+                {{else}}
+                <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
+                {{/if}}
+
             </ul>
         </nav>
     </header>
