@@ -38,15 +38,6 @@ router.route("/register").post(async (req, res) => {
       .render("error", { message: "request body is empty" });
   }
 
-  // try{
-  //     // Securing password
-  //     hash = await bcrypt.hash(createArtistData.password, saltRounds);
-  // }
-  // catch(e){
-  //     console.log("unable to hash password")
-  //     return res.status(500).json("unable to hash password");
-  // }
-
   try {
     const { user_id, bio, profilePic, portfolio, ratings } = createArtistData;
 
@@ -58,7 +49,7 @@ router.route("/register").post(async (req, res) => {
       ratings
     );
     console.log("Artist Created!");
-    return res.status(200).json("Artist Created!");
+    return res.redirect("/user/login");
   } catch (e) {
     return res.status(400).render("error", { message: e });
   }

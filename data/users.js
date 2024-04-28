@@ -27,12 +27,7 @@ const exportMethods = {
       validate.checkIfProperInput(state);
       validate.checkIfProperInput(city);
     } catch (e) {}
-
-    // try {
-    //   password = await validate.hashPassword(password);
-    // } catch (e) {
-    //   console.log("Unable to hash password");
-    // }
+    
     if (this.getByUsername(userName.trim())) {
       throw `a user with this username already exists!`;
     }
