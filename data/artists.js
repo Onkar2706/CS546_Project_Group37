@@ -1,9 +1,9 @@
 //data functions for artists collection
-import { artists } from "../config/mongoCollections.js";
+import { artists, users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import { productMethods, userMethods } from "./index.js";
 import validate from "../helpers.js";
-import users from "./users.js";
+// import users from "./users.js";
 const exportedMethods = {
   async create(
     //creates a new artist in database and returns it
@@ -15,8 +15,8 @@ const exportedMethods = {
     validate.checkIfString(bio);
     // validate.checkIfValidURL(profilePic);
     user_id = user_id.trim();
-    if (!users.get(user_id)) {
-      throw `given user id does not exist`;
+    if (!userMethods.get(user_id)) {
+      throw `Error: Given user id does not exist`;
     }
     const artistName = await userMethods.get(user_id);
     let newArtist = {
@@ -33,7 +33,13 @@ const exportedMethods = {
     if (!insertInfo) {
       throw `Artist could not be created`;
     }
+    const usercollection = await users();
+    const updateRole = await usercollection.updateOne(
+      {"_id": new ObjectId(user_id.trim()), "role": "user"},
+      {$set: {"role": "artist"}}
+    );
   },
+
   async get(id) {
     //retrieves an artist if the artist exists in the database
     validate.checkIfValidObjectId(id);

@@ -32,7 +32,9 @@
 
                 {{#if loggedIn}}
                 <li><a href="/home/user">{{userName}}</a></li>
-                <li><a href="/artistreg">SIGNUP AS ARTIST</a></li>
+                    {{#if user}}
+                    <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
+                    {{/if}}
                 {{else}}
                 <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
                 {{/if}}

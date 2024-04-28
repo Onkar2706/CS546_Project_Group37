@@ -4,8 +4,6 @@ import { userMethods } from "../data/index.js";
 import bcrypt from "bcryptjs";
 import { users } from "../config/mongoCollections.js";
 
-// Onkar@15
-// OnkarMah
 
 const saltRounds = 10;
 let hash = null;
@@ -40,8 +38,6 @@ router
         cart ,
         purchases,
         posts,
-        
-        
       } = createUserData;
 
       const newUser = await userMethods.create(
@@ -55,12 +51,10 @@ router
         cart ,
         purchases,
         posts,
-        
       );
-      console.log("user Created!");
-      return res.render("home/home", {title: "Home Page"});
+      console.log("User Created!");
+      return res.redirect("/user/login");
     } catch (e) {
-      // console.log(newUser)
       return res.status(400).json(e);
     }
   });
@@ -77,20 +71,18 @@ router
       return res.status(400).json({ Error: "No fields in the request body" });
     }
     try{
-    const usercollection = await users();
-
-    try {
-      //   hash = await bcrypt.hash(authorizeUser.password, saltRounds);
-      // const artists = await artistMethods.getAll();
-
+      const usercollection = await users();
       const fetcheduser = await usercollection.findOne({
-        userName: authorizeUser.userName,
+        userName: authorizeUser.userName.toLowerCase(),
       });
-      console.log(fetcheduser);
-      if (fetcheduser) {
-        // Store user information in session
 
+      // console.log(fetcheduser);
+      if (!fetcheduser) throw "Error: User Not Found";
+      const match = await bcrypt.compare(authorizeUser.password, fetcheduser.password);
+      if (match){
+        // Store user information in session
         req.session.user = {
+          _id:fetcheduser._id,
           firstName: fetcheduser.firstName,
           lastName: fetcheduser.lastName,
           username: fetcheduser.userName,
@@ -104,42 +96,10 @@ router
         console.log("Session",req.session.user)
         return res.redirect('/');
       }
-    else {
       return res.status(400).json({ Error: "Invalid username or password" });
-    }
-    
-    // if (fetcheduser.role == "admin") {
-    //   return res.render("home/admin");
-    // } if(fetcheduser.role == "user"){
-    //   return res.redirect("/",{userName:`${fetcheduser.userName}`,loggedIn: true});
-    // }  else{
-    //   return res.render("home/artist");
 
-    // }
-  }catch(error){
-    return res.status(500).json({ Error: "Internal Server Error" });
-
-  }
-
-      // !fetcheduser && res.status(400).json("User Not Found")
-
-      const validatedPassword = await bcrypt.compare(
-        authorizeUser.password.trim(),
-        fetcheduser.password.trim()
-      );
-      // console.log(validatedPassword)
-      // !validatedPassword !== "boolean" && res.status(400).json("Invalid Id or Password")
-
-      //  const final= bcrypt.compareSync(req.body.password,fetcheduser.password, function(err, result) {
-      //     console.log(result)
-      // });
-      console.log(req.body.password);
-      console.log(fetcheduser.password);
-
-      console.log("Authentication Successfull");
-      console.log(final);
-    } catch (error) {
-      res.status(500).json(error);
+    }catch(error){
+      return res.status(500).json({ Error: "Internal Server Error" });
     }
   });
 
@@ -203,17 +163,11 @@ router
     });
     }
 
-
-
-
     router
     .route("/registerArtist")
     .get(async(req,res)=>{
       res.render("home/artist", { title: "artist" });
-  
-  
     })
-  
   
     router
     .route("/registerArtist")
@@ -228,18 +182,9 @@ router
         lastName: admin.lastName,
         userName:admin.userName,
         currentTime: currentTime,
-        
       });
       }
-     
-     
-  
-  
     })
-   
-   
-
-
   })
 
 export default router;
