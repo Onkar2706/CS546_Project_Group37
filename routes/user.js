@@ -109,7 +109,7 @@ router
     if (fetcheduser.role == "admin") {
       return res.render("home/admin");
     } if(fetcheduser.role == "user"){
-      return res.render("home/home",{userName:`${fetcheduser.userName}`,loggedIn:true,artists, title: "Home Page"});
+      return res.render("home/home",{userName:`${fetcheduser.userName}`,loggedIn:true});
     }  else{
       return res.render("home/artist");
 
