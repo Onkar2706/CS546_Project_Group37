@@ -1,8 +1,6 @@
 import { posts } from "../config/mongoCollections.js";
-// import { users } from "./users.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
-import bcrypt from "bcryptjs";
 import pkg from "validator";
 
 const exportMethods = {
@@ -11,11 +9,11 @@ const exportMethods = {
     return await postCollection.find({}).toArray();
   },
 
-  async addPost(userId, title, image, body) {
+  async addPost(userId, title, body, image) {
     // title = pkg.isAlpha(title, "title");
     // body = pkg.isAlpha(body, "body");
     // posterId = pkg.i(posterId);
-    userId = userId;
+    userId = userId.trim();
     // content = content.,
 
     // const userThatPosted = await users.get(userId)

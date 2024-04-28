@@ -198,4 +198,56 @@ button:hover {
     background-color: #0056b3;
 }
 
+.artwork-list {
+    list-style: none;
+    padding: 0;
+}
+
+.artwork-item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.artwork-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.artwork-name {
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+.artwork-description {
+    margin-top: 5px;
+}
+
+.artwork-price {
+    margin-top: 5px;
+}
+
+.artwork-artist {
+    margin-top: 5px;
+}
+
+.buy-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+    background-color: #0056b3;
+}
+
+.card:hover{
+    background-color: rgb(185, 182, 182);
+} 
 
