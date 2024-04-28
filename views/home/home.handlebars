@@ -17,7 +17,7 @@
       <header>
         <nav>
             <div class="logo">
-                <h1>ArtisanHub</h1> 
+                <h1>ArtistHub</h1> 
             </div>
             <ul class="nav-links">
                 <li><a href="/">HOME</a></li>
@@ -48,10 +48,12 @@
             <div class="card-container">
                 {{#each artists}}
                 <div class="card">
+                    <a href="">
                     <img src="{{this.profilePic}}" alt="Profile of {{this.profile.firstName}} {{this.profile.lastName}}">
                     <h3>{{this.firstName}} {{this.lastName}}</h3>
                     <p>{{this.bio}}</p>
                     <p>{{this.ratings}}</p>
+                    </a>
                 </div>
                 {{/each}}
             </div>

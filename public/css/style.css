@@ -247,5 +247,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-
+.card:hover{
+    background-color: rgb(185, 182, 182);
+} 
 
