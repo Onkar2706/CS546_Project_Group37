@@ -18,7 +18,9 @@ router
   .post(async (req, res) => {
     const createUserData = req.body;
     if (!createUserData || Object.keys(createUserData).length === 0) {
-      return res.status(400).json({ Error: "No fields in the request body" });
+      return res
+        .status(400)
+        .render("error", { message: "No fields in the request body" });
     }
 
     try {
@@ -26,7 +28,9 @@ router
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
     } catch (e) {
       console.log("unable to hash password");
-      return res.status(500).json("unable to hash password");
+      return res
+        .status(500)
+        .render("error", { message: "unable to hash password" });
     }
 
     try {
@@ -37,11 +41,9 @@ router
         email,
         state,
         city,
-        cart ,
+        cart,
         purchases,
         posts,
-        
-        
       } = createUserData;
 
       const newUser = await userMethods.create(
@@ -52,16 +54,16 @@ router
         email,
         state,
         city,
-        cart ,
+        cart,
         purchases,
-        posts,
-        
+        posts
       );
       console.log("user Created!");
-      return res.render("home/home", {title: "Home Page"});
+      return res.render("home/home", { title: "Home Page" });
     } catch (e) {
       // console.log(newUser)
-      return res.status(400).json(e);
+      // return res.status(400).json(e);
+      return res.status(400).render("error", { message: e });
     }
   });
 
@@ -74,52 +76,54 @@ router
     const authorizeUser = req.body;
 
     if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
-      return res.status(400).json({ Error: "No fields in the request body" });
+      return res
+        .status(400)
+        .render("error", { message: "No fields in the request body" });
     }
-    try{
-    const usercollection = await users();
-
     try {
-      //   hash = await bcrypt.hash(authorizeUser.password, saltRounds);
-      // const artists = await artistMethods.getAll();
+      const usercollection = await users();
 
-      const fetcheduser = await usercollection.findOne({
-        userName: authorizeUser.userName,
-      });
-      console.log(fetcheduser);
-      if (fetcheduser) {
-        // Store user information in session
+      try {
+        //   hash = await bcrypt.hash(authorizeUser.password, saltRounds);
+        // const artists = await artistMethods.getAll();
 
-        req.session.user = {
-          firstName: fetcheduser.firstName,
-          lastName: fetcheduser.lastName,
-          username: fetcheduser.userName,
-          posts: fetcheduser.posts,
-          purchases: fetcheduser.purchases,
-          email:fetcheduser.email,
-          city:fetcheduser.city,
-          cart:fetcheduser.cart,
-          role: fetcheduser.role,
-        };
-        console.log("Session",req.session.user)
-        return res.redirect('/');
+        const fetcheduser = await usercollection.findOne({
+          userName: authorizeUser.userName,
+        });
+        console.log(fetcheduser);
+        if (fetcheduser) {
+          // Store user information in session
+
+          req.session.user = {
+            firstName: fetcheduser.firstName,
+            lastName: fetcheduser.lastName,
+            username: fetcheduser.userName,
+            posts: fetcheduser.posts,
+            purchases: fetcheduser.purchases,
+            email: fetcheduser.email,
+            city: fetcheduser.city,
+            cart: fetcheduser.cart,
+            role: fetcheduser.role,
+          };
+          console.log("Session", req.session.user);
+          return res.redirect("/");
+        } else {
+          return res
+            .status(400)
+            .render("error", { message: "Invalid username or password" });
+        }
+
+        // if (fetcheduser.role == "admin") {
+        //   return res.render("home/admin");
+        // } if(fetcheduser.role == "user"){
+        //   return res.redirect("/",{userName:`${fetcheduser.userName}`,loggedIn: true});
+        // }  else{
+        //   return res.render("home/artist");
+
+        // }
+      } catch (error) {
+        return res.status(500).render("error", { message: e });
       }
-    else {
-      return res.status(400).json({ Error: "Invalid username or password" });
-    }
-    
-    // if (fetcheduser.role == "admin") {
-    //   return res.render("home/admin");
-    // } if(fetcheduser.role == "user"){
-    //   return res.redirect("/",{userName:`${fetcheduser.userName}`,loggedIn: true});
-    // }  else{
-    //   return res.render("home/artist");
-
-    // }
-  }catch(error){
-    return res.status(500).json({ Error: "Internal Server Error" });
-
-  }
 
       // !fetcheduser && res.status(400).json("User Not Found")
 
@@ -139,107 +143,62 @@ router
       console.log("Authentication Successfull");
       console.log(final);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).render("error", { message: error });
     }
   });
 
+router.route("/admin").get(async (req, res) => {
+  res.render("home/admin", { title: "Admin" });
+});
 
-  router
-  .route("/admin")
-  .get(async(req,res)=>{
-    res.render("home/admin", { title: "Admin" });
-
-
-  })
-
-
-  router
-  .route("/admin")
-  .post(async(req,res)=>{
-
-    if (req.session.user && req.session.user.role === "admin") {
-    const admin = req.session.user
-    const currentTime = new Date().toLocaleString(); 
+router.route("/admin").post(async (req, res) => {
+  if (req.session.user && req.session.user.role === "admin") {
+    const admin = req.session.user;
+    const currentTime = new Date().toLocaleString();
 
     res.render("home/admin", {
       firstName: admin.firstName,
       lastName: admin.lastName,
-      userName:admin.userName,
+      userName: admin.userName,
       currentTime: currentTime,
-      
     });
-    }
-   
-   
+  }
+});
 
+router.route("/user").get(async (req, res) => {
+  res.render("home/home", { title: "User" });
+});
 
-  })
-
-
-
-  router
-  .route("/user")
-  .get(async(req,res)=>{
-    res.render("home/home", { title: "User" });
-
-
-  })
-
-
-  router
-  .route("/user")
-  .post(async(req,res)=>{
-
-    if (req.session.user && req.session.user.role === "user") {
-    const admin = req.session.user
-    const currentTime = new Date().toLocaleString(); 
+router.route("/user").post(async (req, res) => {
+  if (req.session.user && req.session.user.role === "user") {
+    const admin = req.session.user;
+    const currentTime = new Date().toLocaleString();
 
     res.render("home/home", {
       firstName: admin.firstName,
       lastName: admin.lastName,
-      userName:admin.userName,
+      userName: admin.userName,
       currentTime: currentTime,
-      
     });
-    }
+  }
 
+  router.route("/registerArtist").get(async (req, res) => {
+    res.render("home/artist", { title: "artist" });
+  });
 
+  router.route("/registerArtist").post(async (req, res) => {
+    if (req.session.user && req.session.user.role === "artist") {
+      const admin = req.session.user;
+      const currentTime = new Date().toLocaleString();
 
-
-    router
-    .route("/registerArtist")
-    .get(async(req,res)=>{
-      res.render("home/artist", { title: "artist" });
-  
-  
-    })
-  
-  
-    router
-    .route("/registerArtist")
-    .post(async(req,res)=>{
-  
-      if (req.session.user && req.session.user.role === "artist") {
-      const admin = req.session.user
-      const currentTime = new Date().toLocaleString(); 
-  
       res.render("home/artist", {
         firstName: admin.firstName,
         lastName: admin.lastName,
-        userName:admin.userName,
+        userName: admin.userName,
         currentTime: currentTime,
-        
       });
-      }
-     
-     
-  
-  
-    })
-   
-   
-
-
-  })
+    }
+  });
+});
 
 export default router;
