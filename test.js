@@ -121,8 +121,9 @@
 
 import { artistMethods } from "./data/index.js";
 
-console.log(await artistMethods.create(
-  "662c366183742d374a2bfcb3",
-  "Once I ruled the world",
-  "https://images.pexels.com/photos/15867003/pexels-photo-15867003/free-photo-of-garlands-on-shivaji-maharaj-statue.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-))
+// console.log(await artistMethods.create(
+//   "662c366183742d374a2bfcb3",
+//   "Once I ruled the world",
+//   "https://images.pexels.com/photos/15867003/pexels-photo-15867003/free-photo-of-garlands-on-shivaji-maharaj-statue.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+// ))
+
