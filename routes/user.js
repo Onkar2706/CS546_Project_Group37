@@ -16,7 +16,9 @@ router
   .post(async (req, res) => {
     const createUserData = req.body;
     if (!createUserData || Object.keys(createUserData).length === 0) {
-      return res.status(400).json({ Error: "No fields in the request body" });
+      return res
+        .status(400)
+        .render("error", { message: "No fields in the request body" });
     }
 
     try {
@@ -24,7 +26,9 @@ router
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
     } catch (e) {
       console.log("unable to hash password");
-      return res.status(500).json("unable to hash password");
+      return res
+        .status(500)
+        .render("error", { message: "unable to hash password" });
     }
 
     try {
@@ -35,7 +39,7 @@ router
         email,
         state,
         city,
-        cart ,
+        cart,
         purchases,
         posts,
       } = createUserData;
@@ -48,7 +52,7 @@ router
         email,
         state,
         city,
-        cart ,
+        cart,
         purchases,
         posts,
       );
@@ -68,7 +72,9 @@ router
     const authorizeUser = req.body;
 
     if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
-      return res.status(400).json({ Error: "No fields in the request body" });
+      return res
+        .status(400)
+        .render("error", { message: "No fields in the request body" });
     }
     try{
       const usercollection = await users();
@@ -124,42 +130,26 @@ router
     res.render("home/admin", {
       firstName: admin.firstName,
       lastName: admin.lastName,
-      userName:admin.userName,
+      userName: admin.userName,
       currentTime: currentTime,
-      
     });
-    }
-   
-   
+  }
+});
 
+router.route("/user").get(async (req, res) => {
+  res.render("home/home", { title: "User" });
+});
 
-  })
-
-
-
-  router
-  .route("/user")
-  .get(async(req,res)=>{
-    res.render("home/home", { title: "User" });
-
-
-  })
-
-
-  router
-  .route("/user")
-  .post(async(req,res)=>{
-
-    if (req.session.user && req.session.user.role === "user") {
-    const admin = req.session.user
-    const currentTime = new Date().toLocaleString(); 
+router.route("/user").post(async (req, res) => {
+  if (req.session.user && req.session.user.role === "user") {
+    const admin = req.session.user;
+    const currentTime = new Date().toLocaleString();
 
     res.render("home/home", {
       firstName: admin.firstName,
       lastName: admin.lastName,
-      userName:admin.userName,
+      userName: admin.userName,
       currentTime: currentTime,
-      
     });
     }
 
@@ -180,7 +170,7 @@ router
       res.render("home/artist", {
         firstName: admin.firstName,
         lastName: admin.lastName,
-        userName:admin.userName,
+        userName: admin.userName,
         currentTime: currentTime,
       });
       }
