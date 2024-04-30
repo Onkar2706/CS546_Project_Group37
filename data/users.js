@@ -26,9 +26,11 @@ const exportMethods = {
       validate.checkIfProperInput(email);
       validate.checkIfProperInput(state);
       validate.checkIfProperInput(city);
-    } catch (e) {}
-    
-    if (this.getByUsername(userName.trim())) {
+    } catch (e) {
+      throw e;
+    }
+
+    if (await this.getByUsername(userName.trim()) != null) {
       throw `a user with this username already exists!`;
     }
     let newUser = {
