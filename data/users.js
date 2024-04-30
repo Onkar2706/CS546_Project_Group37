@@ -74,11 +74,11 @@ const exportMethods = {
     user._id = user._id.toString();
     return user;
   },
-  async getByUsername(username) {
+  async getByUsername(userName) {
     const userCollection = await users();
-    validate.checkIfString(username);
-    username = username.trim();
-    const user = await userCollection.findOne({ username: username });
+    validate.checkIfString(userName);
+    userName = userName.trim();
+    const user = await userCollection.findOne({ userName: userName });
     return user;
   },
   async getAll() {

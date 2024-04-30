@@ -1,9 +1,9 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
-import { artworks } from "../config/mongoCollections.js";
+// import { artworks } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
-import { artistMethods } from "./index.js";
+// import { artistMethods } from "./index.js";
 // import { validate.checkIfProperInput, validate.checkIfString, checkIfPositiveNumber, checkIfBoolean, checkIfValidArray, checkIfValidDate, checkIfValidURL } from "../helpers.js";
 
 const exportMethods = {

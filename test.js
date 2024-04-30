@@ -1,37 +1,48 @@
-// import bcrypt from "bcryptjs";
-// import validate from "./helpers.js";
-// import user from "./data/users.js";
-// import artist from "./data/artists.js";
-// import productMethods from "./data/artwork.js";
-// import posts from "./data/posts.js";
+import bcrypt from "bcryptjs";
+import validate from "./helpers.js";
+import userFunc from "./data/users.js";
+import artist from "./data/artists.js";
+import productMethods from "./data/artwork.js";
+import posts from "./data/posts.js";
 
-// let oId = null;
+let oId = null;
 
-// try {
+try {
   
 
-  // let usercreated = await user.create(
-  //   "Chandler1",
-  //   "Bing",
-  //   "Monica27",
-  //   "MyDummyPassword",
-  //   "RS27@email.com",
-  //   "NJ",
-  //   "Hoboken",
-  //   ["Book", "Arts", "Cars"],
-  //   ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
-  //   ["Post1", "Post2", "Post3"],
-  //   "abc1266665b"
-  // );
-  // oId= usercreated._id
+  let usercreated = await userFunc.create(
+    "Chandler1",
+    "Bing",
+    "Monica27",
+    "MyDummyPassword",
+    "RS27@email.com",
+    "NJ",
+    "Hoboken",
+    ["Book", "Arts", "Cars"],
+    ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
+    ["Post1", "Post2", "Post3"],
+    "abc1266665b"
+  );
+  oId= usercreated.userName
 
-  // console.log(usercreated);
+  console.log(usercreated);
 
-//   oId = usercreated._id;
-//   console.log(oId);
-// } catch (error) {
-//   console.log(error);
-// }
+  oId = usercreated.userName;
+  console.log(oId);
+} catch (error) {
+  console.log(error);
+}
+
+
+
+try {
+  let user = await userFunc.getByUsername(oId)
+  console.log(user)
+  
+} catch (error) {
+  console.log(error)
+  
+}
 
 // try {
 //   console.log(
@@ -119,7 +130,7 @@
 // const check = await bcrypt.compare("abc12", hashpw )
 // console.log(check)
 
-import { artistMethods } from "./data/index.js";
+// import { artistMethods } from "./data/index.js";
 
 // console.log(await artistMethods.create(
 //   "662c366183742d374a2bfcb3",

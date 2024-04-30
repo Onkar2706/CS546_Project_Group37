@@ -15,11 +15,22 @@ router
   })
   .post(async (req, res) => {
     const createUserData = req.body;
+    const userNameValidator = await userMethods.getByUsername(createUserData.userName)
+    try {
+      if(req.body.userName ===userNameValidator.userName) throw"username present"
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+    
     if (!createUserData || Object.keys(createUserData).length === 0) {
       return res
         .status(400)
         .render("error", { message: "No fields in the request body" });
     }
+
+
 
     try {
       // Securing password
