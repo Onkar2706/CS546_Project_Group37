@@ -1,7 +1,7 @@
-import { artworks } from "./artwork.js";
-import { users } from "./users.js";
+import artworks from "./artwork.js";
+import users from "./users.js";
 import validate from "../helpers.js";
-import { artPurchases } from "../config/mongoCollections";
+import { artPurchases } from "../config/mongoCollections.js";
 
 const exportedMethods = {
   async create(
@@ -76,7 +76,62 @@ const exportedMethods = {
     if (!removePurchase) {
       throw `purchase could not be removed`;
     }
-    return { _id: id, delete: true };
+    let user = await users.get(removePurchase.user_id);
+    let updatedPurchases = user.purchases.filter((purchase) => purchase != id);
+    await users.updateUserInfo(
+      user._id,
+      user.firstName,
+      user.lastName,
+      user.username,
+      user.password,
+      user.email,
+      user.state,
+      user.city,
+      user.cart,
+      updatedPurchases,
+      user.posts,
+      user.artist_Id
+    );
+    return { _id: id, deleted: true };
+  },
+  async update(
+    id,
+    user_id,
+    artwork_id,
+    quantity,
+    total_price,
+    payment_status,
+    timeStamp
+  ) {
+    validate.checkIfValidObjectId(id);
+    validate.checkIfValidObjectId(user_id);
+    validate.checkIfValidObjectId(artwork_id);
+    validate.checkIfPositiveNumber(quantity);
+    validate.checkIfPositiveNumber(total_price);
+    validate.checkIfBoolean(payment_status);
+    validate.checkIfValidDate(timeStamp);
+    id = id.trim();
+    user_id = user_id.trim();
+    artwork_id = artwork_id.trim();
+    const artPurchasesCollection = await artPurchases();
+    const updatedInfo = artPurchasesCollection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          user_id: user_id,
+          artwork_id: artwork_id,
+          quantity: quantity,
+          total_price: total_price,
+          payment_status: payment_status,
+          timeStamp: timeStamp,
+        },
+      },
+      { returnDocument: "after" }
+    );
+    if (!updatedInfo) {
+      throw `could not update purchase`;
+    }
+    return updatedInfo;
   },
 };
 

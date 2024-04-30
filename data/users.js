@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import bcrypt from "bcryptjs";
 import pkg from "validator";
-// const {validator} = pkg;
+
 
 const exportMethods = {
   async create(
@@ -16,8 +16,7 @@ const exportMethods = {
     city,
     cart,
     purchases,
-    posts,
-    artist_Id
+    posts
   ) {
     try {
       validate.checkIfProperInput(firstName);
@@ -27,18 +26,17 @@ const exportMethods = {
       validate.checkIfProperInput(email);
       validate.checkIfProperInput(state);
       validate.checkIfProperInput(city);
-    } catch (e) {}
-
-    try {
-      password = await validate.hashPassword(password);
     } catch (e) {
-      console.log("Unable to hash password");
+      throw e;
     }
 
+    if (await this.getByUsername(userName.trim()) != null) {
+      throw `a user with this username already exists!`;
+    }
     let newUser = {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      userName: userName.trim(),
+      userName: userName.trim().toLowerCase(),
       password: password.trim(),
       email: email.trim(),
       state: state.trim(),
@@ -48,7 +46,8 @@ const exportMethods = {
         ? purchases.map((item) => item.trim())
         : [],
       posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
-      artist_Id: artist_Id,
+      // artist_Id: artist_Id,
+      role: "user",
     };
 
     const usercollection = await users();
@@ -75,7 +74,13 @@ const exportMethods = {
     user._id = user._id.toString();
     return user;
   },
-
+  async getByUsername(userName) {
+    const userCollection = await users();
+    validate.checkIfString(userName);
+    userName = userName.trim();
+    const user = await userCollection.findOne({ userName: userName });
+    return user;
+  },
   async getAll() {
     const usercollection = await users();
     let userList = await usercollection.find({}).toArray();
@@ -92,72 +97,43 @@ const exportMethods = {
     return userList;
   },
 
-  async updateUserInfo(
-    id,
-    firstName,
-    lastName,
-    userName,
-    password,
-    email,
-    state,
-    city,
-    cart,
-    purchases,
-    posts,
-    artist_Id
-  ) {
-    if (
-      !id ||
-      !firstName ||
-      !lastName ||
-      !userName ||
-      !password ||
-      !email ||
-      !state ||
-      !city ||
-      !cart ||
-      !purchases ||
-      !posts ||
-      !artist_Id
-    )
-      throw "Error found";
+  async updateArtistId(userId, artistId) {
+    if (!artistId || !userId) throw "Error: Must provide Id";
 
-    if (
-        !pkg.isMongoId(id) || // need to check for valid input of mongoId
-      
-      !pkg.isAlpha(firstName) ||
-      !pkg.isAlpha(lastName) ||
-      !pkg.isAlphanumeric(userName) ||
-      !pkg.isAlphanumeric(password) ||
-      !pkg.isEmail(email) ||
-      !validate.validateState(state) ||
-      !pkg.isAlpha(city)
-    )
-      throw "Error: Validation failed";
+    if (!pkg.isMongoId(artistId)) throw "Error: Validation failed";
 
     const usercollection = await users();
-    const updateduser = await usercollection.findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      {
-        $set: {
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
-          userName: userName.trim(),
-          password: password.trim(),
-          email: email.trim(),
-          state: state.trim(),
-          city: city.trim(),
-          cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
-          purchases: Array.isArray(purchases)
-            ? purchases.map((item) => item.trim())
-            : [],
-          posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
-          artist_Id: artist_Id,
-        },
-      },
+    const updateduser = await usercollection.updateOne(
+      { _id: userId },
+      { $set: { artistId: artistId } },
       { returnDocument: "after" }
     );
     return updateduser;
+  },
+
+  async loginUser(userName, password) {
+    userName = userName.trim().toLowerCase();
+    password = password.trim();
+
+    if (!userName || userName === "String")
+      throw "Either the username or password is invalid";
+    if (!password || password === "String")
+      throw "Either the username or password is invalid ";
+
+    const usercollection = await users();
+    const usernameDB = await usercollection.findOne({ userName: userName });
+    if (!usernameDB) throw "Error";
+
+    if (!(usernameDB.userName == userName))
+      throw "Either the username or password is invalid";
+
+    const validatedPassword = await bcrypt.compare(
+      password,
+      usernameDB.password
+    );
+
+    if (validatedPassword !== true)
+      throw "Either the username or password is invalid";
   },
 };
 

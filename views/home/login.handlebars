@@ -9,10 +9,10 @@
 <body>
     <div class="container">
         <h2>Login to ArtistHub</h2>
-        <form id="loginForm">
+        <form id="loginForm"  method="POST" action="/user/login">
             <div class="input-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="userName">Username:</label>
+                <input type="text" id="userName" name="userName" required>
             </div>
             <div class="input-group">
                 <label for="password">Password:</label>
@@ -21,7 +21,7 @@
             </div>
             <input type="submit" value="Login">
         </form>
-        <p class="create-account-text">Don't have an account? <a href="#">Create one</a></p>
+        <p class="create-account-text">Don't have an account? <a href="/user/register">Create one</a></p>
     </div>
 </body>
 </html>

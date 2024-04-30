@@ -1,8 +1,6 @@
 import { posts } from "../config/mongoCollections.js";
-// import { users } from "./users.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
-import bcrypt from "bcryptjs";
 import pkg from "validator";
 
 const exportMethods = {
@@ -11,22 +9,22 @@ const exportMethods = {
     return await postCollection.find({}).toArray();
   },
 
-  async addPost(userId,title, image, body) {
+  async addPost(userId, title, body, image) {
     // title = pkg.isAlpha(title, "title");
     // body = pkg.isAlpha(body, "body");
     // posterId = pkg.i(posterId);
-    userId = userId
+    userId = userId.trim();
     // content = content.,
 
     // const userThatPosted = await users.get(userId)
 
     let newPost = {
-      userId:userId,
+      userId: userId,
       title: title,
       body: body,
-      image:image,
+      image: image,
       comment: [],
-      time: validate.getTodayDate()
+      time: validate.getTodayDate(),
     };
     const postCollection = await posts();
     const newInsertInformation = await postCollection.insertOne(newPost);
@@ -38,11 +36,24 @@ const exportMethods = {
   async getPostById(id) {
     // id = validation.checkId(id);
     const postCollection = await posts();
-    const post = await postCollection.findOne({_id: new ObjectId(id)});
+    const post = await postCollection.findOne({ _id: new ObjectId(id) });
 
-    if (!post) throw 'Error: Post not found';
+    if (!post) throw "Error: Post not found";
     return post;
-  }
+  },
+
+  async deletePost(id) {
+    validate.checkIfValidObjectId(id);
+    id = id.trim();
+    const postCollection = await posts();
+    const removedPost = await postCollection.findOneAndDelete({
+      _id: new ObjectId(id),
+    });
+    if (!removedPost) {
+      throw `Error: Post could not be removed`;
+    }
+    return { _id: id, deleted: true };
+  },
 };
 
 export default exportMethods;

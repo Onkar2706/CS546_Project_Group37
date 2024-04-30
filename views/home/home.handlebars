@@ -1,0 +1,75 @@
+{{!-- <section>
+    <div class="banner">
+    </div>
+
+    <div class="content">
+        <div class="content">
+        <h1>BUTTON</h1>
+        <p>Follow us for more...</p>
+        <p>CONTACT US AT GITHUB......</p>
+        </div>
+    </div>
+<script src="app.js"></script>  
+</section>
+     --}}
+
+
+      <header>
+        <nav>
+            <div class="logo">
+                <h1>ArtistHub</h1> 
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">HOME</a></li>
+                <li><a href="/products">PRODUCTS</a></li>
+                <li><a href="/artists">ARTISTS</a></li>
+                <li><a href="/blogs">EXHIBITIONS</a></li>
+                <li><a href="/market">MARKETPLACE</a></li>
+                <li><a href="/blogs/create">ART BLOG</a></li>
+                
+                
+
+                {{#if loggedIn}}
+                <li><a href="/user/getUserInfo">{{userName}}</a></li>
+                <li><a href="/logout">Logout</a></li>
+                    {{#if user}}
+                    <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
+                    {{!-- <li><a href="/logout/logout">Logout</a></li> --}}
+                    {{/if}}
+                {{else}}
+                <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
+                {{/if}}
+
+            </ul>
+        </nav>
+    </header>
+
+        <section class="featured-artists">
+            <h2>Featured Artists</h2>
+            <div class="card-container">
+                {{#each artists}}
+                <div class="card">
+                    <a href="">
+                    <img src="{{this.profilePic}}" alt="Profile of {{this.profile.firstName}} {{this.profile.lastName}}">
+                    <h3>{{this.firstName}} {{this.lastName}}</h3>
+                    <p>{{this.bio}}</p>
+                    <p>{{this.ratings}}</p>
+                    </a>
+                </div>
+                {{/each}}
+            </div>
+        </section>
+
+        <section class="featured-products">
+            <h2>Featured Products</h2>
+            <div class="card-container">
+                {{#each products}}
+                <div class="card">
+                    <img src="{{this.images.[0]}}" alt="{{this.name}}">
+                    <h3>{{this.name}}</h3>
+                    <p>{{this.price}}</p>
+                </div>
+                {{/each}}
+            </div>
+        </section>
+

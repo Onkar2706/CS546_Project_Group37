@@ -2,13 +2,30 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
-    <link rel="stylesheet" href="/public/style.css">
+    <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
-    {{{navbar}}}
+    <nav>
+    <div class="logo">
+        <a href="/">ARTISTHUB</a> 
+    </div>
+    {{!-- <ul class="nav_elements">
+        <li><a href="/home">FEATURED ARTISTS</a></li>
+        <li><a href="/blogs">EXHIBITIONS</a></li>
+        <li><a href="/about">ART ADVISORY</a></li>
+        <li><a href="/blogs/create">ART BLOG</a></li>
+        <li><a href="/blogs/create">VIEW EXHIBITION CALENDAR</a></li>
+        <li><a href="/user/register">Register</a></li>
+        <li><a href="/user/login">Login</a></li>
+     
+
+    </ul> --}}
+    </nav>    
     <main>
         {{{body}}}
     </main>
+    <script src = "/public/js/clientside.js"></script>
 </body>
 </html>

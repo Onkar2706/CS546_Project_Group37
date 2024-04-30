@@ -1,11 +1,18 @@
-import userRoutes from './user.js';
+import userRoutes from "./user.js";
+import artistRoutes from "./artists.js";
+import homeRoutes from "./home.js";
+import logout from "./logout.js"
+import path from "path";
 
 const constructor = (app) => {
-    app.use('/user', userRoutes);
+  app.use("/", homeRoutes);
+  app.use("/user", userRoutes);
+  app.use("/artist", artistRoutes);
+  app.use("/logout", logout);
 
-    app.use('*', (req, res) => {
-        res.status(404).json({error: 'Route Not Found'});
-    });
+  app.use("*", (req, res) => {
+    res.status(404).render("error", { message: "Page Not Found" });
+  });
 };
 
 export default constructor;

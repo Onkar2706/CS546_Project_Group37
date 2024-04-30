@@ -23,8 +23,11 @@
     "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
+    "express-session": "^1.18.0",
+    "file-uploader": "^1.0.0",
     "handlebars": "^4.7.8",
     "mongo": "^0.1.0",
+    "session": "^0.1.0",
     "validator": "^13.11.0"
   },
   "devDependencies": {
