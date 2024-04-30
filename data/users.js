@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import bcrypt from "bcryptjs";
 import pkg from "validator";
-// const {validator} = pkg;
+
 
 const exportMethods = {
   async create(
