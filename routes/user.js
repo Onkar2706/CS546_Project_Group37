@@ -186,6 +186,16 @@ router.route("/user").post(async (req, res) => {
       });
       }
     })
-  })
+  }),
+  router
+    .route("/getUserInfo")
+    .get(async(req,res)=>{
+      console.log(req.session.user)
+     
+      
+      res.render("home/userInfo", { title: "MyInfo",username: req.session.user.username,firstName:req.session.user.firstName,lastName:req.session.user.lastName,email:req.session.user.email,posts:req.session.user.posts,purchases:req.session.user.purchases,city:req.session.user.city,cart:req.session.user.cart,role:req.session.user.role});
+
+    })
+
 
 export default router;
