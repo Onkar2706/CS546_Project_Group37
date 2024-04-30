@@ -27,11 +27,14 @@
                 <li><a href="/market">MARKETPLACE</a></li>
                 <li><a href="/blogs/create">ART BLOG</a></li>
                 
+                
 
                 {{#if loggedIn}}
                 <li><a href="/home/user">{{userName}}</a></li>
+                <li><a href="/logout">Logout</a></li>
                     {{#if user}}
                     <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
+                    {{!-- <li><a href="/logout/logout">Logout</a></li> --}}
                     {{/if}}
                 {{else}}
                 <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
