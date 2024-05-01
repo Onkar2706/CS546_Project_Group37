@@ -1,0 +1,12 @@
+<h1>Art Blog</h1>
+    <div id="posts" class="card">
+            {{#each allPosts}}
+            <div class="post">
+                <h2>{{this.title}}</h2>
+                <img src="{{this.image}}" alt="Image here">
+                <p>{{this.body}}</p>
+                <p><strong>Author:</strong> Author here</p>
+                <p><strong>Date:</strong> {{this.time}}</p>
+            </div>
+            {{/each}}
+    </div>
