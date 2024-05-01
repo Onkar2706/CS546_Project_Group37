@@ -1,7 +1,7 @@
 //data functions for artists collection
 import { artists, users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import { productMethods, userMethods } from "./index.js";
+// import { productMethods, userMethods } from "./index.js";
 import validate from "../helpers.js";
 // import users from "./users.js";
 const exportedMethods = {

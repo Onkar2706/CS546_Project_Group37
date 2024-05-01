@@ -54,15 +54,15 @@ const validate = {
       throw "Error: Invalid URL"; // https://javascript.plainenglish.io/check-if-string-is-alphanumeric-in-javascript-e325caa3ee
   },
 
-  checkIfValidArray: (inp) => {
-    checkIfProperInput(inp);
-    if (typeof inp !== "object" || Array.isArray(inp) !== true)
-      throw "Error: Input parameter must be an array";
-    // if (inp.length === 0) throw "Error: Empty array provided";
-    for (let string of inp) {
-      validate.checkIfString(string);
-    }
-  },
+  // checkIfValidArray: (inp) => {
+  //   checkIfProperInput(inp);
+  //   if (typeof inp !== "object" || Array.isArray(inp) !== true)
+  //     throw "Error: Input parameter must be an array";
+  //   // if (inp.length === 0) throw "Error: Empty array provided";
+  //   for (let string of inp) {
+  //     validate.checkIfString(string);
+  //   }
+  // },
 
   checkIfValidDate: (inp) => {
     checkIfProperInput(inp);

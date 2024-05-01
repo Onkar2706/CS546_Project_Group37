@@ -4,6 +4,7 @@ import userFunc from "./data/users.js";
 import artist from "./data/artists.js";
 import productMethods from "./data/artwork.js";
 import posts from "./data/posts.js";
+import artwork from "./data/artwork.js"
 
 let oId = null;
 
@@ -128,7 +129,7 @@ let oId = null;
 // const hashpw = await bcrypt.hash("abc12", 10)
 
 // const check = await bcrypt.compare("abc12", hashpw )
-// console.log(check)
+// console.log(check)``
 
 // import { artistMethods } from "./data/index.js";
 
@@ -139,4 +140,13 @@ let oId = null;
 // ))
 
 // console.log(await posts.addPost("66306a2c1c37717d8d160a07", "New Post2", "This is new post", "https://images.pexels.com/photos/1674049/pexels-photo-1674049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"))
+
+try {
+  let user = await artwork.create("662c3b62d7035e182a7e0e35","New Product","I am a Prouct with it Description",["tag1","tag2","tag3","tag4"],203,["image1","image2","image3","image4"],3,["review1","review2"])
+  console.log(user)
+  
+} catch (error) {
+  console.log(error)
+  
+}
 

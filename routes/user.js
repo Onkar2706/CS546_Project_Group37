@@ -1,9 +1,9 @@
 import express from "express";
 import { ObjectId } from "mongodb";
+import artWork from "../data/artwork.js";
 import { userMethods } from "../data/index.js";
 import bcrypt from "bcryptjs";
 import { users } from "../config/mongoCollections.js";
-
 
 const saltRounds = 10;
 let hash = null;
@@ -15,22 +15,21 @@ router
   })
   .post(async (req, res) => {
     const createUserData = req.body;
-    const userNameValidator = await userMethods.getByUsername(createUserData.userName)
+    const userNameValidator = await userMethods.getByUsername(
+      createUserData.userName
+    );
     try {
-      if(req.body.userName ===userNameValidator.userName) throw"username present"
-      
+      if (req.body.userName === userNameValidator.userName)
+        throw "username present";
     } catch (error) {
-      console.log(error)
-      
+      console.log(error);
     }
-    
+
     if (!createUserData || Object.keys(createUserData).length === 0) {
       return res
         .status(400)
         .render("error", { message: "No fields in the request body" });
     }
-
-
 
     try {
       // Securing password
@@ -65,7 +64,7 @@ router
         city,
         cart,
         purchases,
-        posts,
+        posts
       );
       console.log("User Created!");
       return res.redirect("/user/login");
@@ -87,7 +86,7 @@ router
         .status(400)
         .render("error", { message: "No fields in the request body" });
     }
-    try{
+    try {
       const usercollection = await users();
       const fetcheduser = await usercollection.findOne({
         userName: authorizeUser.userName.toLowerCase(),
@@ -95,48 +94,41 @@ router
 
       // console.log(fetcheduser);
       if (!fetcheduser) throw "Error: User Not Found";
-      const match = await bcrypt.compare(authorizeUser.password, fetcheduser.password);
-      if (match){
+      const match = await bcrypt.compare(
+        authorizeUser.password,
+        fetcheduser.password
+      );
+      if (match) {
         // Store user information in session
         req.session.user = {
-          _id:fetcheduser._id,
+          _id: fetcheduser._id,
           firstName: fetcheduser.firstName,
           lastName: fetcheduser.lastName,
           username: fetcheduser.userName,
           posts: fetcheduser.posts,
           purchases: fetcheduser.purchases,
-          email:fetcheduser.email,
-          city:fetcheduser.city,
-          cart:fetcheduser.cart,
+          email: fetcheduser.email,
+          city: fetcheduser.city,
+          cart: fetcheduser.cart,
           role: fetcheduser.role,
         };
-        console.log("Session",req.session.user)
-        return res.redirect('/');
+        console.log("Session", req.session.user);
+        return res.redirect("/");
       }
       return res.status(400).json({ Error: "Invalid username or password" });
-
-    }catch(error){
+    } catch (error) {
       return res.status(500).json({ Error: "Internal Server Error" });
     }
   });
 
+router.route("/admin").get(async (req, res) => {
+  res.render("home/admin", { title: "Admin" });
+});
 
-  router
-  .route("/admin")
-  .get(async(req,res)=>{
-    res.render("home/admin", { title: "Admin" });
-
-
-  })
-
-
-  router
-  .route("/admin")
-  .post(async(req,res)=>{
-
-    if (req.session.user && req.session.user.role === "admin") {
-    const admin = req.session.user
-    const currentTime = new Date().toLocaleString(); 
+router.route("/admin").post(async (req, res) => {
+  if (req.session.user && req.session.user.role === "admin") {
+    const admin = req.session.user;
+    const currentTime = new Date().toLocaleString();
 
     res.render("home/admin", {
       firstName: admin.firstName,
@@ -162,40 +154,49 @@ router.route("/user").post(async (req, res) => {
       userName: admin.userName,
       currentTime: currentTime,
     });
-    }
+  }
 
-    router
-    .route("/registerArtist")
-    .get(async(req,res)=>{
-      res.render("home/artist", { title: "artist" });
-    })
-  
-    router
-    .route("/registerArtist")
-    .post(async(req,res)=>{
-  
-      if (req.session.user && req.session.user.role === "artist") {
-      const admin = req.session.user
-      const currentTime = new Date().toLocaleString(); 
-  
+  router.route("/registerArtist").get(async (req, res) => {
+    res.render("home/artist", { title: "artist" });
+  });
+
+  router.route("/registerArtist").post(async (req, res) => {
+    if (req.session.user && req.session.user.role === "artist") {
+      const admin = req.session.user;
+      const currentTime = new Date().toLocaleString();
+
       res.render("home/artist", {
         firstName: admin.firstName,
         lastName: admin.lastName,
         userName: admin.userName,
         currentTime: currentTime,
       });
-      }
-    })
+    }
+  });
+}),
+  router.route("/getUserInfo").get(async (req, res) => {
+    // console.log(req.session.user)
+
+    res.render("home/userInfo", {
+      title: "MyInfo",
+      username: req.session.user.username,
+      firstName: req.session.user.firstName,
+      lastName: req.session.user.lastName,
+      email: req.session.user.email,
+      posts: req.session.user.posts,
+      purchases: req.session.user.purchases,
+      city: req.session.user.city,
+      cart: req.session.user.cart,
+      role: req.session.user.role,
+    });
   }),
-  router
-    .route("/getUserInfo")
-    .get(async(req,res)=>{
-      // console.log(req.session.user)
-     
-      
-      res.render("home/userInfo", { title: "MyInfo",username: req.session.user.username,firstName:req.session.user.firstName,lastName:req.session.user.lastName,email:req.session.user.email,posts:req.session.user.posts,purchases:req.session.user.purchases,city:req.session.user.city,cart:req.session.user.cart,role:req.session.user.role});
-
-    })
-
+  router.route("/getProducts").get(async (req, res) => {
+    const getArtwork = await artWork.getAll();
+    
+    return res.render("home/getProducts", {
+      title: "Products",
+      products: getArtwork
+    });
+});
 
 export default router;

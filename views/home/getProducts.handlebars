@@ -1,0 +1,28 @@
+
+{{#each products}}
+<div class="product">
+    <h2>{{productName}}</h2>
+    <p>{{productDescription}}</p>
+    <p>Price: ${{price}}</p>
+    <p>Rating: {{rating}}</p>
+    <p>Release Date: {{date}}</p>
+    <h3>Images</h3>
+    <div class="images">
+        {{#each images}}
+            <img src="{{this}}" alt="Product Image {{@index}}">
+        {{/each}}
+    </div>
+    <h3>Reviews</h3>
+    <ul class="reviews">
+        {{#each reviews}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    <h3>Tags</h3>
+    <ul class="tags">
+        {{#each tags}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+{{/each}}

@@ -1,9 +1,9 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
-// import { artworks } from "../config/mongoCollections.js";
+import { artworks } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
-// import { artistMethods } from "./index.js";
+import artistMethods from "./artists.js"
 // import { validate.checkIfProperInput, validate.checkIfString, checkIfPositiveNumber, checkIfBoolean, checkIfValidArray, checkIfValidDate, checkIfValidURL } from "../helpers.js";
 
 const exportMethods = {
@@ -19,26 +19,26 @@ const exportMethods = {
     return product;
   },
 
-  async create(artistId, name, description, tags, price, images, reviews) {
-    validate.checkIfProperInput(artistId);
-    validate.checkIfProperInput(name);
-    validate.checkIfProperInput(description);
-    validate.checkIfProperInput(tags);
-    validate.checkIfProperInput(price);
-    validate.checkIfProperInput(images);
-    validate.checkIfProperInput(reviews);
+  async create(artistId, name, description, tags, price, images,rating, reviews) {
+    // validate.checkIfProperInput(artistId);
+    // validate.checkIfProperInput(name);
+    // validate.checkIfProperInput(description);
+    // validate.checkIfProperInput(tags);
+    // validate.checkIfProperInput(price);
+    // validate.checkIfProperInput(images);
+    // validate.checkIfProperInput(reviews);
 
-    validate.checkIfString(name);
-    validate.checkIfString(description);
+    // validate.checkIfString(name);
+    // validate.checkIfString(description);
 
-    validate.checkIfPositiveNumber(price);
+    // validate.checkIfPositiveNumber(price);
     // validate.checkIfValidURL(images);
-    pkg.isURL(images[0]);
-    validate.checkIfValidArray(tags);
-    validate.checkIfValidArray(reviews);
+    // pkg.isURL(images[0]);
+    // validate.checkIfValidArray(tags);
+    // validate.checkIfValidArray(reviews);
 
-    tags = tags.map((string) => string.trim());
-    reviews = reviews.map((string) => string.trim());
+    // tags = tags.map((string) => string.trim());
+    // reviews = reviews.map((string) => string.trim());
 
     let newProduct = {
       artistId: artistId.trim(),
@@ -48,7 +48,7 @@ const exportMethods = {
       price: price,
       date: validate.getTodayDate(),
       images: Array.isArray(images) ? images.map((item) => item.trim()) : [],
-      rating: 0,
+      rating: rating,
       reviews: Array.isArray(reviews) ? reviews.map((item) => item.trim()) : [],
     };
 
@@ -57,18 +57,10 @@ const exportMethods = {
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
       throw "Error: Could not add the product";
 
-    insertInfo.insertedId = insertInfo.insertedId.toString();
-    const id = insertInfo.insertedId;
-    const productInfo = await this.get(id);
-    let artistToUpdate = await artistMethods.get(productInfo.artistId);
-    artistToUpdate.push(id.trim());
-    await artistMethods.updateArtist(
-      artistToUpdate.artistId,
-      artistToUpdate.user_id,
-      artistToUpdate.bio,
-      artistToUpdate.profilePic,
-      artistToUpdate.portfolio
-    );
+    const productInfo = await productCollection.findOne({_id: new ObjectId(insertInfo.insertedId)})
+
+    
+    
     return productInfo;
   },
 
@@ -76,13 +68,21 @@ const exportMethods = {
     const productCollection = await artworks();
     let allProducts = await productCollection.find({}).toArray();
     if (!allProducts) throw "Error: Could not get all products";
-    allProducts = allProducts.map((element) => {
-      element._id = element._id.toString();
-      return {
-        _id: element._id,
-        productName: element.productName,
-      };
-    });
+    // allProducts = allProducts.map((element) => {
+    //   element._id = element._id.toString();
+    //   // return allProducts
+    //   // {
+    //   //   _id: element._id,
+    //   //   productName: element.productName,
+    //   //   productDescription:element.productDescription,
+    //   //   tags:element.tags,
+    //   //   price:element.price,
+    //   //   date:element.date,
+    //   //   images:element.images,
+    //   //   rating:element.rating,
+    //   //   reviews:element.reviews
+    //   // };
+    // });
     if (allProducts.length === 0) return [];
     return allProducts;
   },
