@@ -1,5 +1,5 @@
 import express from "express";
-import { artistMethods } from "../data/index.js";
+import  artistMethods from "../data/artists.js";
 
 const router = express.Router();
 router

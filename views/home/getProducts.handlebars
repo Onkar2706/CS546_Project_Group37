@@ -1,29 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-    <link rel="stylesheet" href="/public/css/style.css">
-</head>
-<body>
-    <div class="container">
-        <h2>Welcome to Products Dashboard</h2>
-        <nav>
-            <ul>
-                <li><a href="/products/">Dashboard</a></li>
-                <li><a href="/products/">Dashboard</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
-        </nav>
-        <div class="admin-content">
-        </div>
-        <div class="input-group">
-          <label for="Bio">Please Enter your Bio:</label>
-          <input type="text" id="bio" name="bio" required />
-        </div>
-        <input type="submit" value="Register" />
-        
+
+{{#each products}}
+<div class="product">
+    <h2>{{productName}}</h2>
+    <p>{{productDescription}}</p>
+    <p>Price: ${{price}}</p>
+    <p>Rating: {{rating}}</p>
+    <p>Release Date: {{date}}</p>
+    <h3>Images</h3>
+    <div class="images">
+        {{#each images}}
+            <img src="{{this}}" alt="Product Image {{@index}}">
+        {{/each}}
     </div>
-</body>
-</html>
+    <h3>Reviews</h3>
+    <ul class="reviews">
+        {{#each reviews}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    <h3>Tags</h3>
+    <ul class="tags">
+        {{#each tags}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+{{/each}}
