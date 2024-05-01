@@ -7,42 +7,42 @@ import posts from "./data/posts.js";
 
 let oId = null;
 
-try {
+// try {
   
 
-  let usercreated = await userFunc.create(
-    "Chandler1",
-    "Bing",
-    "Monica27",
-    "MyDummyPassword",
-    "RS27@email.com",
-    "NJ",
-    "Hoboken",
-    ["Book", "Arts", "Cars"],
-    ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
-    ["Post1", "Post2", "Post3"],
-    "abc1266665b"
-  );
-  oId= usercreated.userName
+//   let usercreated = await userFunc.create(
+//     "Chandler1",
+//     "Bing",
+//     "Monica27",
+//     "MyDummyPassword",
+//     "RS27@email.com",
+//     "NJ",
+//     "Hoboken",
+//     ["Book", "Arts", "Cars"],
+//     ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
+//     ["Post1", "Post2", "Post3"],
+//     "abc1266665b"
+//   );
+//   oId= usercreated.userName
 
-  console.log(usercreated);
+//   console.log(usercreated);
 
-  oId = usercreated.userName;
-  console.log(oId);
-} catch (error) {
-  console.log(error);
-}
+//   oId = usercreated.userName;
+//   console.log(oId);
+// } catch (error) {
+//   console.log(error);
+// }
 
 
 
-try {
-  let user = await userFunc.getByUsername(oId)
-  console.log(user)
+// try {
+//   let user = await userFunc.getByUsername(oId)
+//   console.log(user)
   
-} catch (error) {
-  console.log(error)
+// } catch (error) {
+//   console.log(error)
   
-}
+// }
 
 // try {
 //   console.log(
@@ -137,4 +137,6 @@ try {
 //   "Once I ruled the world",
 //   "https://images.pexels.com/photos/15867003/pexels-photo-15867003/free-photo-of-garlands-on-shivaji-maharaj-statue.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 // ))
+
+// console.log(await posts.addPost("66306a2c1c37717d8d160a07", "New Post2", "This is new post", "https://images.pexels.com/photos/1674049/pexels-photo-1674049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"))
 
