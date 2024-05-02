@@ -1,7 +1,8 @@
 //data functions for artists collection
 import { artists, users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
-// import { productMethods, userMethods } from "./index.js";
+import productMethods from "./artwork.js";
+import userMethods from "./users.js";
 import validate from "../helpers.js";
 // import users from "./users.js";
 const exportedMethods = {
@@ -33,11 +34,13 @@ const exportedMethods = {
     if (!insertInfo) {
       throw `Artist could not be created`;
     }
+    insertInfo.insertedId = insertInfo.insertedId.toString();
     const usercollection = await users();
     const updateRole = await usercollection.updateOne(
-      {"_id": new ObjectId(user_id.trim()), "role": "user"},
-      {$set: {"role": "artist"}}
+      { _id: new ObjectId(user_id.trim()), role: "user" },
+      { $set: { role: "artist" } }
     );
+    return await this.get(insertInfo.insertedId);
   },
 
   async get(id) {
@@ -72,7 +75,7 @@ const exportedMethods = {
       !user_id ||
       !bio ||
       !profilePic ||
-      !portfolio 
+      !portfolio
       // !ratings
     ) {
       throw `please provide proper input`;
@@ -123,9 +126,6 @@ const exportedMethods = {
     return updatedArtist;
   },
 
-
-  async addArtist(firstName,lastName,userName,profilePic){
-
-  }
+  async addArtist(firstName, lastName, userName, profilePic) {},
 };
 export default exportedMethods;

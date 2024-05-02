@@ -3,7 +3,7 @@ import { artworks } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
-import artistMethods from "./artists.js"
+import artistMethods from "./artists.js";
 // import { validate.checkIfProperInput, validate.checkIfString, checkIfPositiveNumber, checkIfBoolean, checkIfValidArray, checkIfValidDate, checkIfValidURL } from "../helpers.js";
 
 const exportMethods = {
@@ -19,7 +19,16 @@ const exportMethods = {
     return product;
   },
 
-  async create(artistId, name, description, tags, price, images,rating, reviews) {
+  async create(
+    artistId,
+    name,
+    description,
+    tags,
+    price,
+    images,
+    rating,
+    reviews
+  ) {
     // validate.checkIfProperInput(artistId);
     // validate.checkIfProperInput(name);
     // validate.checkIfProperInput(description);
@@ -57,10 +66,10 @@ const exportMethods = {
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
       throw "Error: Could not add the product";
 
-    const productInfo = await productCollection.findOne({_id: new ObjectId(insertInfo.insertedId)})
-
-    
-    
+    const productInfo = await productCollection.findOne({
+      _id: new ObjectId(insertInfo.insertedId),
+    });
+    productInfo._id = productInfo._id.toString();
     return productInfo;
   },
 

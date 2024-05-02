@@ -2,6 +2,7 @@ import artworks from "./artwork.js";
 import users from "./users.js";
 import validate from "../helpers.js";
 import { artPurchases } from "../config/mongoCollections.js";
+import { ObjectId } from "mongodb";
 
 const exportedMethods = {
   async create(

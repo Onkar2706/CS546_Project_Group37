@@ -29,7 +29,7 @@ const validate = {
     }
   },
   checkIfPositiveNumber: (inp) => {
-    checkIfProperInput(inp);
+    validate.checkIfProperInput(inp);
     if (typeof inp !== "number" || inp === NaN)
       throw "Error: Input parameter must be a positive number";
     if (inp < 1) throw "Error: Price must be positive";
@@ -40,7 +40,7 @@ const validate = {
   },
 
   checkIfValidURL: (inp) => {
-    checkIfProperInput(inp);
+    validate.checkIfProperInput(inp);
     inp = inp.trim();
     let strLength = inp.length;
     const url = new URL(inp);
@@ -65,7 +65,7 @@ const validate = {
   // },
 
   checkIfValidDate: (inp) => {
-    checkIfProperInput(inp);
+    validate.checkIfProperInput(inp);
     inp = inp.trim();
     let inpDate = new Date(inp);
     let todayDate = new Date();
@@ -85,13 +85,13 @@ const validate = {
   },
 
   checkIfBoolean: (inp) => {
-    checkIfProperInput(inp);
+    validate.checkIfProperInput(inp);
     if (typeof inp !== "boolean")
       throw "Error: Input parameter must be boolean";
   },
 
   checkIfValidRating: (inp) => {
-    checkIfProperInput(inp);
+    validate.checkIfProperInput(inp);
     if (typeof inp !== "number" || inp === NaN) throw "Error: Invalid Rating";
     if (inp < 1 || inp > 5) throw "Error: Invalid Rating";
     if (!Number.isInteger(inp)) {
