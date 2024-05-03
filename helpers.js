@@ -2,6 +2,25 @@ import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
 
 const validate = {
+    checkIfName: (inp) => {
+    let letters = /^[a-zA-Z]+$/;
+    inp = inp.trim();
+    if(inp.length < 2 || inp.length > 25) throw "Error: Input lenght should be in range on 2 and 25";
+    if(!letters.test(inp)) throw "Error: Input should only contain letters";
+  },
+
+  checkIfUsername: (inp) => {
+    let letters = /^[a-zA-Z]+$/;
+    inp = inp.trim();
+    if(inp.length < 5 || inp.length > 10) throw "Error: Input lenght should be in range on 5 and 10";
+    if(!letters.test(inp)) throw "Error: Input should only contain letters";
+  },
+
+  checkIfPassword: (inp) => {
+    let password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
+    if(!password.test(inp.trim())) "Error: Weak password";
+  },
+
   async hashPassword(inp) {
     const saltRounds = 10;
     let hash = null;
