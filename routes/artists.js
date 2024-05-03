@@ -1,6 +1,6 @@
 import express from "express";
 import { ObjectId } from "mongodb";
-// import artistMethods  from "../data/index.js";
+import {artistMethods}  from "../data/index.js";
 
 const router = express.Router();
 
