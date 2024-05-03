@@ -50,9 +50,10 @@
             <div class="card-container">
                 {{#each products}}
                 <div class="card">
-                    <img src="{{this.images.[0]}}" alt="{{this.name}}">
-                    <h3>{{this.name}}</h3>
-                    <p>{{this.price}}</p>
+                    <img src="{{this.images.[0]}}" alt="{{this.productName}}">
+                    <h3>{{this.productName}}</h3>
+                    <p>Price:{{this.price}}$</p>
+                    <p>Ratings:{{this.rating}}</p>
                 </div>
                 {{/each}}
             </div>
