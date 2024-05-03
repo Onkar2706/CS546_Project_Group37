@@ -198,7 +198,9 @@ button:hover {
     background-color: #0056b3;
 }
 
-.artwork-list {
+/* market handlebar*/
+
+/* .artwork-list {
     list-style: none;
     padding: 0;
 }
@@ -231,6 +233,47 @@ button:hover {
 
 .artwork-artist {
     margin-top: 5px;
+} */
+
+.artwork-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    list-style: none;
+}
+
+.artwork-item {
+    list-style: none;
+    text-align: center;
+    border: 1px solid #ddd; /* Add a border */
+    border-radius: 5px; /* Add border radius */
+    padding: 10px;
+}
+
+.artwork-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.artwork-name {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.artwork-description {
+    margin: 5px 0;
+    
+}
+
+.artwork-price {
+    margin: 5px 0;
+}
+
+.artwork-artist {
+    margin: 5px 0;
 }
 
 .buy-button {
@@ -250,4 +293,70 @@ button:hover {
 .card:hover{
     background-color: rgb(185, 182, 182);
 } 
+
+/*product click handlebar*/
+
+.product-details {
+    margin-top: 20px;
+}
+
+.product-images {
+    display: flex;
+    overflow-x: auto; 
+}
+
+.product-images img {
+    width: 200px; /* Set the width of all images */
+    height: 200px; /* Set the height of all images */
+    object-fit: cover; /* Maintain aspect ratio and cover container */
+    margin-right: 10px;
+}
+
+/* Artistclick handlebar*/
+.artist-details {
+    max-width: 800px; /* Adjust according to your design */
+    margin: 0 auto;
+    padding: 20px;
+}
+.artist-profile {
+    margin-bottom: 20px;
+}
+
+.artist-profile img {
+    width: 200px; /* Adjust according to your design */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Make the profile picture round */
+    margin-right: 20px;
+    float: left;
+}
+
+.artist-profile p {
+    margin-bottom: 10px;
+}
+
+.artwork-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.artwork {
+    width: calc(33.33% - 20px); /* Adjust according to your design */
+    margin: 0 10px 20px; /* Adjust margins between artwork cards */
+}
+
+.artwork img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.artwork h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.artwork p {
+    margin-bottom: 5px;
+}
 

@@ -1,0 +1,22 @@
+
+<h1>{{this.productName}}</h1>
+<div class="product-details">
+    {{#each this.images}}
+            <img src="{{this}}" alt="Product Image">
+    {{/each}}
+    <img src="{{this.images}}" alt="{{productName}}">
+    <p>Price: {{this.price}}$</p>
+    <button class="addtocart">Add to Cart</button> 
+    <br>
+
+    <p>Ratings: {{this.rating}}</p>
+    <p>Description: {{this.productDescription}}</p>
+    <p>Artist: {{this.firstname}} {{this.lastname}}</p>
+    <h2>Reviews</h2>
+    <ul>
+        {{#each this.reviews}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+

@@ -1,0 +1,22 @@
+<h1>{{this.firstName}} {{this.lastName}}</h1>
+<div class="artist-details">
+    <div class="artist-profile">
+        <img src="{{this.profilePic}}" alt="Profile of {{this.firstName}} {{this.lastName}}">
+        <p>{{this.bio}}</p>
+        <p>Ratings: {{this.ratings}}</p>
+    </div>
+    
+    <h2>Featured Artworks</h2>
+    <div class="artwork-container">
+        {{#each this.portfolio}}
+        <div class="artwork">
+            <a href="/products/{{this._id}}">
+                <img src="{{this.images.[0]}}" alt="Artwork">
+            </a>
+            <h3>{{this.title}}</h3>
+            <p>Price: {{this.price}}$</p>
+            <p>Ratings: {{this.rating}}</p>
+        </div>
+        {{/each}}
+    </div>
+</div>
