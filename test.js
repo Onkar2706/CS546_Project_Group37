@@ -139,14 +139,14 @@ let oId = null;
 //   "https://images.pexels.com/photos/15867003/pexels-photo-15867003/free-photo-of-garlands-on-shivaji-maharaj-statue.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 // ))
 
-// console.log(await posts.addPost("66306a2c1c37717d8d160a07", "New Post2", "This is new post", "https://images.pexels.com/photos/1674049/pexels-photo-1674049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"))
+console.log(await posts.addPost("662ea79738fbd9121cf480d8", "Pizzaa", "This is new post", "https://images.pexels.com/photos/365459/pexels-photo-365459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"))
 
-try {
-  let user = await artwork.create("662c3b62d7035e182a7e0e35","New Product","I am a Prouct with it Description",["tag1","tag2","tag3","tag4"],203,["image1","image2","image3","image4"],3,["review1","review2"])
-  console.log(user)
+// try {
+//   let user = await artwork.create("662c3b62d7035e182a7e0e35","New Product","I am a Prouct with it Description",["tag1","tag2","tag3","tag4"],203,["image1","image2","image3","image4"],3,["review1","review2"])
+//   console.log(user)
   
-} catch (error) {
-  console.log(error)
+// } catch (error) {
+//   console.log(error)
   
-}
+// }
 

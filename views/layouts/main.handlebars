@@ -8,21 +8,29 @@
 </head>
 <body>
     <nav>
-    <div class="logo">
-        <a href="/">ARTISTHUB</a> 
-    </div>
-    {{!-- <ul class="nav_elements">
-        <li><a href="/home">FEATURED ARTISTS</a></li>
-        <li><a href="/blogs">EXHIBITIONS</a></li>
-        <li><a href="/about">ART ADVISORY</a></li>
-        <li><a href="/blogs/create">ART BLOG</a></li>
-        <li><a href="/blogs/create">VIEW EXHIBITION CALENDAR</a></li>
-        <li><a href="/user/register">Register</a></li>
-        <li><a href="/user/login">Login</a></li>
-     
+        <div class="logo">
+            <h1>ArtistHub</h1> 
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/user/getProducts">PRODUCTS</a></li>
+            <li><a href="/artists">ARTISTS</a></li>
+            <li><a href="/blogs">EXHIBITIONS</a></li>
+            <li><a href="/products">MARKETPLACE</a></li>
+            <li><a href="/post">ART BLOG</a></li>
 
-    </ul> --}}
-    </nav>    
+            {{#if loggedIn}}
+                <li><a href="/user/getUserInfo">{{userName}}</a></li>
+                <li><a href="/logout">Logout</a></li>
+                {{#if user}}
+                    <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
+                {{!-- <li><a href="/logout/logout">Logout</a></li> --}}
+                {{/if}}
+            {{else}}
+                <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
+            {{/if}}
+        </ul>
+    </nav>
     <main>
         {{{body}}}
     </main>

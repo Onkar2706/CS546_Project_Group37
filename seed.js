@@ -10,20 +10,57 @@ import {
 const db = await dbConnection();
 await db.dropDatabase();
 
-let user = await userMethods.create(
-  "Chandler",
-  "Bing",
-  "Monica27",
-  "$2a$10$GaDW/VYnVtXuuUpJbMZ8AuppqiWKQ/z8n3oGlJxBe8fRVDcOgHCYm",
-  "RS27@email.com",
-  "NJ",
-  "Hoboken",
-  [],
-  [],
-  []
+let user1 = await userMethods.create(
+    "Rachel",
+    "Green",
+    "rgreen",
+    "$2a$10$SaOuj75IYJPec.A66mTBb.MEOsl61aPsU8wQyqMGx6Pny6xXGZXaG",
+    "rgreen@friends.com",
+    "NJ",
+    "Hoboken",
+    [],
+    [],
+    [],
 );
+let user2 = await userMethods.create(
+    "Chandler",
+    "Bing",
+    "cbing",
+    "$2a$10$RW68vmo3QYlsa/LqNyEfI.v.GkMw1x/8olOE6K/U39QoRhVo2V86u",
+    "cbing@friends.com",
+    "NJ",
+    "Hoboken",
+    [],
+    [],
+    [],
+);
+let user3 = await userMethods.create(
+    "Joey",
+    "Tribianni",
+    "jtrib",
+    "$2a$10$/fB3h7VjE5JLb0OQ/4Pt3.59DnDiPEvf.UXg5Ox8pjWRmW8tX/tq2",
+    "jtrib@friends.com",
+    "NJ",
+    "Hoboken",
+    [],
+    [],
+    [],
+);
+let user4 = await userMethods.create(
+    "Barney",
+    "Stinson",
+    "Bstin",
+    "$2a$10$Eu8aabfdUE60./Ta7JDTxeLPUhL9Vv.GW8dAikCEOLTW2MHsw4Gea",
+    "bstin@friends.com",
+    "NJ",
+    "Hoboken",
+    [],
+    [],
+    [],
+);
+
 let artist = await artistMethods.create(
-  user._id,
+  user2._id,
   "Hi this is Chandler",
   "http://www.youtube.com"
 );
@@ -38,13 +75,13 @@ let product = await productMethods.create(
   []
 );
 let post = await postsMethod.addPost(
-  user._id,
+  user2._id,
   "Amazing",
   "This thing is AMAZING",
   "http://www.youtube.com"
 );
 let purchase = await purchaseMethods.create(
-  user._id,
+  user2._id,
   product._id,
   1,
   100.0,
