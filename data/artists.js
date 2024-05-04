@@ -12,15 +12,15 @@ const exportedMethods = {
     bio,
     profilePic
   ) {
-    validate.checkIfProperInput(user_id)
-    validate.checkIfProperInput(bio)
-    validate.checkIfProperInput(profilePic)
+    // validate.checkIfProperInput(user_id)
+    // validate.checkIfProperInput(bio)
+    // validate.checkIfProperInput(profilePic)
 
-    validate.checkIfString(user_id)
-    validate.checkIfString(bio)
-    validate.checkIfString(profilePic)
+    // validate.checkIfString(user_id)
+    // validate.checkIfString(bio)
+    // validate.checkIfString(profilePic)
 
-    validate.checkIfValidObjectId(user_id);
+    // validate.checkIfValidObjectId(user_id);
     user_id = user_id.trim();
     if (!userMethods.get(user_id)) {
       throw `Error: Given user id does not exist`;
@@ -51,9 +51,9 @@ const exportedMethods = {
 
   async get(id) {
     //retrieves an artist if the artist exists in the database
-    validate.checkIfProperInput(id)
-    validate.checkIfString(id)
-    validate.checkIfValidObjectId(id);
+    // validate.checkIfProperInput(id)
+    // validate.checkIfString(id)
+    // validate.checkIfValidObjectId(id);
     const artistCollection = await artists();
     const artist = await artistCollection.findOne({ _id: new ObjectId(id) });
     if (!artist) {
@@ -65,8 +65,8 @@ const exportedMethods = {
 
   async getArtistProfile(userid) {
     //retrieves an artist if the artist exists in the database
-    validate.checkIfProperInput(userid)
-    validate.checkIfValidObjectId(userid);
+    // validate.checkIfProperInput(userid)
+    // validate.checkIfValidObjectId(userid);
     const artistCollection = await artists();
     const findArtist = await artistCollection.findOne({ user_id: userid });
     if (!findArtist) {

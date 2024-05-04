@@ -15,7 +15,7 @@ router
     try {
       res.render("home/register", { title: "Register" });
     } catch (error) {
-      console.log(error);
+      console.log(error);;
     }
   })
 
@@ -33,6 +33,7 @@ router
       // Securing password
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
 
+
       const {
         firstName,
         lastName,
@@ -46,15 +47,15 @@ router
       } = createUserData;
 
       // Validation
-      validate.checkIfProperInput(firstName);
-      validate.checkIfProperInput(lastName);
-      validate.checkIfProperInput(userName);
-      validate.checkIfProperInput(email);
-      validate.checkIfProperInput(state);
-      validate.checkIfProperInput(city);
-      validate.checkIfProperInput(cart);
-      validate.checkIfProperInput(purchases);
-      validate.checkIfProperInput(posts);
+      // validate.checkIfProperInput(firstName);;
+      // validate.checkIfProperInput(lastName);;
+      // validate.checkIfProperInput(userName);;
+      // validate.checkIfProperInput(email);;
+      // validate.checkIfProperInput(state);;
+      // validate.checkIfProperInput(city);;
+      // validate.checkIfProperInput(cart);;
+      // validate.checkIfProperInput(purchases);;
+      // validate.checkIfProperInput(posts);;
 
       validate.checkIfString(firstName);
       validate.checkIfString(lastName);
@@ -96,6 +97,7 @@ router
     try {
       res.render("home/login", { title: "Login" });
     } catch (error) {}
+    } catch (error) {}
   })
 
   .post(async (req, res) => {
@@ -117,12 +119,26 @@ router
       validate.checkIfPassword(req.body.password);
 
       const authorizeUser = req.body;
+      // Validation
+      // validate.checkIfProperInput(authorizeUser.userName);
+      // validate.checkIfProperInput(authorizeUser.password);
+
+      // validate.checkIfString(authorizeUser.userName);
+      // validate.checkIfString(authorizeUser.password);
+
+      // validate.checkIfUsername(authorizeUser.userName);
+      // validate.checkIfPassword(authorizeUser.password);
 
       if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
         return res
           .status(400)
           .render("error", { errorMessage: "No fields in the request body" });
       }
+
+      const usercollection = await users();
+      const fetcheduser = await usercollection.findOne({
+        userName: authorizeUser.userName.toLowerCase(),
+      });
 
       const usercollection = await users();
       const fetcheduser = await usercollection.findOne({
@@ -251,6 +267,38 @@ router.route("/user").post(async (req, res) => {
         loggedIn: true,
         user: false,
       });
+    if (req.session && req.session.user && req.session.user.role === "user") {
+      return res.render("home/userInfo", {
+        title: "MyInfo",
+        lastName: req.session.user.lastName,
+        email: req.session.user.email,
+        posts: req.session.user.posts,
+        purchases: req.session.user.purchases,
+        city: req.session.user.city,
+        cart: req.session.user.cart,
+        role: req.session.user.role,
+        userName: req.session.user.username,
+        loggedIn: true,
+        user: true,
+      });
+    } else if (
+      req.session &&
+      req.session.user &&
+      req.session.user.role === "artist"
+    ) {
+      return res.render("home/userInfo", {
+        title: "MyInfo",
+        lastName: req.session.user.lastName,
+        email: req.session.user.email,
+        posts: req.session.user.posts,
+        purchases: req.session.user.purchases,
+        city: req.session.user.city,
+        cart: req.session.user.cart,
+        role: req.session.user.role,
+        userName: req.session.user.username,
+        loggedIn: true,
+        user: false,
+      });
     }
 
     res.render("home/userInfo", {
@@ -265,6 +313,7 @@ router.route("/user").post(async (req, res) => {
       cart: req.session.user.cart,
       role: req.session.user.role,
     });
+  });
   });
 
 export default router;

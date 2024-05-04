@@ -47,11 +47,11 @@ router
     const userId = userInfo._id.toString().trim();
     const blogData = req.body;
     //validation
-    validate.checkIfProperInput(blogData.title)
-    validate.checkIfProperInput(blogData.body)
+    // validate.checkIfProperInput(blogData.title)
+    // validate.checkIfProperInput(blogData.body)
 
-    validate.checkIfString(blogData.title)
-    validate.checkIfString(blogData.body)
+    // validate.checkIfString(blogData.title)
+    // validate.checkIfString(blogData.body)
 
     const createBlog = await postsMethod.addPost(userId, userInfo.username.trim(), blogData.title.trim(), blogData.body.trim(), blogData.image.trim());
     return res.redirect('/post');
