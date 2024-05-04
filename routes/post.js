@@ -42,4 +42,18 @@ router
   }
 });
 
+router
+.route('/:postId')
+.get(async (req, res) => {
+  try{
+    console.log("hit")
+    const id = req.params.postId;
+    const getPost = await postsMethod.getPostById(id.trim());
+    return res.render('post/openPost', {getPost, title: "Post"});
+  }
+  catch(error){
+    console.log(error);
+  }
+});
+
 export default router;
