@@ -10,22 +10,17 @@ const router = express.Router();
 router.route("/getProducts").get(async (req, res) => {
   const getArtwork = await artWork.getAll();
   
-
-  return res.render("home/getProducts", {
-    title: "Products",
-    products: getArtwork,
-  });
-});
   try {
-    const getArtwork = await artWork.getAll();
-
     return res.render("home/getProducts", {
       title: "Products",
       products: getArtwork,
     });
+    
   } catch (error) {
-    console.log(error);
+    console.log(error)
+    
   }
+  
 });
 
 router.route("/addProduct").get(async (req, res) => {
