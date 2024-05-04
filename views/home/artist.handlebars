@@ -36,18 +36,18 @@
 {{#if allArtists}}
     <ul class="card-container">
         {{#each allArtists}}
-          <li class="artwork-item">
-          <div class="card">
+          <li class="card">
+            <div class="artwork-item">
               <a href="/artist/{{this._id}}">
                 <img src="{{this.profilePic}}" alt="Image of {{this.firstName}}" class="artwork-image">
                 <h2 class="artwork-name">{{this.firstName}} {{this.lastName}}</h2> 
               </a>
               <p class="artwork-description">{{this.bio}}</p> 
               <button class="buy-button">visit</button>
-           </div>
+            </div>
            </li>
         {{/each}}
-    </ul>
+    </div>
 {{else}}
     <p>No Artists available at the moment.</p>
 {{/if}}

@@ -56,6 +56,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    list-style:none;
 }
 
 .card {
@@ -243,7 +244,7 @@ button:hover {
 }
 
 .artwork-item {
-    list-style: none;
+    list-style:none;
     text-align: center;
     border: 1px solid #ddd; /* Add a border */
     border-radius: 5px; /* Add border radius */
