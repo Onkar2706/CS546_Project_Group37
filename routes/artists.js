@@ -76,6 +76,7 @@ router
 router
 .route('/addProduct')
 .post(async(req,res)=>{
+  try{
   console.log("In ADDproductsPOST")
   const productData = req.body
   const userId=req.session.user._id.trim()
