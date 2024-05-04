@@ -49,6 +49,17 @@ router
   }
 });
 
+router
+.route("/")
+.get(async (req, res) => {
+  try {
+    let allArtists = await artistMethods.getAll();
+    return res.render("home/artist", {allArtists, title: "Artists"});
+  } catch (e) {
+    res.send(404).render("error", { message: e });
+  }
+});
+
 // router.route("/register").post(async (req, res) => {
 //   const createArtistData = req.body;
 //   if (!createArtistData || Object.keys(createArtistData).length === 0) {
