@@ -25,9 +25,9 @@ const router = express.Router();
 
 router.route("/getProducts").get(async (req, res) => {
   try {
-    // let artistId = await artistMethods.getArtistProfile(req.session.user._id);
-    // let getArtwork = await artistMethods.get(artistId.trim()); 
-    let getArtwork =["663682a4b694a8de6c8b8a60", "663682a4b694a8de6c8b8a61", "663682a4b694a8de6c8b8a64"];
+    let artistId = await artistMethods.getArtistProfile(req.session.user._id);
+    let getArtwork = await artistMethods.get(artistId.trim()); 
+    // let getArtwork =["663682a4b694a8de6c8b8a60", "663682a4b694a8de6c8b8a61", "663682a4b694a8de6c8b8a64"];
     const artworkArr = [];
     for (let i=0; i<getArtwork.length; i++){
       let temp = await productMethods.get(getArtwork[i]);
