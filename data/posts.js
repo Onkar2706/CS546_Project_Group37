@@ -30,6 +30,11 @@ const exportMethods = {
   },
 
   async getPostById(id) {
+    // Validations
+    // validate.checkIfProperInput(id)
+    // validate.checkIfString(id)
+    // validate.checkIfValidObjectId(id)
+
     // id = validation.checkId(id);
     const postCollection = await posts();
     const post = await postCollection.findOne({ _id: new ObjectId(id) });
@@ -39,7 +44,7 @@ const exportMethods = {
   },
 
   async deletePost(id) {
-    validate.checkIfValidObjectId(id);
+    // validate.checkIfValidObjectId(id);
     id = id.trim();
     const postCollection = await posts();
     const removedPost = await postCollection.findOneAndDelete({

@@ -13,15 +13,23 @@
         </div>
         <ul class="nav-links">
             <li><a href="/">HOME</a></li>
+            {{#if loggedIn}}
             <li><a href="/artist/getProducts">MY PRODUCTS</a></li>
+            {{/if}}
             <li><a href="/artist">ARTISTS</a></li>
             {{!-- <li><a href="/blogs">EXHIBITIONS</a></li> --}}
             <li><a href="/products">MARKETPLACE</a></li>
             <li><a href="/post">ART BLOG</a></li>
 
             {{#if loggedIn}}
-                <li><a href="/user/getUserInfo">{{userName}}</a></li>
-                <li><a href="/logout">Logout</a></li>
+                <div class="dropdown">
+                    <button class="dropbtn">{{userName}}</button>
+                    <div class="dropdown-content">
+                        <a href="/user/getUserInfo">PROFILE</a>
+                        <a href="/logout">LOGOUT</a>
+                    </div>
+                {{!-- <li><a href="/user/getUserInfo">{{userName}}</a></li>
+                <li><a href="/logout">Logout</a></li> --}}
                 {{#if user}}
                     <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
                 {{!-- <li><a href="/logout/logout">Logout</a></li> --}}
