@@ -18,17 +18,17 @@ router
     const userNameValidator = await userMethods.getByUsername(
       createUserData.userName
     );
+    if (!createUserData || Object.keys(createUserData).length === 0) {
+      return res
+        .status(400)
+        .render("error", { message: "No fields in the request body" });
+    }
     try {
       if (req.body.userName === userNameValidator.userName)
         throw "username present";
     } catch (error) {
       console.log(error);
-    }
-
-    if (!createUserData || Object.keys(createUserData).length === 0) {
-      return res
-        .status(400)
-        .render("error", { message: "No fields in the request body" });
+      return res.status(400).render("error", { message: error });
     }
 
     try {
@@ -115,9 +115,13 @@ router
         console.log("Session", req.session.user);
         return res.redirect("/");
       }
-      return res.status(400).json({ Error: "Invalid username or password" });
+      return res
+        .status(400)
+        .render("error", { message: "Invalid username or password" });
     } catch (error) {
-      return res.status(500).json({ Error: "Internal Server Error" });
+      return res
+        .status(500)
+        .render("error", { message: "Internal Server Error" });
     }
   });
 
@@ -192,11 +196,11 @@ router.route("/user").post(async (req, res) => {
   }),
   router.route("/getProducts").get(async (req, res) => {
     const getArtwork = await artWork.getAll();
-    
+
     return res.render("home/getProducts", {
       title: "Products",
-      products: getArtwork
+      products: getArtwork,
     });
-});
+  });
 
 export default router;
