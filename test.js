@@ -4,45 +4,46 @@ import userFunc from "./data/users.js";
 import artist from "./data/artists.js";
 import productMethods from "./data/artwork.js";
 import posts from "./data/posts.js";
+import artwork from "./data/artwork.js"
 
 let oId = null;
 
-try {
+// try {
   
 
-  let usercreated = await userFunc.create(
-    "Chandler1",
-    "Bing",
-    "Monica27",
-    "MyDummyPassword",
-    "RS27@email.com",
-    "NJ",
-    "Hoboken",
-    ["Book", "Arts", "Cars"],
-    ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
-    ["Post1", "Post2", "Post3"],
-    "abc1266665b"
-  );
-  oId= usercreated.userName
+//   let usercreated = await userFunc.create(
+//     "Chandler1",
+//     "Bing",
+//     "Monica27",
+//     "MyDummyPassword",
+//     "RS27@email.com",
+//     "NJ",
+//     "Hoboken",
+//     ["Book", "Arts", "Cars"],
+//     ["Purchase1", "Purchase2", "Purchase3", "Purchase4"],
+//     ["Post1", "Post2", "Post3"],
+//     "abc1266665b"
+//   );
+//   oId= usercreated.userName
 
-  console.log(usercreated);
+//   console.log(usercreated);
 
-  oId = usercreated.userName;
-  console.log(oId);
-} catch (error) {
-  console.log(error);
-}
+//   oId = usercreated.userName;
+//   console.log(oId);
+// } catch (error) {
+//   console.log(error);
+// }
 
 
 
-try {
-  let user = await userFunc.getByUsername(oId)
-  console.log(user)
+// try {
+//   let user = await userFunc.getByUsername(oId)
+//   console.log(user)
   
-} catch (error) {
-  console.log(error)
+// } catch (error) {
+//   console.log(error)
   
-}
+// }
 
 // try {
 //   console.log(
@@ -128,7 +129,7 @@ try {
 // const hashpw = await bcrypt.hash("abc12", 10)
 
 // const check = await bcrypt.compare("abc12", hashpw )
-// console.log(check)
+// console.log(check)``
 
 // import { artistMethods } from "./data/index.js";
 
@@ -137,4 +138,15 @@ try {
 //   "Once I ruled the world",
 //   "https://images.pexels.com/photos/15867003/pexels-photo-15867003/free-photo-of-garlands-on-shivaji-maharaj-statue.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 // ))
+
+console.log(await posts.addPost("662ea79738fbd9121cf480d8", "Pizzaa", "This is new post", "https://images.pexels.com/photos/365459/pexels-photo-365459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"))
+
+// try {
+//   let user = await artwork.create("662c3b62d7035e182a7e0e35","New Product","I am a Prouct with it Description",["tag1","tag2","tag3","tag4"],203,["image1","image2","image3","image4"],3,["review1","review2"])
+//   console.log(user)
+  
+// } catch (error) {
+//   console.log(error)
+  
+// }
 

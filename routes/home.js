@@ -1,5 +1,6 @@
 import express from "express";
-import { artistMethods } from "../data/index.js";
+import  artistMethods from "../data/artists.js";
+import { productMethods } from "../data/index.js";
 
 const router = express.Router();
 router
@@ -15,7 +16,8 @@ router
         else if (req.session && req.session.user && req.session.user.role === "artist"){
           return res.render("home/home.handlebars", {artists, userName: req.session.user.username, loggedIn: true, user: false, title: "Home Page"});
         }
-        return res.render("home/home.handlebars", {artists, title: "Home Page"});
+        const products = await productMethods.getAll();
+        return res.render("home/home.handlebars", {artists, products, title: "Home Page"});
 
     }
     catch (e) {
