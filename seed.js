@@ -122,7 +122,9 @@ let product1 = await productMethods.create(
   "Iconic Starry Night Painting",
   ["Fresh", "Classic"],
   100.0,
-  ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/525px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"],
+  [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/525px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+  ],
   3.0,
   []
 );
@@ -133,7 +135,9 @@ let product2 = await productMethods.create(
   "Surreal Melting Clocks",
   ["Modern", "Surreal"],
   120.0,
-  ["https://cdn.britannica.com/10/182610-050-77811599/The-Persistence-of-Memory-canvas-collection-Salvador-1931.jpg?w=300"],
+  [
+    "https://cdn.britannica.com/10/182610-050-77811599/The-Persistence-of-Memory-canvas-collection-Salvador-1931.jpg?w=300",
+  ],
   4.5,
   []
 );
@@ -144,7 +148,9 @@ let product3 = await productMethods.create(
   "Symbolic Expressionist Painting",
   ["Expressionist", "Symbolism"],
   80.0,
-  ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/330px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg"],
+  [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/330px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
+  ],
   4.2,
   []
 );
@@ -155,7 +161,9 @@ let product4 = await productMethods.create(
   "Powerful Anti-War Statement",
   ["Cubism", "Political"],
   150.0,
-  ["https://imageio.forbes.com/specials-images/imageserve/61fdbb650178939252cba91b/Picasso-s-masterpiece--regarded-by-many-critics-as-the-most-powerful-anti-war/960x0.jpg?format=jpg&width=1440"],
+  [
+    "https://imageio.forbes.com/specials-images/imageserve/61fdbb650178939252cba91b/Picasso-s-masterpiece--regarded-by-many-critics-as-the-most-powerful-anti-war/960x0.jpg?format=jpg&width=1440",
+  ],
   4.9,
   []
 );
@@ -166,7 +174,9 @@ let product5 = await productMethods.create(
   "Enigmatic Portrait",
   ["Baroque", "Portrait"],
   90.0,
-  ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/405px-1665_Girl_with_a_Pearl_Earring.jpg"],
+  [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/405px-1665_Girl_with_a_Pearl_Earring.jpg",
+  ],
   4.6,
   []
 );
@@ -177,7 +187,9 @@ let product6 = await productMethods.create(
   "Whimsical Night Sky",
   ["Post-Impressionist", "Landscape"],
   110.0,
-  ["https://img.stablecog.com/insecure/1024w/aHR0cHM6Ly9iLnN0YWJsZWNvZy5jb20vYjM0YzA5YjYtNGU3Zi00ZmVmLThiM2UtN2E2NjgyNGNjOGQwLmpwZWc.webp"],
+  [
+    "https://img.stablecog.com/insecure/1024w/aHR0cHM6Ly9iLnN0YWJsZWNvZy5jb20vYjM0YzA5YjYtNGU3Zi00ZmVmLThiM2UtN2E2NjgyNGNjOGQwLmpwZWc.webp",
+  ],
   4.8,
   []
 );
@@ -188,7 +200,9 @@ let product7 = await productMethods.create(
   "Classical Mythological Allegory",
   ["Renaissance", "Allegorical"],
   130.0,
-  ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/600px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg"],
+  [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/600px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
+  ],
   4.7,
   []
 );
@@ -210,7 +224,11 @@ let product9 = await productMethods.create(
    first shown in The Goat is now available in paperback and audiobook. The version was written by Barney Stinson with Matt Kuhn.",
   ["Bro", "Code", "Barney", "HIMYM"],
   225.0,
-  ["https://static.wikia.nocookie.net/himym/images/1/19/Brocode_cover.jpg", "https://static.wikia.nocookie.net/himym/images/2/2c/Barney.jpg", "https://medias.spotern.com/spots/w640/10/10567-1532336916.webp"],
+  [
+    "https://static.wikia.nocookie.net/himym/images/1/19/Brocode_cover.jpg",
+    "https://static.wikia.nocookie.net/himym/images/2/2c/Barney.jpg",
+    "https://medias.spotern.com/spots/w640/10/10567-1532336916.webp",
+  ],
   4.4,
   []
 );
@@ -219,7 +237,7 @@ let post = await postsMethod.addPost(
   user2._id,
   "Amazing",
   "This thing is AMAZING",
-  "http://www.youtube.com"
+  "https://static.wikia.nocookie.net/himym/images/1/19/Brocode_cover.jpg"
 );
 let purchase = await purchaseMethods.create(
   user2._id,

@@ -1,65 +1,20 @@
-
-<header>
-        <nav>
-            <div class="logo">
-                <h1>ArtisanHub</h1> 
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">HOME</a></li>
-                <li><a href="/products">PRODUCTS</a></li>
-                <li><a href="/artists">ARTISTS</a></li>
-                {{!-- <li><a href="/user/register">Register</a></li> --}}
-                {{!-- <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
-                <li><a href = "/artistreg">BECOME AN ARTIST</a></li> --}}
-
-                {{#if loggedIn}}
-                <li><a href="/home/user">{{userName}}</a></li>
-                <li><a href="/artistreg">SIGNUP AS ARTIST</a></li>
-                {{else}}
-                <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
-                {{/if}}
-
-            </ul>
-        </nav>
-    </header>
-    
-{{!-- {{#if items}}
-    <ul class="artwork-list">
-        {{#each items}}
-            <li class="artwork-item">
-              <a href="/product/{{this._id}}">
-                <img src="{{this.images.[0]}}" alt="{{this.name}}" class="artwork-image">
-                <h2 class="artwork-name">{{this.name}}</h2> 
-                <p class="artwork-description">{{this.description}}</p> 
-                <p class="artwork-price">Price: ${{this.price}}</p> 
-                <p class="artwork-artist">Artist: {{this.artist}}</p> 
-                <button class="buy-button">Buy</button>
-              </a>
-            </li>
-        {{/each}}
-    </ul>
-{{else}}
-    <p>No items available at the moment.</p>
-{{/if}} --}}
-
-
 {{#if items}}
-    <div class="card-container">
+    <ul class="card-container">
         {{#each items}}
-          <div class="card">
-            <li class="artwork-item">
+          <li class="card">
+            <div class="artwork-item">
               <a href="/products/{{this._id}}">
-                <img src="{{this.images.[0]}}" alt="{{this.name}}" class="artwork-image">
-                <h2 class="artwork-name">{{this.name}}</h2> 
+                <img src="{{this.images.[0]}}" alt="{{this.productName}}" class="artwork-image">
+                <h2 class="artwork-name">{{this.productName}}</h2> 
               </a>
               <p class="artwork-description">{{this.description}}</p> 
               <p class="artwork-price">Price: ${{this.price}}</p> 
               <p class="artwork-artist">Artist: {{firstName}}</p> 
               <button class="buy-button">Buy</button>
-            </li>
-           </div>
+            </div>
+           </li>
         {{/each}}
-    </div>
+    </ul>
 {{else}}
     <p>No items available at the moment.</p>
 {{/if}}
