@@ -1,63 +1,70 @@
 import express from "express";
 import { ObjectId } from "mongodb";
-import {productMethods}  from "../data/index.js"; 
-import {artistMethods}  from "../data/index.js";
+import { productMethods } from "../data/index.js";
+import { artistMethods } from "../data/index.js";
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
 
 const router = express.Router();
 
-
 router.route("/getProducts").get(async (req, res) => {
-  const getArtwork = await artWork.getAll();
+  const userId = req.session.user._id;
+  const fetchArtistID = await artistMethods.getArtistProfile(userId);
+  const getArtwork = await artWork.get(fetchArtistID._id);
 
   return res.render("home/getProducts", {
     title: "Products",
-    products: getArtwork,
+    products: getArtwork.portfolio,
   });
 });
 
-router
-.route('/addProduct')
-.get(async(req,res)=>{
-  return res.render("home/addProduct")
+router.route("/addProduct").get(async (req, res) => {
+  return res.render("home/addProduct");
+});
 
-})
+router.route("/addProduct").post(async (req, res) => {
+  console.log("In ADDproductsPOST");
+  const productData = req.body;
+  // console.log(productData);
+  const tagsArray = productData.tags.split(",");
+  const imagesArray = productData.images.split(",");
+  const userId = req.session.user._id;
+  const fetchArtistID = await artistMethods.getArtistProfile(userId);
+  // console.log(fetchArtistID);
 
-
-router
-.route('/addProduct')
-.post(async(req,res)=>{
-  console.log("In ADDproductsPOST")
-  const productData = req.body
-  const userId=req.session.user._id.trim()
-  const fetchArtistID =  await artistMethods.getArtistProfile(userId)
-  console.log(fetchArtistID)
-
-  const addProduct = await productMethods.create(fetchArtistID,productData.productName,productData.productDescription,productData.productTags,productData.price,productData.images)
+  const addProduct = await productMethods.create(
+    fetchArtistID._id,
+    productData.productName,
+    productData.productDescription,
+    tagsArray,
+    productData.price,
+    imagesArray
+  );
 
   
-  return res.redirect("/artist/getProducts")
-
+  // fetchArtistID.portfolio.push(addProduct._id);
+  const result = await artistMethods.updateProductInArtist(fetchArtistID._id,addProduct._id)
   
-  
+  // fetchArtistID.
+  // console.log(artworkId);
+  // const enterArtidintoArtist = await artistMethods.updateArtist()
 
-})
+  return res.redirect("/artist/getProducts");
+});
 
 router
-  .route('/artistreg')
+  .route("/artistreg")
   .get(async (req, res) => {
-    try{
-      return res.render("home/artistreg", {title: "Artist Registration"})
-    }
-    catch(e){
+    try {
+      return res.render("home/artistreg", { title: "Artist Registration" });
+    } catch (e) {
       res.json(e);
     }
   })
   .post(async (req, res) => {
-    try{
+    try {
       const artistData = req.body;
-      console.log(artistData);
+      // console.log(artistData);
       if (!artistData) {
         return res.status(400).json({ Error: "No fields in the request body" });
       }
@@ -67,34 +74,30 @@ router
       validate.checkIfString(artistData.profilePic);
 
       const newArtist = await artistMethods.create(
-        req.session.user._id, artistData.bio, artistData.profilePicture)
-      res.redirect('/user/login');
+        req.session.user._id,
+        artistData.bio,
+        artistData.profilePicture
+      );
+      res.redirect("/user/login");
+    } catch (e) {
+      res.json("Error: Couldn't create artist");
     }
-    catch(e){
-      res.json("Error: Couldn't create artist")
-    }
-  })
+  });
 
-router
-.route('/:artistId')
-.get(async (req, res) => {
-  try{
+router.route("/:artistId").get(async (req, res) => {
+  try {
     const id = req.params.artistId;
     const artistInfo = await artistMethods.get(id.trim());
-    return res.render("home/artistclick", {artistInfo, title:"Artist Info"})
-  }
-  catch(error){
+    return res.render("home/artistclick", { artistInfo, title: "Artist Info" });
+  } catch (error) {
     res.json(error);
   }
 });
 
-
-router
-.route("/")
-.get(async (req, res) => {
+router.route("/").get(async (req, res) => {
   try {
     let allArtists = await artistMethods.getAll();
-    return res.render("home/artist", {allArtists, title: "Artists"});
+    return res.render("home/artist", { allArtists, title: "Artists" });
   } catch (e) {
     res.send(404).render("error", { message: e });
   }
