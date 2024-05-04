@@ -73,7 +73,7 @@ const exportedMethods = {
       throw `couldn't find artist with given id`;
     }
     findArtist._id = findArtist._id.toString();
-    return findArtist._id;
+    return findArtist;
   },
   async getAll() {
     //retrieves all artists in the artists collection
@@ -90,57 +90,15 @@ const exportedMethods = {
     });
     return artistList;
   },
-  async updateArtist(artist_id, user_id, bio, profilePic, portfolio) {
-    if (
-      !artist_id ||
-      !user_id ||
-      !bio ||
-      !profilePic ||
-      !portfolio
-      // !ratings
-    ) {
-      throw `please provide proper input`;
-    }
-    if (
-      !validate.checkIfValidObjectId(artist_id) ||
-      !validate.checkIfValidObjectId(user_id)
-    ) {
-      throw `provided id(s) is not a valid id`;
-    }
-    if (
-      !validate.checkIfString(bio) ||
-      !validate.checkIfValidArray(portfolio) ||
-      !validate.checkIfValidURL(profilePic)
-    ) {
-      throw `please provide valid input`;
-    }
-    let artistCollection = await artists();
-    
-    let artworkList = [];
-    portfolio.forEach(async (element) => {
-      let artwork = await productMethods.get(element);
-      artworkList.push(artwork);
-    });
-    let rating = validate.calculateAverageRating(artworkList);
-    let updatedArtist = artistCollection.findOneAndUpdate(
-      { _id: new ObjectId(artist_id) },
-      {
-        $set: {
-          user_id: user_id.trim(),
-          bio: bio.trim(),
-          profilePic: profilePic.trim(),
-          portfolio: portfolio.map((element) => {
-            element.trim();
-          }),
-          ratings: rating,
-        },
-      },
-      { returnDocument: "after" }
-    );
-    if (!updatedArtist) {
-      throw `could not update artist`;
-    }
-    return updatedArtist;
+  async updateProductInArtist( artistId, portfolio) {
+    const filter = {_id: new ObjectId(artistId)};
+    const updateProduct = {
+      $push:{portfolio}
+    };
+
+    const artistCollection = await artists();
+    const addprod = await artistCollection.updateOne(filter, updateProduct);
+    return addprod
   },
 
 };

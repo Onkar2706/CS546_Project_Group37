@@ -28,8 +28,8 @@ router
       if (!createUserData || Object.keys(createUserData).length === 0) {
         throw "Error: No fields in the request body";
       }
-      // if (req.body.userName === userNameValidator.userName)
-      //   throw "username present";
+      if (req.body.userName === userNameValidator.userName)
+        throw "username present";
       // Securing password
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
 
@@ -46,30 +46,30 @@ router
       } = createUserData;
 
       // Validation
-      // validate.checkIfProperInput(firstName);
-      // validate.checkIfProperInput(lastName);
-      // validate.checkIfProperInput(userName);
-      // validate.checkIfProperInput(email);
-      // validate.checkIfProperInput(state);
-      // validate.checkIfProperInput(city);
-      // validate.checkIfProperInput(cart);
-      // validate.checkIfProperInput(purchases);
-      // validate.checkIfProperInput(posts);
+      // validate.checkIfProperInput(firstName);;
+      // validate.checkIfProperInput(lastName);;
+      // validate.checkIfProperInput(userName);;
+      // validate.checkIfProperInput(email);;
+      // validate.checkIfProperInput(state);;
+      // validate.checkIfProperInput(city);;
+      // validate.checkIfProperInput(cart);;
+      // validate.checkIfProperInput(purchases);;
+      // validate.checkIfProperInput(posts);;
 
-      // validate.checkIfString(firstName);
-      // validate.checkIfString(lastName);
-      // validate.checkIfString(userName);
-      // validate.checkIfString(email);
-      // validate.checkIfString(state);
-      // validate.checkIfString(city);
-      // validate.checkIfString(cart);
-      // validate.checkIfString(purchases);
-      // validate.checkIfString(posts);
+      validate.checkIfString(firstName);
+      validate.checkIfString(lastName);
+      validate.checkIfString(userName);
+      validate.checkIfString(email);
+      validate.checkIfString(state);
+      validate.checkIfString(city);
+      validate.checkIfString(cart);
+      validate.checkIfString(purchases);
+      validate.checkIfString(posts);
 
-      // validate.checkIfUsername(userName);
-      // validate.checkIfName(firstName);
-      // validate.checkIfName(lastName);
-      // validate.validateState(state);
+      validate.checkIfUsername(userName);
+      validate.checkIfName(firstName);
+      validate.checkIfName(lastName);
+      validate.validateState(state);
 
       const newUser = await userMethods.create(
         firstName,
@@ -100,6 +100,22 @@ router
 
   .post(async (req, res) => {
     try {
+      // Validation
+      // validate.checkIfProperInput(_id);
+      // validate.checkIfProperInput(firstName);
+      // validate.checkIfProperInput(lastName);
+      // validate.checkIfProperInput(userName);
+      // validate.checkIfProperInput(email);
+      // validate.checkIfProperInput(city);
+      // console.log(req.body);
+      validate.checkIfString(req.body.userName);
+      validate.checkIfString(req.body.password);
+
+      // validate.checkIfName(firstName);
+      // validate.checkIfName(lastName);
+      validate.checkIfUsername(req.body.userName);
+      validate.checkIfPassword(req.body.password);
+
       const authorizeUser = req.body;
       // Validation
       // validate.checkIfProperInput(authorizeUser.userName);
@@ -114,14 +130,13 @@ router
       if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
         return res
           .status(400)
-          .render("error", { message: "No fields in the request body" });
+          .render("error", { errorMessage: "No fields in the request body" });
       }
 
       const usercollection = await users();
       const fetcheduser = await usercollection.findOne({
         userName: authorizeUser.userName.toLowerCase(),
       });
-
       // console.log(fetcheduser);
       if (!fetcheduser) throw "Error: User Not Found";
       const match = await bcrypt.compare(
@@ -147,11 +162,12 @@ router
       }
       return res
         .status(400)
-        .render("error", { message: "Invalid username or password" });
+        .render("error", { errorMessage: "Invalid username or password" });
     } catch (error) {
+      console.log(error);
       return res
         .status(500)
-        .render("error", { message: "Internal Server Error" });
+        .render("error", { errorMessage: "Internal Server Error" });
     }
   });
 
@@ -244,19 +260,6 @@ router.route("/user").post(async (req, res) => {
         user: false,
       });
     }
-
-    res.render("home/userInfo", {
-      title: "MyInfo",
-      username: req.session.user.username,
-      firstName: req.session.user.firstName,
-      lastName: req.session.user.lastName,
-      email: req.session.user.email,
-      posts: req.session.user.posts,
-      purchases: req.session.user.purchases,
-      city: req.session.user.city,
-      cart: req.session.user.cart,
-      role: req.session.user.role,
-    });
   });
 
 export default router;

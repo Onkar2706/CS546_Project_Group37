@@ -2,6 +2,8 @@ import express from "express";
 import { ObjectId } from "mongodb";
 import { productMethods } from "../data/index.js";
 import { artistMethods } from "../data/index.js";
+// import { productMethods } from "../data/index.js";
+// import { artistMethods } from "../data/index.js";
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
 
@@ -76,25 +78,46 @@ router
 router
 .route('/addProduct')
 .post(async(req,res)=>{
-  try{
-  console.log("In ADDproductsPOST")
-  const productData = req.body
-  const userId=req.session.user._id.trim()
-  const fetchArtistID =  await artistMethods.getArtistProfile(userId)
-  console.log(fetchArtistID)
+  // console.log("In ADDproductsPOST")
+  // const productData = req.body
+  // const userId=req.session.user._id.trim()
+  // const fetchArtistID =  await artistMethods.getArtistProfile(userId)
+  // console.log(fetchArtistID)
+  
+});
+router.route("/addProduct").post(async (req, res) => {
+  console.log("In ADDproductsPOST");
+  const productData = req.body;
+  // console.log(productData);
+  const tagsArray = productData.tags.split(",");
+  const imagesArray = productData.images.split(",");
+  const userId = req.session.user._id;
+  const fetchArtistID = await artistMethods.getArtistProfile(userId);
+  // console.log(fetchArtistID);
 
-  const addProduct = await productMethods.create(fetchArtistID,productData.productName,productData.productDescription,productData.productTags,productData.price,productData.images)
+  const addProduct = await productMethods.create(
+    fetchArtistID._id,
+    productData.productName,
+    productData.productDescription,
+    tagsArray,
+    productData.price,
+    imagesArray);
 
-    return res.redirect("/artist/getProducts");
-  } catch (error) {
-    console.log(error);
-  }
-}
-);
+  
+  // fetchArtistID.portfolio.push(addProduct._id);
+  const result = await artistMethods.updateProductInArtist(fetchArtistID._id,addProduct._id)
+  
+  // fetchArtistID.
+  // console.log(artworkId);
+  // const enterArtidintoArtist = await artistMethods.updateArtist()
+
+  return res.redirect("/artist/getProducts")
+});
 
 router
   .route("/artistreg")
   .get(async (req, res) => {
+    
     try {
       return res.render("home/artistreg", { title: "Artist Registration" });
     } catch (e) {
@@ -102,8 +125,10 @@ router
     }
   })
   .post(async (req, res) => {
+    
     try {
       const artistData = req.body;
+      // console.log(artistData);
       // validate.checkIfProperInput(user_id);
       // validate.checkIfProperInput(bio);
       // validate.checkIfProperInput(profilePic);
@@ -128,7 +153,9 @@ router
         artistData.profilePicture
       );
       res.redirect("/user/login");
-    } catch (e) {
+    } 
+     
+     catch (e) {
       res.json("Error: Couldn't create artist");
     }
   });
@@ -151,9 +178,13 @@ router.route("/:artistId").get(async (req, res) => {
   }
 });
 
-router.route("/").get(async (req, res) => {
+
+router
+.route("/")
+.get(async (req, res) => {
   try {
     let allArtists = await artistMethods.getAll();
+    
     if (req.session && req.session.user && req.session.user.role === "user"){
       return res.render("home/artist", {allArtists, title: "Artists", userName: req.session.user.username, loggedIn: true, user: true});
     }
@@ -165,6 +196,48 @@ router.route("/").get(async (req, res) => {
   } catch (e) {
     res.send(404).render("error", { message: e });
   }
-});
+  
+  })
 
-export default router;
+
+  
+
+export default router
+
+
+
+
+// console.log("In ADDproductsPOST")
+//   const productData = req.body
+//   const userId=req.session.user._id.trim()
+//   const fetchArtistID =  await artistMethods.getArtistProfile(userId)
+//   console.log(fetchArtistID)
+
+
+// router.route("/addProduct").post(async (req, res) => {
+//   console.log("In ADDproductsPOST");
+//   const productData = req.body;
+//   // console.log(productData);
+//   const tagsArray = productData.tags.split(",");
+//   const imagesArray = productData.images.split(",");
+//   const userId = req.session.user._id;
+//   const fetchArtistID = await artistMethods.getArtistProfile(userId);
+//   // console.log(fetchArtistID);
+
+//   const addProduct = await productMethods.create(
+//     fetchArtistID._id,
+//     productData.productName,
+//     productData.productDescription,
+//     tagsArray,
+//     productData.price,
+//     imagesArray);
+
+  
+//   // fetchArtistID.portfolio.push(addProduct._id);
+//   const result = await artistMethods.updateProductInArtist(fetchArtistID._id,addProduct._id)
+  
+//   // fetchArtistID.
+//   // console.log(artworkId);
+//   // const enterArtidintoArtist = await artistMethods.updateArtist()
+
+//   return res.redirect("/artist/getProducts") ;
