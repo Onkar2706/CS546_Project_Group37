@@ -30,6 +30,11 @@ const exportMethods = {
   },
 
   async getPostById(id) {
+    // Validations
+    validate.checkIfProperInput(id)
+    validate.checkIfString(id)
+    validate.checkIfValidObjectId(id)
+
     // id = validation.checkId(id);
     const postCollection = await posts();
     const post = await postCollection.findOne({ _id: new ObjectId(id) });

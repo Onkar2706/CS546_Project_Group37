@@ -12,9 +12,15 @@ const exportedMethods = {
     bio,
     profilePic
   ) {
+    validate.checkIfProperInput(user_id)
+    validate.checkIfProperInput(bio)
+    validate.checkIfProperInput(profilePic)
+
+    validate.checkIfString(user_id)
+    validate.checkIfString(bio)
+    validate.checkIfString(profilePic)
+
     validate.checkIfValidObjectId(user_id);
-    validate.checkIfString(bio);
-    // validate.checkIfValidURL(profilePic);
     user_id = user_id.trim();
     if (!userMethods.get(user_id)) {
       throw `Error: Given user id does not exist`;
@@ -45,6 +51,8 @@ const exportedMethods = {
 
   async get(id) {
     //retrieves an artist if the artist exists in the database
+    validate.checkIfProperInput(id)
+    validate.checkIfString(id)
     validate.checkIfValidObjectId(id);
     const artistCollection = await artists();
     const artist = await artistCollection.findOne({ _id: new ObjectId(id) });
@@ -57,6 +65,7 @@ const exportedMethods = {
 
   async getArtistProfile(userid) {
     //retrieves an artist if the artist exists in the database
+    validate.checkIfProperInput(userid)
     validate.checkIfValidObjectId(userid);
     const artistCollection = await artists();
     const findArtist = await artistCollection.findOne({ user_id: userid });
@@ -106,11 +115,7 @@ const exportedMethods = {
       throw `please provide valid input`;
     }
     let artistCollection = await artists();
-    // let artworkCollection = await artwork();
-    // let artworkList = await artworkCollection.find({}).toArray();
-    // let rating = validate.calculateAverageRating(
-    //   artworkList.filter((element) => element.artistId == artist_id)
-    // );
+    
     let artworkList = [];
     portfolio.forEach(async (element) => {
       let artwork = await productMethods.get(element);
@@ -138,6 +143,5 @@ const exportedMethods = {
     return updatedArtist;
   },
 
-  async addArtist(firstName, lastName, userName, profilePic) {},
 };
 export default exportedMethods;
