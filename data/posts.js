@@ -9,20 +9,16 @@ const exportMethods = {
     return await postCollection.find({}).toArray();
   },
 
-  async addPost(userId, title, body, image) {
-    // title = pkg.isAlpha(title, "title");
-    // body = pkg.isAlpha(body, "body");
-    // posterId = pkg.i(posterId);
+  async addPost(userId, userName, title, body, image) {
+    
     userId = userId.trim();
-    // content = content.,
-
-    // const userThatPosted = await users.get(userId)
 
     let newPost = {
       userId: userId,
-      title: title,
-      body: body,
-      image: image,
+      userName: userName.trim(),
+      title: title.trim(),
+      body: body.trim(),
+      image: image.trim(),
       comment: [],
       time: validate.getTodayDate(),
     };
