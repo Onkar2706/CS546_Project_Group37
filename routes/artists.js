@@ -8,6 +8,14 @@ import artWork from "../data/artwork.js";
 const router = express.Router();
 
 router.route("/getProducts").get(async (req, res) => {
+  const getArtwork = await artWork.getAll();
+  
+
+  return res.render("home/getProducts", {
+    title: "Products",
+    products: getArtwork,
+  });
+});
   try {
     const getArtwork = await artWork.getAll();
 
@@ -119,7 +127,7 @@ router.route("/:artistId").get(async (req, res) => {
 router.route("/").get(async (req, res) => {
   try {
     let allArtists = await artistMethods.getAll();
-    return res.render("home/artist", { allArtists, title: "Artists" });
+    return res.render("home/artist", {allArtists, title: "Artists"});
   } catch (e) {
     res.send(404).render("error", { message: e });
   }

@@ -1,13 +1,29 @@
-<h1>Art Blog</h1>
+{{!-- <h1>Art Blog</h1>
     <a href="/post/addBlog" class="add-blog-button">Add Blog</a>
-    <div id="posts" class="card">
+    <div id="posts">
             {{#each allPosts}}
             <div class="post">
+                <a href = "/post/{{this._id}}">
                 <h2>{{this.title}}</h2>
                 <img src="{{this.image}}" alt="Image here">
                 <p>{{this.body}}</p>
                 <p><strong>Author:</strong> {{this.userName}} </p>
                 <p><strong>Date:</strong> {{this.time}}</p>
+                </a>
             </div>
             {{/each}}
+    </div> --}}
+
+<h1>Art Blog</h1>
+<a href="/post/addBlog" class="add-blog-button">Add Blog</a>
+<div id="posts" class="card-container">
+    {{#each allPosts}}
+    <div class="card post">
+        <h2>{{this.title}}</h2>
+        <img src="{{this.image}}" alt="Image here">
+        <p>{{this.body}}</p>
+        <p><strong>Author:</strong> {{this.userName}} </p>
+        <p><strong>Date:</strong> {{this.time}}</p>
     </div>
+    {{/each}}
+</div>
