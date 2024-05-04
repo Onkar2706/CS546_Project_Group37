@@ -312,6 +312,15 @@ button:hover {
     margin-right: 10px;
 }
 
+.product-details img {
+    width: 400px; 
+    height: 400px; 
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+
 /* Artistclick handlebar*/
 .artist-details {
     max-width: 800px; /* Adjust according to your design */
@@ -323,9 +332,9 @@ button:hover {
 }
 
 .artist-profile img {
-    width: 200px; /* Adjust according to your design */
+    width: 500px; /* Adjust according to your design */
     height: auto; /* Maintain aspect ratio */
-    border-radius: 50%; /* Make the profile picture round */
+    border-radius: 5%; /* Make the profile picture round */
     margin-right: 20px;
     float: left;
 }

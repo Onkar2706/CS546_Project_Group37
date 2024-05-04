@@ -102,8 +102,8 @@ let artist3 = await artistMethods.create(
 );
 let artist4 = await artistMethods.create(
   user4._id,
-  "Hi this is Barney",
-  "https://pop-culturalist.com/wp-content/uploads/2017/02/BarneyStinson.jpg"
+  `"Legen—wait for it—dary! Gather 'round, my fine comrades of the night, for tonight, we embark on an adventure so epic, even Zeus would give it a thumbs-up. Picture this: a night filled with more twists and turns than a rollercoaster designed by Salvador Dalí, more laughter than a stand-up comedy show featuring a herd of laughing hyenas, and more legendary moments than... well, than anything else legendary! So, suit up, my friends, because tonight, we're not just making memories, we're crafting legends!"`,
+  "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/310613953_664827498341332_8131777393604310854_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=mqfHmrFEJFQQ7kNvgE4shma&_nc_ht=scontent-lga3-2.xx&oh=00_AfCvvVT8PxnG4Qdy4QvT6jJ6FX8EUnJLzb3ehH9Ax-4k8A&oe=663B7FF5"
 );
 let artist5 = await artistMethods.create(
   user5._id,
@@ -200,6 +200,17 @@ let product8 = await productMethods.create(
   ["Impressionist", "Landscape"],
   95.0,
   ["https://www.phaidon.com/resource/monetgardenlead.jpg"],
+  4.4,
+  []
+);
+let product9 = await productMethods.create(
+  artist4._id,
+  "The Bro Code",
+  "The Bro Code is a set of rules, seemingly started by Barney. A published version of the book,\
+   first shown in The Goat is now available in paperback and audiobook. The version was written by Barney Stinson with Matt Kuhn.",
+  ["Bro", "Code", "Barney", "HIMYM"],
+  225.0,
+  ["https://static.wikia.nocookie.net/himym/images/1/19/Brocode_cover.jpg", "https://static.wikia.nocookie.net/himym/images/2/2c/Barney.jpg", "https://medias.spotern.com/spots/w640/10/10567-1532336916.webp"],
   4.4,
   []
 );
