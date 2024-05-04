@@ -15,27 +15,24 @@ router
     try {
       res.render("home/register", { title: "Register" });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    
   })
 
   .post(async (req, res) => {
-    try{
-
-    const createUserData = req.body;
-    const userNameValidator = await userMethods.getByUsername(
-      createUserData.userName
-    );
-    if (!createUserData || Object.keys(createUserData).length === 0) {
-      throw "Error: No fields in the request body"
-    }
-    if (req.body.userName === userNameValidator.userName)
-      throw "username present";
+    try {
+      const createUserData = req.body;
+      const userNameValidator = await userMethods.getByUsername(
+        createUserData.userName
+      );
+      if (!createUserData || Object.keys(createUserData).length === 0) {
+        throw "Error: No fields in the request body";
+      }
+      // if (req.body.userName === userNameValidator.userName)
+      //   throw "username present";
       // Securing password
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
 
-      
       const {
         firstName,
         lastName,
@@ -48,32 +45,31 @@ router
         posts,
       } = createUserData;
 
-
       // Validation
-      validate.checkIfProperInput(firstName)
-      validate.checkIfProperInput(lastName)
-      validate.checkIfProperInput(userName)
-      validate.checkIfProperInput(email)
-      validate.checkIfProperInput(state)
-      validate.checkIfProperInput(city)
-      validate.checkIfProperInput(cart)
-      validate.checkIfProperInput(purchases)
-      validate.checkIfProperInput(posts)
+      // validate.checkIfProperInput(firstName);
+      // validate.checkIfProperInput(lastName);
+      // validate.checkIfProperInput(userName);
+      // validate.checkIfProperInput(email);
+      // validate.checkIfProperInput(state);
+      // validate.checkIfProperInput(city);
+      // validate.checkIfProperInput(cart);
+      // validate.checkIfProperInput(purchases);
+      // validate.checkIfProperInput(posts);
 
-      validate.checkIfString(firstName)
-      validate.checkIfString(lastName)
-      validate.checkIfString(userName)
-      validate.checkIfString(email)
-      validate.checkIfString(state)
-      validate.checkIfString(city)
-      validate.checkIfString(cart)
-      validate.checkIfString(purchases)
-      validate.checkIfString(posts)
+      // validate.checkIfString(firstName);
+      // validate.checkIfString(lastName);
+      // validate.checkIfString(userName);
+      // validate.checkIfString(email);
+      // validate.checkIfString(state);
+      // validate.checkIfString(city);
+      // validate.checkIfString(cart);
+      // validate.checkIfString(purchases);
+      // validate.checkIfString(posts);
 
-      validate.checkIfUsername(userName)
-      validate.checkIfName(firstName)
-      validate.checkIfName(lastName)
-      validate.validateState(state)
+      // validate.checkIfUsername(userName);
+      // validate.checkIfName(firstName);
+      // validate.checkIfName(lastName);
+      // validate.validateState(state);
 
       const newUser = await userMethods.create(
         firstName,
@@ -99,72 +95,59 @@ router
   .get(async (req, res) => {
     try {
       res.render("home/login", { title: "Login" });
-    } catch (error) {
-    }
-    
+    } catch (error) {}
   })
 
   .post(async (req, res) => {
-    try{
-      // Validation
-      validate.checkIfProperInput(_id)
-      validate.checkIfProperInput(firstName)
-      validate.checkIfProperInput(lastName)
-      validate.checkIfProperInput(userName)
-      validate.checkIfProperInput(email)
-      validate.checkIfProperInput(city)
-
-      validate.checkIfString(_id)
-      validate.checkIfString(firstName)
-      validate.checkIfString(lastName)
-      validate.checkIfString(username)
-      validate.checkIfString(email)
-      validate.checkIfString(city)
-
-
-      validate.checkIfName(firstName)
-      validate.checkIfName(lastName)
-      validate.checkIfUsername(userName)
-
+    try {
       const authorizeUser = req.body;
+      // Validation
+      // validate.checkIfProperInput(authorizeUser.userName);
+      // validate.checkIfProperInput(authorizeUser.password);
+
+      // validate.checkIfString(authorizeUser.userName);
+      // validate.checkIfString(authorizeUser.password);
+
+      // validate.checkIfUsername(authorizeUser.userName);
+      // validate.checkIfPassword(authorizeUser.password);
 
       if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
         return res
           .status(400)
           .render("error", { message: "No fields in the request body" });
       }
-      
-        const usercollection = await users();
-        const fetcheduser = await usercollection.findOne({
-          userName: authorizeUser.userName.toLowerCase(),
-        });
 
-        // console.log(fetcheduser);
-        if (!fetcheduser) throw "Error: User Not Found";
-        const match = await bcrypt.compare(
-          authorizeUser.password,
-          fetcheduser.password
-        );
-        if (match) {
-          // Store user information in session
-          req.session.user = {
-            _id: fetcheduser._id,
-            firstName: fetcheduser.firstName,
-            lastName: fetcheduser.lastName,
-            username: fetcheduser.userName,
-            posts: fetcheduser.posts,
-            purchases: fetcheduser.purchases,
-            email: fetcheduser.email,
-            city: fetcheduser.city,
-            cart: fetcheduser.cart,
-            role: fetcheduser.role,
-          };
-          console.log("Session", req.session.user);
-          return res.redirect("/");
-        }
-        return res
-          .status(400)
-          .render("error", { message: "Invalid username or password" });
+      const usercollection = await users();
+      const fetcheduser = await usercollection.findOne({
+        userName: authorizeUser.userName.toLowerCase(),
+      });
+
+      // console.log(fetcheduser);
+      if (!fetcheduser) throw "Error: User Not Found";
+      const match = await bcrypt.compare(
+        authorizeUser.password,
+        fetcheduser.password
+      );
+      if (match) {
+        // Store user information in session
+        req.session.user = {
+          _id: fetcheduser._id,
+          firstName: fetcheduser.firstName,
+          lastName: fetcheduser.lastName,
+          username: fetcheduser.userName,
+          posts: fetcheduser.posts,
+          purchases: fetcheduser.purchases,
+          email: fetcheduser.email,
+          city: fetcheduser.city,
+          cart: fetcheduser.cart,
+          role: fetcheduser.role,
+        };
+        console.log("Session", req.session.user);
+        return res.redirect("/");
+      }
+      return res
+        .status(400)
+        .render("error", { message: "Invalid username or password" });
     } catch (error) {
       return res
         .status(500)
@@ -228,27 +211,38 @@ router.route("/user").post(async (req, res) => {
   router.route("/getUserInfo").get(async (req, res) => {
     // console.log(req.session.user)
 
-    if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("home/userInfo", {title: "MyInfo",      
-      lastName: req.session.user.lastName,
-      email: req.session.user.email,
-      posts: req.session.user.posts,
-      purchases: req.session.user.purchases,
-      city: req.session.user.city,
-      cart: req.session.user.cart,
-      role: req.session.user.role,
-      userName: req.session.user.username, loggedIn: true, user: true});
-    }
-    else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("home/userInfo", {title: "MyInfo",      
-      lastName: req.session.user.lastName,
-      email: req.session.user.email,
-      posts: req.session.user.posts,
-      purchases: req.session.user.purchases,
-      city: req.session.user.city,
-      cart: req.session.user.cart,
-      role: req.session.user.role,
-      userName: req.session.user.username, loggedIn: true, user: false});
+    if (req.session && req.session.user && req.session.user.role === "user") {
+      return res.render("home/userInfo", {
+        title: "MyInfo",
+        lastName: req.session.user.lastName,
+        email: req.session.user.email,
+        posts: req.session.user.posts,
+        purchases: req.session.user.purchases,
+        city: req.session.user.city,
+        cart: req.session.user.cart,
+        role: req.session.user.role,
+        userName: req.session.user.username,
+        loggedIn: true,
+        user: true,
+      });
+    } else if (
+      req.session &&
+      req.session.user &&
+      req.session.user.role === "artist"
+    ) {
+      return res.render("home/userInfo", {
+        title: "MyInfo",
+        lastName: req.session.user.lastName,
+        email: req.session.user.email,
+        posts: req.session.user.posts,
+        purchases: req.session.user.purchases,
+        city: req.session.user.city,
+        cart: req.session.user.cart,
+        role: req.session.user.role,
+        userName: req.session.user.username,
+        loggedIn: true,
+        user: false,
+      });
     }
 
     res.render("home/userInfo", {
@@ -263,7 +257,6 @@ router.route("/user").post(async (req, res) => {
       cart: req.session.user.cart,
       role: req.session.user.role,
     });
-  })
-  
+  });
 
 export default router;
