@@ -181,6 +181,29 @@ router.route("/user").post(async (req, res) => {
   router.route("/getUserInfo").get(async (req, res) => {
     // console.log(req.session.user)
 
+    if (req.session && req.session.user && req.session.user.role === "user"){
+      return res.render("home/userInfo", {title: "MyInfo",      
+      lastName: req.session.user.lastName,
+      email: req.session.user.email,
+      posts: req.session.user.posts,
+      purchases: req.session.user.purchases,
+      city: req.session.user.city,
+      cart: req.session.user.cart,
+      role: req.session.user.role,
+      userName: req.session.user.username, loggedIn: true, user: true});
+    }
+    else if (req.session && req.session.user && req.session.user.role === "artist"){
+      return res.render("home/userInfo", {title: "MyInfo",      
+      lastName: req.session.user.lastName,
+      email: req.session.user.email,
+      posts: req.session.user.posts,
+      purchases: req.session.user.purchases,
+      city: req.session.user.city,
+      cart: req.session.user.cart,
+      role: req.session.user.role,
+      userName: req.session.user.username, loggedIn: true, user: false});
+    }
+
     res.render("home/userInfo", {
       title: "MyInfo",
       username: req.session.user.username,

@@ -26,6 +26,12 @@ router.route("/:productId").get(async (req, res) => {
     const id = req.params.productId;
     const productInfo = await productMethods.get(id.trim());
     const artistInfo = await artistMethods.get(productInfo.artistId.trim());
+    if (req.session && req.session.user && req.session.user.role === "user"){
+      return res.render('home/productclick', {productInfo, artistInfo, title: "Product Info", userName: req.session.user.username, loggedIn: true, user: true});
+    }
+    else if (req.session && req.session.user && req.session.user.role === "artist"){
+      return res.render("home/productclick", {productInfo, artistInfo, title: "Product Info", userName: req.session.user.username, loggedIn: true, user: false});
+    }
     return res.render("home/productclick", {
       productInfo,
       artistInfo,

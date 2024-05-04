@@ -8,19 +8,66 @@ import artWork from "../data/artwork.js";
 const router = express.Router();
 
 
-router.route("/getProducts").get(async (req, res) => {
-  const getArtwork = await artWork.getAll();
-  
+// router.route("/getProducts").get(async (req, res) => {
+//   const getArtwork = await artWork.getAll();
+//   if (req.session && req.session.user && req.session.user.role === "user"){
+//     return res.render("home/getProducts", {title: "Products", products: getArtwork, userName: req.session.user.username, loggedIn: true, user: true});
+//   }
+//   else if (req.session && req.session.user && req.session.user.role === "artist"){
+//     return res.render("home/getProducts", {title: "Products", products: getArtwork, userName: req.session.user.username, loggedIn: true, user: false});
+//   }
 
-  return res.render("home/getProducts", {
-    title: "Products",
-    products: getArtwork,
-  });
+//   return res.render("home/getProducts", {
+//     title: "Products",
+//     products: getArtwork,
+//   });
+// });
+
+router.route("/getProducts").get(async (req, res) => {
+  try {
+    // let artistId = await artistMethods.getArtistProfile(req.session.user._id);
+    // let getArtwork = await artistMethods.get(artistId.trim()); 
+    let getArtwork =["663682a4b694a8de6c8b8a60", "663682a4b694a8de6c8b8a61", "663682a4b694a8de6c8b8a64"];
+    const artworkArr = [];
+    for (let i=0; i<getArtwork.length; i++){
+      let temp = await productMethods.get(getArtwork[i]);
+      artworkArr.push(temp);
+    }
+    if (req.session && req.session.user) {      
+      return res.render("home/getProducts", {
+        title: "Products",
+        products: artworkArr,
+        userName: req.session.user.username,
+        loggedIn: true,
+        user: req.session.user.role === "user", 
+      });
+      
+    } else {
+      getArtwork = await artWork.getAll();
+      return res.render("home/getProducts", {
+        title: "Products",
+        products: artworkArr,
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return res.status(500).send("Internal Server Error");
+  }
 });
+
+
 
 router
 .route('/addProduct')
 .get(async(req,res)=>{
+
+  if (req.session && req.session.user && req.session.user.role === "user"){
+    return res.render("home/addProduct", { userName: req.session.user.username, loggedIn: true, user: true});
+  }
+  else if (req.session && req.session.user && req.session.user.role === "artist"){
+    return res.render("home/addProduct", {userName: req.session.user.username, loggedIn: true, user: false});
+  }
+  
   return res.render("home/addProduct")
 
 })
@@ -82,6 +129,13 @@ router
   try{
     const id = req.params.artistId;
     const artistInfo = await artistMethods.get(id.trim());
+    if (req.session && req.session.user && req.session.user.role === "user"){
+      return res.render("home/artistclick", {artistInfo, title:"Artist Info", userName: req.session.user.username, loggedIn: true, user: true});
+    }
+    else if (req.session && req.session.user && req.session.user.role === "artist"){
+      return res.render("home/artistclick", {artistInfo, title:"Artist Info", userName: req.session.user.username, loggedIn: true, user: false});
+    }
+    
     return res.render("home/artistclick", {artistInfo, title:"Artist Info"})
   }
   catch(error){
