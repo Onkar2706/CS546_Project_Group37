@@ -61,10 +61,10 @@ let user4 = await userMethods.create(
 );
 let user5 = await userMethods.create(
   "Ted",
-  "Mosely",
-  "Bstin",
+  "Mosby",
+  "tmosby",
   "$2a$10$Eu8aabfdUE60./Ta7JDTxeLPUhL9Vv.GW8dAikCEOLTW2MHsw4Gea",
-  "bstin@friends.com",
+  "tmosby@friends.com",
   "NJ",
   "Hoboken",
   [],
@@ -74,7 +74,7 @@ let user5 = await userMethods.create(
 let user6 = await userMethods.create(
   "HIMYM",
   "We Copied FRIENDS",
-  "Bstin",
+  "himym",
   "$2a$10$Eu8aabfdUE60./Ta7JDTxeLPUhL9Vv.GW8dAikCEOLTW2MHsw4Gea",
   "bstin@friends.com",
   "NJ",
@@ -233,12 +233,28 @@ let product9 = await productMethods.create(
   []
 );
 
-let post = await postsMethod.addPost(
+let post1 = await postsMethod.addPost(
   user2._id,
+  "cbing",
   "Amazing",
-  "This thing is AMAZING",
-  "https://static.wikia.nocookie.net/himym/images/1/19/Brocode_cover.jpg"
+  "This thing is AMAZING!!!",
+  "https://images.pexels.com/photos/22940751/pexels-photo-22940751/free-photo-of-chiesa-di-budapest.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 );
+let post2 = await postsMethod.addPost(
+  user3._id,
+  "jtrib",
+  "Foooood",
+  "This foood is AMAZING!!!",
+  "https://images.pexels.com/photos/1633525/pexels-photo-1633525.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+);
+let post3 = await postsMethod.addPost(
+  user1._id,
+  "rgreen",
+  "Look what I found",
+  "This dress is AMAZING!!!",
+  "https://images.pexels.com/photos/1055691/pexels-photo-1055691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+);
+
 let purchase = await purchaseMethods.create(
   user2._id,
   product2._id,
