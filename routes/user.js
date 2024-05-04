@@ -3,7 +3,8 @@ import { ObjectId } from "mongodb";
 import artWork from "../data/artwork.js";
 import { userMethods } from "../data/index.js";
 import bcrypt from "bcryptjs";
-import { users } from "../config/mongoCollections.js";
+import { posts, users } from "../config/mongoCollections.js";
+import validate from "../helpers.js";
 
 const saltRounds = 10;
 let hash = null;
@@ -11,37 +12,30 @@ const router = express.Router();
 router
   .route("/register")
   .get(async (req, res) => {
-    res.render("home/register", { title: "Register" });
+    try {
+      res.render("home/register", { title: "Register" });
+    } catch (error) {
+      console.log(error)
+    }
+    
   })
+
   .post(async (req, res) => {
+    try{
+
     const createUserData = req.body;
     const userNameValidator = await userMethods.getByUsername(
       createUserData.userName
     );
     if (!createUserData || Object.keys(createUserData).length === 0) {
-      return res
-        .status(400)
-        .render("error", { message: "No fields in the request body" });
+      throw "Error: No fields in the request body"
     }
-    try {
-      if (req.body.userName === userNameValidator.userName)
-        throw "username present";
-    } catch (error) {
-      console.log(error);
-      return res.status(400).render("error", { message: error });
-    }
-
-    try {
+    if (req.body.userName === userNameValidator.userName)
+      throw "username present";
       // Securing password
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
-    } catch (e) {
-      console.log("unable to hash password");
-      return res
-        .status(500)
-        .render("error", { message: "unable to hash password" });
-    }
 
-    try {
+      
       const {
         firstName,
         lastName,
@@ -53,6 +47,33 @@ router
         purchases,
         posts,
       } = createUserData;
+
+
+      // Validation
+      validate.checkIfProperInput(firstName)
+      validate.checkIfProperInput(lastName)
+      validate.checkIfProperInput(userName)
+      validate.checkIfProperInput(email)
+      validate.checkIfProperInput(state)
+      validate.checkIfProperInput(city)
+      validate.checkIfProperInput(cart)
+      validate.checkIfProperInput(purchases)
+      validate.checkIfProperInput(posts)
+
+      validate.checkIfString(firstName)
+      validate.checkIfString(lastName)
+      validate.checkIfString(userName)
+      validate.checkIfString(email)
+      validate.checkIfString(state)
+      validate.checkIfString(city)
+      validate.checkIfString(cart)
+      validate.checkIfString(purchases)
+      validate.checkIfString(posts)
+
+      validate.checkIfUsername(userName)
+      validate.checkIfName(firstName)
+      validate.checkIfName(lastName)
+      validate.validateState(state)
 
       const newUser = await userMethods.create(
         firstName,
@@ -76,48 +97,74 @@ router
 router
   .route("/login")
   .get(async (req, res) => {
-    res.render("home/login", { title: "Login" });
-  })
-  .post(async (req, res) => {
-    const authorizeUser = req.body;
-
-    if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
-      return res
-        .status(400)
-        .render("error", { message: "No fields in the request body" });
-    }
     try {
-      const usercollection = await users();
-      const fetcheduser = await usercollection.findOne({
-        userName: authorizeUser.userName.toLowerCase(),
-      });
+      res.render("home/login", { title: "Login" });
+    } catch (error) {
+    }
+    
+  })
 
-      // console.log(fetcheduser);
-      if (!fetcheduser) throw "Error: User Not Found";
-      const match = await bcrypt.compare(
-        authorizeUser.password,
-        fetcheduser.password
-      );
-      if (match) {
-        // Store user information in session
-        req.session.user = {
-          _id: fetcheduser._id,
-          firstName: fetcheduser.firstName,
-          lastName: fetcheduser.lastName,
-          username: fetcheduser.userName,
-          posts: fetcheduser.posts,
-          purchases: fetcheduser.purchases,
-          email: fetcheduser.email,
-          city: fetcheduser.city,
-          cart: fetcheduser.cart,
-          role: fetcheduser.role,
-        };
-        console.log("Session", req.session.user);
-        return res.redirect("/");
+  .post(async (req, res) => {
+    try{
+      // Validation
+      validate.checkIfProperInput(_id)
+      validate.checkIfProperInput(firstName)
+      validate.checkIfProperInput(lastName)
+      validate.checkIfProperInput(userName)
+      validate.checkIfProperInput(email)
+      validate.checkIfProperInput(city)
+
+      validate.checkIfString(_id)
+      validate.checkIfString(firstName)
+      validate.checkIfString(lastName)
+      validate.checkIfString(username)
+      validate.checkIfString(email)
+      validate.checkIfString(city)
+
+
+      validate.checkIfName(firstName)
+      validate.checkIfName(lastName)
+      validate.checkIfUsername(userName)
+
+      const authorizeUser = req.body;
+
+      if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
+        return res
+          .status(400)
+          .render("error", { message: "No fields in the request body" });
       }
-      return res
-        .status(400)
-        .render("error", { message: "Invalid username or password" });
+      
+        const usercollection = await users();
+        const fetcheduser = await usercollection.findOne({
+          userName: authorizeUser.userName.toLowerCase(),
+        });
+
+        // console.log(fetcheduser);
+        if (!fetcheduser) throw "Error: User Not Found";
+        const match = await bcrypt.compare(
+          authorizeUser.password,
+          fetcheduser.password
+        );
+        if (match) {
+          // Store user information in session
+          req.session.user = {
+            _id: fetcheduser._id,
+            firstName: fetcheduser.firstName,
+            lastName: fetcheduser.lastName,
+            username: fetcheduser.userName,
+            posts: fetcheduser.posts,
+            purchases: fetcheduser.purchases,
+            email: fetcheduser.email,
+            city: fetcheduser.city,
+            cart: fetcheduser.cart,
+            role: fetcheduser.role,
+          };
+          console.log("Session", req.session.user);
+          return res.redirect("/");
+        }
+        return res
+          .status(400)
+          .render("error", { message: "Invalid username or password" });
     } catch (error) {
       return res
         .status(500)
