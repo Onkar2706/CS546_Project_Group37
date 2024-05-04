@@ -15,7 +15,7 @@ router
     try {
       res.render("home/register", { title: "Register" });
     } catch (error) {
-      console.log(error);;
+      console.log(error);
     }
   })
 
@@ -32,7 +32,6 @@ router
         throw "username present";
       // Securing password
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
-
 
       const {
         firstName,
@@ -97,7 +96,6 @@ router
     try {
       res.render("home/login", { title: "Login" });
     } catch (error) {}
-    } catch (error) {}
   })
 
   .post(async (req, res) => {
@@ -139,12 +137,6 @@ router
       const fetcheduser = await usercollection.findOne({
         userName: authorizeUser.userName.toLowerCase(),
       });
-
-      const usercollection = await users();
-      const fetcheduser = await usercollection.findOne({
-        userName: authorizeUser.userName.toLowerCase(),
-      });
-
       // console.log(fetcheduser);
       if (!fetcheduser) throw "Error: User Not Found";
       const match = await bcrypt.compare(
@@ -267,53 +259,7 @@ router.route("/user").post(async (req, res) => {
         loggedIn: true,
         user: false,
       });
-    if (req.session && req.session.user && req.session.user.role === "user") {
-      return res.render("home/userInfo", {
-        title: "MyInfo",
-        lastName: req.session.user.lastName,
-        email: req.session.user.email,
-        posts: req.session.user.posts,
-        purchases: req.session.user.purchases,
-        city: req.session.user.city,
-        cart: req.session.user.cart,
-        role: req.session.user.role,
-        userName: req.session.user.username,
-        loggedIn: true,
-        user: true,
-      });
-    } else if (
-      req.session &&
-      req.session.user &&
-      req.session.user.role === "artist"
-    ) {
-      return res.render("home/userInfo", {
-        title: "MyInfo",
-        lastName: req.session.user.lastName,
-        email: req.session.user.email,
-        posts: req.session.user.posts,
-        purchases: req.session.user.purchases,
-        city: req.session.user.city,
-        cart: req.session.user.cart,
-        role: req.session.user.role,
-        userName: req.session.user.username,
-        loggedIn: true,
-        user: false,
-      });
     }
-
-    res.render("home/userInfo", {
-      title: "MyInfo",
-      username: req.session.user.username,
-      firstName: req.session.user.firstName,
-      lastName: req.session.user.lastName,
-      email: req.session.user.email,
-      posts: req.session.user.posts,
-      purchases: req.session.user.purchases,
-      city: req.session.user.city,
-      cart: req.session.user.cart,
-      role: req.session.user.role,
-    });
-  });
   });
 
 export default router;
