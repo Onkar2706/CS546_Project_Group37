@@ -54,6 +54,18 @@ const exportedMethods = {
     artist._id = artist._id.toString();
     return artist;
   },
+
+  async getArtistProfile(userid) {
+    //retrieves an artist if the artist exists in the database
+    validate.checkIfValidObjectId(userid);
+    const artistCollection = await artists();
+    const findArtist = await artistCollection.findOne({ user_id: userid });
+    if (!findArtist) {
+      throw `couldn't find artist with given id`;
+    }
+    findArtist._id = findArtist._id.toString();
+    return findArtist._id;
+  },
   async getAll() {
     //retrieves all artists in the artists collection
     let artistCollection = await artists();

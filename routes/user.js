@@ -193,14 +193,7 @@ router.route("/user").post(async (req, res) => {
       cart: req.session.user.cart,
       role: req.session.user.role,
     });
-  }),
-  router.route("/getProducts").get(async (req, res) => {
-    const getArtwork = await artWork.getAll();
-
-    return res.render("home/getProducts", {
-      title: "Products",
-      products: getArtwork,
-    });
-  });
+  })
+  
 
 export default router;

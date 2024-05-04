@@ -26,7 +26,6 @@ const exportMethods = {
     tags,
     price,
     images,
-    rating,
     reviews
   ) {
     // validate.checkIfProperInput(artistId);
@@ -57,7 +56,7 @@ const exportMethods = {
       price: price,
       date: validate.getTodayDate(),
       images: Array.isArray(images) ? images.map((item) => item.trim()) : [],
-      rating: rating,
+      rating: 0,
       reviews: Array.isArray(reviews) ? reviews.map((item) => item.trim()) : [],
     };
 

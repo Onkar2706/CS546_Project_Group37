@@ -1,0 +1,27 @@
+<form id="addProductForm" action="/artist/addProduct" method="POST">
+    <label for="productName">Product Name:</label><br>
+    <input type="text" id="productName" name="productName"><br>
+    
+    <label for="productDescription">Product Description:</label><br>
+    <textarea id="productDescription" name="productDescription"></textarea><br>
+    
+    <label for="price">Price:</label><br>
+    <input type="number" id="price" name="price"><br>
+    
+    {{!-- <label for="rating">Rating:</label><br>
+    <input type="number" id="rating" name="rating"><br> --}}
+    
+    {{!-- <label for="date">Release Date:</label><br>
+    <input type="date" id="date" name="date"><br> --}}
+    
+    <label for="images">Images:</label><br>
+    <input type="text" id="images" name="images"><br>
+    
+    {{!-- <label for="reviews">Reviews :</label><br>
+    <textarea id="reviews" name="reviews"></textarea><br> --}}
+    
+    <label for="tags">Tags :</label><br>
+    <input type="text" id="tags" name="tags"><br>
+    
+    <button type="submit">Add Product</button>
+</form>

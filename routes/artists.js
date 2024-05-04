@@ -1,9 +1,48 @@
 import express from "express";
 import { ObjectId } from "mongodb";
+import {productMethods}  from "../data/index.js"; 
 import {artistMethods}  from "../data/index.js";
 import validate from "../helpers.js";
+import artWork from "../data/artwork.js";
 
 const router = express.Router();
+
+
+router.route("/getProducts").get(async (req, res) => {
+  const getArtwork = await artWork.getAll();
+
+  return res.render("home/getProducts", {
+    title: "Products",
+    products: getArtwork,
+  });
+});
+
+router
+.route('/addProduct')
+.get(async(req,res)=>{
+  return res.render("home/addProduct")
+
+})
+
+
+router
+.route('/addProduct')
+.post(async(req,res)=>{
+  console.log("In ADDproductsPOST")
+  const productData = req.body
+  const userId=req.session.user._id.trim()
+  const fetchArtistID =  await artistMethods.getArtistProfile(userId)
+  console.log(fetchArtistID)
+
+  const addProduct = await productMethods.create(fetchArtistID,productData.productName,productData.productDescription,productData.productTags,productData.price,productData.images)
+
+  
+  return res.redirect("/artist/getProducts")
+
+  
+  
+
+})
 
 router
   .route('/artistreg')
@@ -48,6 +87,7 @@ router
     res.json(error);
   }
 });
+
 
 router
 .route("/")
