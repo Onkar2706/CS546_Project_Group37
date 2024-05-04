@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.route("/getProducts").get(async (req, res) => {
   const getArtwork = await artWork.getAll();
+  
 
   return res.render("home/getProducts", {
     title: "Products",
@@ -94,6 +95,13 @@ router
 .get(async (req, res) => {
   try {
     let allArtists = await artistMethods.getAll();
+    if (req.session && req.session.user && req.session.user.role === "user"){
+      return res.render("home/artist", {allArtists, title: "Artists", userName: req.session.user.username, loggedIn: true, user: false});
+    }
+    else if (req.session && req.session.user && req.session.user.role === "artist"){
+      return res.render("home/artist", {allArtists, title: "Artists", userName: req.session.user.username, loggedIn: true, user: false});
+    }
+
     return res.render("home/artist", {allArtists, title: "Artists"});
   } catch (e) {
     res.send(404).render("error", { message: e });

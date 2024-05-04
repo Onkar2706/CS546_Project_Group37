@@ -5,6 +5,12 @@ const router = express.Router();
 router.route("/").get(async (req, res) => {
   try {
     const allPosts = await postsMethod.getAllPosts();
+    if (req.session && req.session.user && req.session.user.role === "user"){
+      return res.render("post/showPosts.handlebars", {allPosts, title: "Art Blogs", userName: req.session.user.username, loggedIn: true, user: true});
+    }
+    else if (req.session && req.session.user && req.session.user.role === "artist"){
+      return res.render("post/showPosts.handlebars", {allPosts, title: "Art Blogs", userName: req.session.user.username, loggedIn: true, user: false});
+    }
     return res.render("post/showPosts.handlebars", {
       allPosts,
       title: "Art Blogs",
