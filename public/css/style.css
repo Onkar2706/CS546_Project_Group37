@@ -370,3 +370,12 @@ button:hover {
     margin-bottom: 5px;
 }
 
+.error-container {
+    max-width: 600px;
+    margin: 100px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+}
+
