@@ -1,5 +1,5 @@
 import express from "express";
-import { artistMethods, productMethods } from "../data/index.js";
+import { artistMethods, productMethods, userMethods } from "../data/index.js";
 
 const router = express.Router();
 router.route("/").get(async (req, res) => {
@@ -19,6 +19,31 @@ router.route("/").get(async (req, res) => {
   } catch (e) {
     res.send(404).render("error", { message: e });
   }
+});
+
+router
+.route('/cart')
+.get(async (req, res) => {
+    try {
+      const id = req.session.user._id;
+      const userInfo = await userMethods.get(id);
+      const purchaseProd = userInfo.purchases;
+
+      let productData = [];
+      for (let i=0; i<purchaseProd.length; i++){
+        let temp = await productMethods.get(purchaseProd[i]);
+        productData.push(temp);
+      }
+
+      let totalPrice = null;
+      for (let i=0; i<productData.length; i++){
+        totalPrice += productData[i]['price'];
+      } 
+      productData.push(totalPrice);
+      return res.render('product/cart', {productData, totalPrice, title: 'Cart'});
+    } catch (error) {
+      console.log(error);
+    }
 });
 
 router.route("/:productId").get(async (req, res) => {
@@ -41,5 +66,17 @@ router.route("/:productId").get(async (req, res) => {
     res.json(error);
   }
 });
+
+router.route('/addToCart/:productId').get(async (req, res) => {
+  try {
+    const id = req.params.productId.trim();
+    const userid = req.session.user._id;
+    const addPurchase = await userMethods.purchaseProduct(id, userid);
+    console.log("success");
+    return res.redirect('/products/cart');
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 export default router;
