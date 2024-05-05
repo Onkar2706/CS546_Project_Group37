@@ -1,16 +1,16 @@
-<form id="addProductForm" action="/artist/addProduct" method="POST">
+<form id="addProductForm" action="/artist/updateProduct" method="POST">
     <label for="productName">Product Name:</label>
-    <input required type="text" id="productName"  name="productName">
+    <input required type="text" id="productName" value="{{artData.productName}}" name="productName">
     <br>
     <br>
     
     <label for="productDescription">Product Description:</label>
-    <input required type="text" id="productDescription"  name="productDescription"></textarea>
+    <input required type="text" id="productDescription" value="{{artData.productDescription}}" name="productDescription"></textarea>
     <br>
     <br>
     
     <label for="price">Price:</label>
-    <input required type="text" id="price"  name="price">
+    <input required type="text" id="price" value="{{artData.price}} " name="price">
     <br>
     <br>
     
@@ -21,7 +21,7 @@
     <input required type="date" id="date" name="date"><br> --}}
     
     <label for="images">Images:</label>
-    <input required type="text" id="images"    name="images">
+    <input required type="text" id="images"  value="{{artData.images}}"  name="images">
     <br>
     <br>
     
@@ -29,8 +29,8 @@
     <textarea id="reviews" name="reviews"></textarea><br> --}}
     
     <label for="tags">Tags :</label>
-    <input  type="text" id="tags"  name="tags">
+    <input  type="text" id="tags" value ="{{artData.tags}}" name="tags">
     <br>
     <br>
-    <button type="submit">Add Product</button>
+    <input type="submit" value="UpdateProduct" />
 </form>

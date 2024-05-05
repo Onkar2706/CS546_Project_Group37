@@ -1,4 +1,5 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
+// This data file should export all functions using the ES6 standard as shown in the lecture code
 import { artworks } from "../config/mongoCollections.js";
 import { artists } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
@@ -146,5 +147,20 @@ const exportMethods = {
       throw "Error: Could't add comment";
     }
   },
+
+
+  async updateProduct(productId, updateInfo){
+    const filter = { _id: new ObjectId(productId)};
+    const update = {
+      $set: updateInfo
+    };
+    const productCollection = await artworks();
+    const result = await productCollection.updateOne(filter, update);
+    if (result.modifiedCount === 1) {
+        console.log('User information updated successfully.');
+    } else {
+        console.log('No user document was updated.');
+    }
+  }
 };
 export default exportMethods;

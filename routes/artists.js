@@ -9,17 +9,42 @@ import artWork from "../data/artwork.js";
 
 const router = express.Router();
 
+let idOutside = null
+
 router.route("/edit/:id")
 .get(async (req, res) => {
   try {
-    const artworkid = req.params.id
-    const artData = await artWork.get(artworkid.trim())
+    idOutside = req.params.id
+    const artData = await artWork.get(idOutside.trim())
     console.log(artData)
-    res.render("product/addProduct",{title:"editProduct",artData})
+    res.render("product/editUpdateProduct",{title:"editProduct",artData, idOutside})
   } catch (error) {
       res.status(400).render("error",{errorMessage:error});
   }
 
+
+})
+
+
+
+router
+.route("/updateProduct")
+.post(async(req,res)=>{
+  console.log("Inupdateproduct")
+  try {
+    const updatedProduct =req.body
+    const updatedproductInDB = await artWork.updateProduct(idOutside,updatedProduct)
+    res.redirect("/artist/getProducts")
+
+    
+    
+
+    
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
 
 })
 

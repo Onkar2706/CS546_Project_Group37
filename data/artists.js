@@ -101,5 +101,7 @@ const exportedMethods = {
     return addprod
   },
 
+  
+
 };
 export default exportedMethods;
