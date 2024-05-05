@@ -7,16 +7,16 @@ router.route("/").get(async (req, res) => {
     let allProducts = await productMethods.getAll();
     // console.log(allProducts[0]);
     if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("home/market", {title: "MarketPlace", items: allProducts, userName: req.session.user.username, loggedIn: true,
+      return res.render("product/market", {title: "MarketPlace", items: allProducts, userName: req.session.user.username, loggedIn: true,
       user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true });
     }
     else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("home/market", {title: "MarketPlace", items: allProducts, userName: req.session.user.username, loggedIn: true,
+      return res.render("product/market", {title: "MarketPlace", items: allProducts, userName: req.session.user.username, loggedIn: true,
       user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true });
     }
-    return res.render("home/market", {
+    return res.render("product/market", {
       title: "MarketPlace",
       items: allProducts,
     });
@@ -57,14 +57,14 @@ router.route("/:productId").get(async (req, res) => {
     const productInfo = await productMethods.get(id.trim());
     const artistInfo = await artistMethods.get(productInfo.artistId.trim());
     if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render('home/productclick', {productInfo, artistInfo, title: "Product Info", userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
+      return res.render('product/productclick', {productInfo, artistInfo, title: "Product Info", userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
     }
     else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("home/productclick", {productInfo, artistInfo, title: "Product Info", userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
+      return res.render("product/productclick", {productInfo, artistInfo, title: "Product Info", userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
     }
-    return res.render("home/productclick", {
+    return res.render("product/productclick", {
       productInfo,
       artistInfo,
       title: "Product Info",

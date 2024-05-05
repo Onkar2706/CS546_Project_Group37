@@ -38,12 +38,12 @@
         {{#each allArtists}}
           <li class="card">
             <div class="artwork-item">
-              <a href="/artist/{{this._id}}">
-                <img src="{{this.profilePic}}" alt="Image of {{this.firstName}}" class="artwork-image">
-                <h2 class="artwork-name">{{this.firstName}} {{this.lastName}}</h2> 
-              </a>
+              <img src="{{this.profilePic}}" alt="Image of {{this.firstName}}" class="artwork-image">
+              <h2 class="artwork-name">{{this.firstName}} {{this.lastName}}</h2> 
               <p class="artwork-description">{{this.bio}}</p> 
-              <button class="buy-button">visit</button>
+              <a href="/artist/{{this._id}}">
+                <button class="buy-button">Visit Profile</button>
+              </a>
             </div>
            </li>
         {{/each}}
