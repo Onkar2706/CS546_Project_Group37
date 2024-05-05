@@ -13,10 +13,14 @@ router
         // sort top 5 artists based on ratings. 
         
         if (req.session && req.session.user && req.session.user.role === "user"){
-          return res.render("home/home.handlebars", {artists, products, userName: req.session.user.username, loggedIn: true, user: true, artist: false, title: "Home Page"});
+          return res.render("home/home.handlebars", {artists, products, userName: req.session.user.username,
+          loggedIn: true, user: req.session.user.role === "user" ? true : false,
+          artist: req.session.user.role === "user" ? false : true, title: "Home Page"});
         }
         else if (req.session && req.session.user && req.session.user.role === "artist"){
-          return res.render("home/home.handlebars", {artists, products, userName: req.session.user.username, loggedIn: true, user: false, artist: true, title: "Home Page"});
+          return res.render("home/home.handlebars", {artists, products, userName: req.session.user.username,
+          loggedIn: true, user: req.session.user.role === "user" ? true : false,
+          artist: req.session.user.role === "user" ? false : true, title: "Home Page"});
         }
         return res.render("home/home.handlebars", {artists, products, title: "Home Page"});
 

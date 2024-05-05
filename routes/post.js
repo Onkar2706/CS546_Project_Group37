@@ -8,10 +8,14 @@ router.route("/").get(async (req, res) => {
   try {
     const allPosts = await postsMethod.getAllPosts();
     if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("post/showPosts.handlebars", {allPosts, title: "Art Blogs", userName: req.session.user.username, loggedIn: true, user: true});
+      return res.render("post/showPosts.handlebars", {allPosts, title: "Art Blogs", userName: req.session.user.username, loggedIn: true,
+      user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true });
     }
     else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("post/showPosts.handlebars", {allPosts, title: "Art Blogs", userName: req.session.user.username, loggedIn: true, user: false});
+      return res.render("post/showPosts.handlebars", {allPosts, title: "Art Blogs", userName: req.session.user.username, loggedIn: true,
+      user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true });
     }
     return res.render("post/showPosts.handlebars", {
       allPosts,
@@ -70,10 +74,12 @@ router
     const id = req.params.postId;
     const getPost = await postsMethod.getPostById(id.trim());
     if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render('post/openPost', { getPost, title: "Post", userName: req.session.user.username, loggedIn: true, user: true});
+      return res.render('post/openPost', { getPost, title: "Post", userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true});
     }
     else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render('post/openPost', {getPost, title: "Post", userName: req.session.user.username, loggedIn: true, user: false});
+      return res.render('post/openPost', {getPost, title: "Post", userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true});
     }
     return res.render('post/openPost', {getPost, title: "Post"});
   }

@@ -235,7 +235,8 @@ router.route("/getUserInfo").get(async (req, res) => {
       role: req.session.user.role,
       userName: req.session.user.username,
       loggedIn: true,
-      user: true,
+      user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true
     });
   } else if (
     req.session &&
@@ -256,7 +257,8 @@ router.route("/getUserInfo").get(async (req, res) => {
       role: req.session.user.role,
       userName: req.session.user.username,
       loggedIn: true,
-      user: false,
+      user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true
     });
   }
 });

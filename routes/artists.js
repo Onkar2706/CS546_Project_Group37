@@ -66,7 +66,8 @@ router.route("/getProducts").get(async (req, res) => {
         products: artworkArr,
         userName: req.session.user.username,
         loggedIn: true,
-        user: req.session.user.role === "user", 
+        user: req.session.user.role === "user" ? true : false,
+        artist: req.session.user.role === "user" ? false : true 
       });
       
     } else {
@@ -89,14 +90,14 @@ router
 .get(async(req,res)=>{
 
   if (req.session && req.session.user && req.session.user.role === "user"){
-    return res.render("home/addProduct", { userName: req.session.user.username, loggedIn: true, user: true});
+    return res.render("home/addProduct", { userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
+    artist: req.session.user.role === "user" ? false : true });
   }
   else if (req.session && req.session.user && req.session.user.role === "artist"){
-    return res.render("home/addProduct", {userName: req.session.user.username, loggedIn: true, user: false});
+    return res.render("home/addProduct", {userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
+    artist: req.session.user.role === "user" ? false : true});
   }
-  
   return res.render("home/addProduct")
-
 })
 
 
@@ -195,10 +196,14 @@ router.route("/:artistId").get(async (req, res) => {
       artworkArr.push(temp);
     }
     if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("home/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username, loggedIn: true, user: true});
+      return res.render("home/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username,
+      loggedIn: true, user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true});
     }
     else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("home/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username, loggedIn: true, user: false});
+      return res.render("home/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username,
+      loggedIn: true, user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true});
     }
     
     return res.render("home/artistclick", {artistInfo, artworkArr, title:"Artist Info"})
@@ -216,10 +221,16 @@ router
     let allArtists = await artistMethods.getAll();
     
     if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("home/artist", {allArtists, title: "Artists", userName: req.session.user.username, loggedIn: true, user: true});
+      return res.render("home/artist", {allArtists, title: "Artists", userName: req.session.user.username,
+      loggedIn: true,
+      user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true });
     }
     else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("home/artist", {allArtists, title: "Artists", userName: req.session.user.username, loggedIn: true, user: false});
+      return res.render("home/artist", {allArtists, title: "Artists", userName: req.session.user.username,
+      loggedIn: true,
+      user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true });
     }
     
     return res.render("home/artist", {allArtists, title: "Artists"});
