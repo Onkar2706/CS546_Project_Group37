@@ -28,11 +28,11 @@ const router = express.Router();
 router.route("/getProducts").get(async (req, res) => {
   try {
     let artistId = await artistMethods.getArtistProfile(req.session.user._id);
-    let getArtwork = await artistMethods.get(artistId.trim()); 
-    // let getArtwork =["663682a4b694a8de6c8b8a60", "663682a4b694a8de6c8b8a61", "663682a4b694a8de6c8b8a64"];
+    let getArtwork = await artistMethods.get(artistId._id); 
     const artworkArr = [];
-    for (let i=0; i<getArtwork.length; i++){
-      let temp = await productMethods.get(getArtwork[i]);
+    let artwork = getArtwork.portfolio;
+    for (let i=0; i<artwork.length; i++){
+      let temp = await productMethods.get(artwork[i]);
       artworkArr.push(temp);
     }
     if (req.session && req.session.user) {      
@@ -75,16 +75,16 @@ router
 })
 
 
-router
-.route('/addProduct')
-.post(async(req,res)=>{
-  // console.log("In ADDproductsPOST")
-  // const productData = req.body
-  // const userId=req.session.user._id.trim()
-  // const fetchArtistID =  await artistMethods.getArtistProfile(userId)
-  // console.log(fetchArtistID)
+// router
+// .route('/addProduct')
+// .post(async(req,res)=>{
+//   console.log("In ADDproductsPOST")
+//   const productData = req.body
+//   const userId=req.session.user._id.trim()
+//   const fetchArtistID =  await artistMethods.getArtistProfile(userId)
+//   console.log(fetchArtistID)
   
-});
+// });
 router.route("/addProduct").post(async (req, res) => {
   console.log("In ADDproductsPOST");
   const productData = req.body;
