@@ -21,12 +21,13 @@ router
     try {
       const createUserData = req.body;
       const userNameValidator = await userMethods.getByUsername(
-        createUserData.userName
+        createUserData.userName.toLowerCase()
       );
       if (!createUserData || Object.keys(createUserData).length === 0) {
         throw "Error: No fields in the request body";
       }
       if (createUserData.age < 13) throw "Error: Minimum required age is 13";
+
       if (userNameValidator) throw "Error: Username already in use";
       
       // Securing password
@@ -170,7 +171,7 @@ router
     } catch (error) {
       return res
         .status(500)
-        .render("error", { errorMessage: "Internal Server Error" });
+        .render("error", { errorMessage: error });
     }
 });
 
