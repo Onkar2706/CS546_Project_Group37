@@ -178,14 +178,19 @@ router.route("/:artistId").get(async (req, res) => {
   try {
     const id = req.params.artistId;
     const artistInfo = await artistMethods.get(id.trim());
+    const artworkArr = [];
+    for (let i=0; i<artistInfo.portfolio.length; i++){
+      let temp = await productMethods.get(artistInfo.portfolio[i]);
+      artworkArr.push(temp);
+    }
     if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("home/artistclick", {artistInfo, title:"Artist Info", userName: req.session.user.username, loggedIn: true, user: true});
+      return res.render("home/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username, loggedIn: true, user: true});
     }
     else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("home/artistclick", {artistInfo, title:"Artist Info", userName: req.session.user.username, loggedIn: true, user: false});
+      return res.render("home/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username, loggedIn: true, user: false});
     }
     
-    return res.render("home/artistclick", {artistInfo, title:"Artist Info"})
+    return res.render("home/artistclick", {artistInfo, artworkArr, title:"Artist Info"})
   }
   catch(error){
     res.json(error);
