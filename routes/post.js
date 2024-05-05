@@ -69,6 +69,12 @@ router
   try{
     const id = req.params.postId;
     const getPost = await postsMethod.getPostById(id.trim());
+    if (req.session && req.session.user && req.session.user.role === "user"){
+      return res.render('post/openPost', { getPost, title: "Post", userName: req.session.user.username, loggedIn: true, user: true});
+    }
+    else if (req.session && req.session.user && req.session.user.role === "artist"){
+      return res.render('post/openPost', {getPost, title: "Post", userName: req.session.user.username, loggedIn: true, user: false});
+    }
     return res.render('post/openPost', {getPost, title: "Post"});
   }
   catch(error){
