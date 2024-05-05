@@ -131,7 +131,6 @@ let product1 = await productMethods.create(
   [
     "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/525px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
   ],
-  3.0,
   []
 );
 
@@ -144,7 +143,6 @@ let product2 = await productMethods.create(
   [
     "https://cdn.britannica.com/10/182610-050-77811599/The-Persistence-of-Memory-canvas-collection-Salvador-1931.jpg?w=300",
   ],
-  4.5,
   []
 );
 
@@ -157,7 +155,6 @@ let product3 = await productMethods.create(
   [
     "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/330px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
   ],
-  4.2,
   []
 );
 
@@ -170,7 +167,6 @@ let product4 = await productMethods.create(
   [
     "https://imageio.forbes.com/specials-images/imageserve/61fdbb650178939252cba91b/Picasso-s-masterpiece--regarded-by-many-critics-as-the-most-powerful-anti-war/960x0.jpg?format=jpg&width=1440",
   ],
-  4.9,
   []
 );
 
@@ -183,7 +179,6 @@ let product5 = await productMethods.create(
   [
     "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/405px-1665_Girl_with_a_Pearl_Earring.jpg",
   ],
-  4.6,
   []
 );
 
@@ -196,7 +191,6 @@ let product6 = await productMethods.create(
   [
     "https://img.stablecog.com/insecure/1024w/aHR0cHM6Ly9iLnN0YWJsZWNvZy5jb20vYjM0YzA5YjYtNGU3Zi00ZmVmLThiM2UtN2E2NjgyNGNjOGQwLmpwZWc.webp",
   ],
-  4.8,
   []
 );
 
@@ -209,7 +203,6 @@ let product7 = await productMethods.create(
   [
     "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/600px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
   ],
-  4.7,
   []
 );
 
@@ -220,7 +213,6 @@ let product8 = await productMethods.create(
   ["Impressionist", "Landscape"],
   95.0,
   ["https://www.phaidon.com/resource/monetgardenlead.jpg"],
-  4.4,
   []
 );
 let product9 = await productMethods.create(
