@@ -20,8 +20,8 @@ router.route("/").get(async (req, res) => {
       title: "MarketPlace",
       items: allProducts,
     });
-  } catch (e) {
-    res.send(404).render("error", { message: e });
+  } catch (error) {
+    res.status(404).render("error",{errorMessage:error});
   }
 });
 
@@ -50,7 +50,7 @@ router
       return res.render('product/cart', {productData, totalPrice, title: 'Cart', userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
     } catch (error) {
-      console.log(error);
+      res.status(400).render("error",{errorMessage:error});
     }
 });
 
@@ -73,7 +73,7 @@ router.route("/:productId").get(async (req, res) => {
       title: "Product Info",
     });
   } catch (error) {
-    res.json(error);
+    res.status(400).render("error",{errorMessage:error});
   }
 });
 
@@ -84,7 +84,7 @@ router.route('/addToCart/:productId').get(async (req, res) => {
     const addPurchase = await userMethods.purchaseProduct(id, userid);
     return res.redirect('/products/cart');
   } catch (error) {
-    console.log(error)
+    res.status(400).render("error",{errorMessage:error});
   }
 })
 

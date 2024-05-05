@@ -12,21 +12,12 @@ const router = express.Router();
 router.route("/edit/:id")
 .get(async (req, res) => {
   try {
-
     const artworkid = req.params.id
     const artData = await artWork.get(artworkid.trim())
     console.log(artData)
     res.render("product/addProduct",{title:"editProduct",artData})
-
-    
-    
-
-    
-
-  
-    
   } catch (error) {
-    
+      res.status(400).render("error",{errorMessage:error});
   }
 
 
@@ -78,8 +69,7 @@ router.route("/getProducts").get(async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error fetching products:", error);
-    return res.status(500).send("Internal Server Error");
+    res.status(500).render("error",{errorMessage:error});
   }
 });
 
@@ -146,8 +136,8 @@ router
     
     try {
       return res.render("artist/artistreg", { title: "Artist Registration" });
-    } catch (e) {
-      res.json(e);
+    } catch (error) {
+      res.status(400).render("error",{errorMessage:error});
     }
   })
   .post(async (req, res) => {
@@ -181,8 +171,8 @@ router
       res.redirect("/user/login");
     } 
      
-     catch (e) {
-      res.json("Error: Couldn't create artist");
+     catch (error) {
+      res.status(400).render("error",{errorMessage:error});
     }
   });
 
@@ -209,7 +199,7 @@ router.route("/:artistId").get(async (req, res) => {
     return res.render("artist/artistclick", {artistInfo, artworkArr, title:"Artist Info"})
   }
   catch(error){
-    res.json(error);
+    res.status(400).render("error",{errorMessage:error});
   }
 });
 
@@ -234,8 +224,8 @@ router
     }
     
     return res.render("artist/artist", {allArtists, title: "Artists"});
-  } catch (e) {
-    res.send(404).render("error", { message: e });
+  } catch (error) {
+    res.status(404).render("error",{errorMessage:error});
   }
   
   })

@@ -25,8 +25,8 @@ router
         return res.render("home/home.handlebars", {artists, products, title: "Home Page"});
 
     }
-    catch (e) {
-      return res.status(400).json(e);
+    catch (error) {
+      res.status(400).render("error",{errorMessage:error});
     }
   })
 export default router;

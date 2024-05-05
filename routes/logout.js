@@ -5,17 +5,16 @@ router = express.Router();
 router
 .route("/")
 .get(async (req, res) => {
-    console.log("in logout")
-    //code here for GET
+  try {
     req.session.destroy(err => {
       if (err) {
-        // console.error('Error destroying session:', err);
         res.status(500).send('Error logging out');
       } else {
-        // Inform the user that they have been logged out
-        // res.send('You have been logged out. <a href="/login">Click here to login</a>');
         res.redirect("/")
       }
     })
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
+  }
 })
 export default router;

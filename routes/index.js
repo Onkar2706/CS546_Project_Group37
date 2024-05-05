@@ -17,13 +17,12 @@ try {
     app.use("/post", postRoutes);
     app.use("/products", productRoutes);
     app.use("*", (req, res) => {
-      res.status(404).render("error", { message: "Page Not Found" });
+      res.status(404).render("error", { errorMessage: "404: Page Not Found" });
     });
   };
   
 } catch (error) {
-  app.use(res.render("error",{errorMessage:error}))
-  
+  app.use(res.status(400).render("error",{errorMessage:error}));
 }
 
 

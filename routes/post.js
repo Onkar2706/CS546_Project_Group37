@@ -21,8 +21,8 @@ router.route("/").get(async (req, res) => {
       allPosts,
       title: "Art Blogs",
     });
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
   }
 });
 
@@ -39,7 +39,7 @@ router
     return res.render('post/addPost', {title: "Create Blog"});
   }
   catch(error){
-    console.log(error);
+    res.status(400).render("error",{errorMessage:error});
   }
 });
 
@@ -63,7 +63,7 @@ router
 
   }
   catch(error){
-    console.log(error);
+    res.status(400).render("error",{errorMessage:error});
   }
 });
 
@@ -84,7 +84,7 @@ router
     return res.render('post/openPost', {getPost, title: "Post"});
   }
   catch(error){
-    console.log(error);
+    res.status(400).render("error",{errorMessage:error});
   }
 });
 
@@ -99,7 +99,7 @@ router
     return res.redirect(`/post/${id}`);
   }
   catch(error){
-    console.log(error);
+    res.status(400).render("error",{errorMessage:error});
   }
 });
 

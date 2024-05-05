@@ -28,6 +28,10 @@ nav {
     padding: 1rem 10%;
 }
 
+a{
+    text-decoration: none;
+}
+
 .logo h1 {
     margin-left: 0.5rem;
 }
@@ -52,9 +56,33 @@ main {
     padding: 2rem 10%;
 }
 
+.error-container {
+    max-width: 600px;
+    margin: 100px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+}
+
 .errorMsg {
+    font-size: 24px;
     font-weight:bold;
     color:#333;
+}
+.error-container a{
+    padding-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.error-container a:hover {
+    background-color: #0056b3;
 }
 
 .card-container {
@@ -373,15 +401,6 @@ button:hover {
 
 .artwork p {
     margin-bottom: 5px;
-}
-
-.error-container {
-    max-width: 600px;
-    margin: 100px auto;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
-    text-align: center;
 }
 
 /*dropdown button*/

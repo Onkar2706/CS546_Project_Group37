@@ -14,7 +14,7 @@ router
     try {
       res.render("home/register", { title: "Register" });
     } catch (error) {
-      console.log(error);
+      res.status(400).render("error",{errorMessage:error});
     }
   })
   .post(async (req, res) => {
@@ -86,8 +86,8 @@ router
       );
       console.log("User Created!");
       return res.redirect("/user/login");
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      res.status(400).render("error",{errorMessage:error});
     }
   });
 
@@ -96,7 +96,9 @@ router
   .get(async (req, res) => {
     try {
       res.render("home/login", { title: "Login" });
-    } catch (error) {}
+    } catch (error) {
+      res.status(400).render("error",{errorMessage:error});
+    }
   })
   .post(async (req, res) => {
     try {
@@ -166,7 +168,6 @@ router
         .status(400)
         .render("error", { errorMessage: "Invalid username or password" });
     } catch (error) {
-      console.log(error);
       return res
         .status(500)
         .render("error", { errorMessage: "Internal Server Error" });
@@ -280,7 +281,7 @@ router
     user: req.session.user.role === "user" ? true : false,
     artist: req.session.user.role === "user" ? false : true});
   } catch (error) {
-    console.log(error);
+    res.status(400).render("error",{errorMessage:error});
   }
 })
 .post(async (req, res) => {
@@ -290,7 +291,7 @@ router
     const updateUser = await userMethods.updateUser(userid, updateInfo);
     return res.redirect('/user/login');
   } catch (error) {
-    console.log(error)
+    res.status(400).render("error",{errorMessage:error});
   }
 });
 
