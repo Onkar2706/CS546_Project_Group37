@@ -32,18 +32,21 @@ router
       const id = req.session.user._id;
       const userInfo = await userMethods.get(id);
       const purchaseProd = userInfo.purchases;
-
       let productData = [];
-      for (let i=0; i<purchaseProd.length; i++){
-        let temp = await productMethods.get(purchaseProd[i]);
-        productData.push(temp);
+      let totalPrice = null;
+
+      if (purchaseProd.length > 0){
+        for (let i=0; i<purchaseProd.length; i++){
+          let temp = await productMethods.get(purchaseProd[i]);
+          productData.push(temp);
+        }
+  
+        for (let i=0; i<productData.length; i++){
+          totalPrice += productData[i]['price'];
+        } 
+        // productData.push(totalPrice);
       }
 
-      let totalPrice = null;
-      for (let i=0; i<productData.length; i++){
-        totalPrice += productData[i]['price'];
-      } 
-      productData.push(totalPrice);
       return res.render('product/cart', {productData, totalPrice, title: 'Cart', userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
     } catch (error) {
@@ -79,7 +82,6 @@ router.route('/addToCart/:productId').get(async (req, res) => {
     const id = req.params.productId.trim();
     const userid = req.session.user._id;
     const addPurchase = await userMethods.purchaseProduct(id, userid);
-    console.log("success");
     return res.redirect('/products/cart');
   } catch (error) {
     console.log(error)

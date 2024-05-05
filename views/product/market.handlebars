@@ -9,8 +9,8 @@
               </a>
               <p class="artwork-description">{{this.description}}</p> 
               <p class="artwork-price">Price: ${{this.price}}</p> 
-              <p class="artwork-artist">Artist: {{firstName}}</p> 
-              <button class="buy-button">Buy</button>
+              <p class="artwork-artist">Ratings: {{this.rating}}</p> 
+              <a href="/products/addToCart/{{this._id}}" class="buy-button">Add To Cart</a>
             </div>
            </li>
         {{/each}}
