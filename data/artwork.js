@@ -1,5 +1,6 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
 import { artworks } from "../config/mongoCollections.js";
+import { artists } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
@@ -93,6 +94,14 @@ const exportMethods = {
     // });
     if (allProducts.length === 0) return [];
     return allProducts;
+  },
+
+  async getByArtist(artistId) {
+    const artistsCollection = await artists(); 
+    const artist = await artistsCollection.findOne({ _id: artistId });
+    if (!artist) throw "Error: Artist not found";
+    const artistProducts = artist.portfolio; 
+    return artistProducts || [];
   },
 
   async remove(id) {

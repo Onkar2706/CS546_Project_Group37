@@ -427,6 +427,20 @@ button:hover {
   /* Change the background color of the dropdown button when the dropdown content is shown */
   .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
+  ul {
+    text-decoration: none;
+  }
+
+  .tags {
+    list-style: none; /* Remove default bullet points */
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
   .add-blog-button {
     display: inline-block; /* Makes the link behave like a button */
     padding: 10px 20px; /* Padding inside the button */
