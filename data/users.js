@@ -12,6 +12,7 @@ const exportMethods = {
     userName,
     password,
     email,
+    age,
     state,
     city,
     cart,
@@ -39,8 +40,9 @@ const exportMethods = {
       userName: userName.trim().toLowerCase(),
       password: password.trim(),
       email: email.trim(),
+      age: age,
       state: state.trim(),
-      city: city,
+      city: city.trim(),
       cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
       purchases: Array.isArray(purchases)
         ? purchases.map((item) => item.trim())

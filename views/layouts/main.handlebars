@@ -21,6 +21,10 @@
             <li><a href="/products">MARKETPLACE</a></li>
             <li><a href="/post">ART BLOG</a></li>
 
+            {{#if user}}
+                    <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
+            {{/if}}
+
             {{#if loggedIn}}
                 <div class="dropdown">
                     <button class="dropbtn">{{userName}}</button>
@@ -29,12 +33,6 @@
                         <a href="/products/cart">MY CART</a>
                         <a href="/logout">LOGOUT</a>
                     </div>
-                {{!-- <li><a href="/user/getUserInfo">{{userName}}</a></li>
-                <li><a href="/logout">Logout</a></li> --}}
-                {{#if user}}
-                    <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
-                {{!-- <li><a href="/logout/logout">Logout</a></li> --}}
-                {{/if}}
             {{else}}
                 <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
             {{/if}}

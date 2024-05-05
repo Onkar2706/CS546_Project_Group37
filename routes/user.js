@@ -26,7 +26,9 @@ router
       if (!createUserData || Object.keys(createUserData).length === 0) {
         throw "Error: No fields in the request body";
       }
-      if (userNameValidator) throw "username present";
+      if (createUserData.age < 13) throw "Error: Minimum required age is 13";
+      if (userNameValidator) throw "Error: Username already in use";
+      
       // Securing password
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
 
@@ -35,6 +37,7 @@ router
         lastName,
         userName,
         email,
+        age,
         state,
         city,
         cart,
@@ -74,6 +77,7 @@ router
         userName,
         hash,
         email,
+        age,
         state,
         city,
         cart,
@@ -149,6 +153,7 @@ router
           posts: fetcheduser.posts,
           purchases: fetcheduser.purchases,
           email: fetcheduser.email,
+          age: fetcheduser.age,
           city: fetcheduser.city,
           state: fetcheduser.state,
           cart: fetcheduser.cart,
@@ -226,6 +231,7 @@ router.route("/getUserInfo").get(async (req, res) => {
       firstName: req.session.user.firstName,
       lastName: req.session.user.lastName,
       email: req.session.user.email,
+      age: req.session.user.age,
       posts: req.session.user.posts,
       // purchases: req.session.user.purchases.length === 0 ? "No Items" : req.session.user.purchases,
       purchases: req.session.user.purchases.length,
@@ -248,6 +254,7 @@ router.route("/getUserInfo").get(async (req, res) => {
       firstName: req.session.user.firstName,
       lastName: req.session.user.lastName,
       email: req.session.user.email,
+      age: req.session.user.age,
       posts: req.session.user.posts,
       // purchases: req.session.user.purchases.length === 0 ? "No Items" : req.session.user.purchases,
       purchases: req.session.user.purchases.length,
@@ -268,7 +275,10 @@ router
 .get(async (req, res) => {
   try {
     const userInfo = req.session.user;
-    return res.render('user/editUserForm', {userInfo, title: "Update Profile"});
+    return res.render('user/editUserForm', {userInfo, title: "Update Profile",  userName: req.session.user.username,
+    loggedIn: true,
+    user: req.session.user.role === "user" ? true : false,
+    artist: req.session.user.role === "user" ? false : true});
   } catch (error) {
     console.log(error);
   }
