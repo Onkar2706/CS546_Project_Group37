@@ -86,6 +86,20 @@ router.route('/addToCart/:productId').get(async (req, res) => {
   } catch (error) {
     res.status(400).render("error",{errorMessage:error});
   }
-})
+}); 
+
+router.route('/removeFromCart/:productId').get( async (req, res) => {
+  try {
+    console.log("Inside here");
+    const id = req.params.productId;
+    const userid = req.session.user._id;
+    const removePurhcase = await userMethods.removeFromCart(id, userid);
+    console.log(removePurhcase);
+    return res.redirect('/products/cart');
+  } catch (error) {
+    console.log(error);
+    res.status(400).render("error",{errorMessage:error});
+  }
+});
 
 export default router;
