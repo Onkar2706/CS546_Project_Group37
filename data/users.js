@@ -153,6 +153,20 @@ const exportMethods = {
       throw "Error: Could't add product to purchases";
     }
     return addPurchase;
+  },
+
+  async updateUser(userId, updateInfo){
+    const filter = { _id: new ObjectId(userId)};
+    const update = {
+      $set: updateInfo
+    };
+    const userCollection = await users();
+    const result = await userCollection.updateOne(filter, update);
+    if (result.modifiedCount === 1) {
+        console.log('User information updated successfully.');
+    } else {
+        console.log('No user document was updated.');
+    }
   }
 };
 

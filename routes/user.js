@@ -17,7 +17,6 @@ router
       console.log(error);
     }
   })
-
   .post(async (req, res) => {
     try {
       const createUserData = req.body;
@@ -95,7 +94,6 @@ router
       res.render("home/login", { title: "Login" });
     } catch (error) {}
   })
-
   .post(async (req, res) => {
     try {
       // Validation
@@ -152,6 +150,7 @@ router
           purchases: fetcheduser.purchases,
           email: fetcheduser.email,
           city: fetcheduser.city,
+          state: fetcheduser.state,
           cart: fetcheduser.cart,
           role: fetcheduser.role,
         };
@@ -167,31 +166,29 @@ router
         .status(500)
         .render("error", { errorMessage: "Internal Server Error" });
     }
-  });
+});
 
 router.route("/admin").get(async (req, res) => {
   res.render("home/admin", { title: "Admin" });
-});
+})
+  .post(async (req, res) => {
+    if (req.session.user && req.session.user.role === "admin") {
+      const admin = req.session.user;
+      const currentTime = new Date().toLocaleString();
 
-router.route("/admin").post(async (req, res) => {
-  if (req.session.user && req.session.user.role === "admin") {
-    const admin = req.session.user;
-    const currentTime = new Date().toLocaleString();
-
-    res.render("home/admin", {
-      firstName: admin.firstName,
-      lastName: admin.lastName,
-      userName: admin.userName,
-      currentTime: currentTime,
-    });
-  }
-});
+      res.render("home/admin", {
+        firstName: admin.firstName,
+        lastName: admin.lastName,
+        userName: admin.userName,
+        currentTime: currentTime,
+      });
+    }
+  });
 
 router.route("/user").get(async (req, res) => {
   res.render("home/home", { title: "User" });
-});
-
-router.route("/user").post(async (req, res) => {
+})
+.post(async (req, res) => {
   if (req.session.user && req.session.user.role === "user") {
     const admin = req.session.user;
     const currentTime = new Date().toLocaleString();
@@ -201,14 +198,13 @@ router.route("/user").post(async (req, res) => {
       lastName: admin.lastName,
       userName: admin.userName,
       currentTime: currentTime,
-    });
-  }
+    })
+  }});
 
-  router.route("/registerArtist").get(async (req, res) => {
-    res.render("home/artist", { title: "artist" });
-  });
-
-  router.route("/registerArtist").post(async (req, res) => {
+router.route("/registerArtist").get(async (req, res) => {
+  res.render("home/artist", { title: "artist" });
+})
+.post(async (req, res) => {
     if (req.session.user && req.session.user.role === "artist") {
       const admin = req.session.user;
       const currentTime = new Date().toLocaleString();
@@ -221,43 +217,70 @@ router.route("/user").post(async (req, res) => {
       });
     }
   });
-}),
-  router.route("/getUserInfo").get(async (req, res) => {
-    // console.log(req.session.user)
 
-    if (req.session && req.session.user && req.session.user.role === "user") {
-      return res.render("home/userInfo", {
-        title: "MyInfo",
-        lastName: req.session.user.lastName,
-        email: req.session.user.email,
-        posts: req.session.user.posts,
-        purchases: req.session.user.purchases,
-        city: req.session.user.city,
-        cart: req.session.user.cart,
-        role: req.session.user.role,
-        userName: req.session.user.username,
-        loggedIn: true,
-        user: true,
-      });
-    } else if (
-      req.session &&
-      req.session.user &&
-      req.session.user.role === "artist"
-    ) {
-      return res.render("home/userInfo", {
-        title: "MyInfo",
-        lastName: req.session.user.lastName,
-        email: req.session.user.email,
-        posts: req.session.user.posts,
-        purchases: req.session.user.purchases,
-        city: req.session.user.city,
-        cart: req.session.user.cart,
-        role: req.session.user.role,
-        userName: req.session.user.username,
-        loggedIn: true,
-        user: false,
-      });
-    }
-  });
+router.route("/getUserInfo").get(async (req, res) => {
+
+  if (req.session && req.session.user && req.session.user.role === "user") {
+    return res.render("home/userInfo", {
+      title: "My Profile",
+      firstName: req.session.user.firstName,
+      lastName: req.session.user.lastName,
+      email: req.session.user.email,
+      posts: req.session.user.posts,
+      // purchases: req.session.user.purchases.length === 0 ? "No Items" : req.session.user.purchases,
+      purchases: req.session.user.purchases.length,
+      city: req.session.user.city,
+      state: req.session.user.state,
+      cart: req.session.user.cart.length === 0 ? "No Items" : req.session.user.cart,
+      role: req.session.user.role,
+      userName: req.session.user.username,
+      loggedIn: true,
+      user: true,
+    });
+  } else if (
+    req.session &&
+    req.session.user &&
+    req.session.user.role === "artist"
+  ) {
+    return res.render("home/userInfo", {
+      title: "My Profile",
+      firstName: req.session.user.firstName,
+      lastName: req.session.user.lastName,
+      email: req.session.user.email,
+      posts: req.session.user.posts,
+      // purchases: req.session.user.purchases.length === 0 ? "No Items" : req.session.user.purchases,
+      purchases: req.session.user.purchases.length,
+      city: req.session.user.city,
+      state: req.session.user.state,
+      cart: req.session.user.cart.length === 0 ? "No Items" : req.session.user.cart,
+      role: req.session.user.role,
+      userName: req.session.user.username,
+      loggedIn: true,
+      user: false,
+    });
+  }
+});
+
+router
+.route('/editUserInfo')
+.get(async (req, res) => {
+  try {
+    const userInfo = req.session.user;
+    return res.render('user/editUserForm', {userInfo, title: "Update Profile"});
+  } catch (error) {
+    console.log(error);
+  }
+})
+.post(async (req, res) => {
+  try {
+    const updateInfo = req.body;
+    const userid = req.session.user._id;
+    const updateUser = await userMethods.updateUser(userid, updateInfo);
+    return res.redirect('/user/login');
+  } catch (error) {
+    console.log(error)
+  }
+});
+
 
 export default router;

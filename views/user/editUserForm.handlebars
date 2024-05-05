@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Update Profile</h2>
+  <form action="/user/editUserInfo" id="registerForm" method="POST">
+    <div class="input-group">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" value="{{userInfo.firstName}}" required />
+    </div>
+    <div class="input-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" value="{{userInfo.lastName}}" required />
+    </div>
+    <div class="input-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="{{userInfo.email}}" required />
+    </div>
+    <div class="input-group">
+      <label for="state">State:</label>
+      <input type="text" id="state" name="state" value="{{userInfo.state}}" required />
+    </div>
+    <div class="input-group">
+      <label for="city">City:</label>
+      <input type="text" id="city" name="city" value="{{userInfo.city}}" required />
+    </div>
+      <input type="submit" value="Update" />
+
+  </form>

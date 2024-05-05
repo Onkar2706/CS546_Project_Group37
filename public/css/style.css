@@ -504,3 +504,54 @@ button:hover {
     font-style: italic;
     color: #777;
 }
+
+
+/* Style for the user info container */
+#user-info {
+    border: 1px solid #ccc;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Style for the heading */
+#user-info h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style for the welcome message */
+#user-info p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* Style for the list */
+#user-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Style for list items */
+#user-info li {
+    margin-bottom: 10px;
+}
+
+/* Style for the edit profile link */
+#user-info a {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 150px;
+}
+
+/* Style for the edit profile link on hover */
+#user-info a:hover {
+    background-color: #0056b3;
+}
