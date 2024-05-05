@@ -130,68 +130,21 @@ const exportMethods = {
     return { _id: id, deleted: true };
   },
 
-  // async update(
-  //   productId,
-  //   productName,
-  //   productDescription,
-  //   modelNumber,
-  //   price,
-  //   manufacturer,
-  //   manufacturerWebsite,
-  //   keywords,
-  //   categories,
-  //   dateReleased,
-  //   discontinued
-  // ){
-  //   validate.checkIfProperInput(productId);
-  //   validate.checkIfProperInput(productName);
-  //   validate.checkIfProperInput(productDescription);
-  //   validate.checkIfProperInput(modelNumber);
-  //   validate.checkIfProperInput(price);
-  //   validate.checkIfProperInput(manufacturer);
-  //   validate.checkIfProperInput(manufacturerWebsite);
-  //   validate.checkIfProperInput(keywords);
-  //   validate.checkIfProperInput(categories);
-  //   validate.checkIfProperInput(dateReleased);
-  //   if (discontinued === undefined) throw "Error: Input parameter not provided";
+  async addReview(productId, userId, rating, comment){
+    validate.checkIfProperInput(productId);
+    validate.checkIfProperInput(userId);
+    validate.checkIfProperInput(rating);
+    validate.checkIfProperInput(comment);
 
-  //   validate.checkIfString(productId)
-  //   validate.checkIfString(productName);
-  //   validate.checkIfString(productDescription);
-  //   validate.checkIfString(modelNumber);
-  //   validate.checkIfString(manufacturer);
-  //   validate.checkIfString(manufacturerWebsite);
-  //   validate.checkIfString(dateReleased);
-
-  //   checkIfPositiveNumber(price);
-  //   checkIfValidURL(manufacturerWebsite);
-  //   checkIfValidArray(keywords);
-  //   checkIfValidArray(categories);
-  //   checkIfValidDate(dateReleased);
-  //   checkIfBoolean(discontinued);
-  //   if (!ObjectId.isValid(productId)) throw 'Error: Invalid object ID';
-
-  //   const updateProduct = {
-  //     _id: new ObjectId(productId),
-  //     productName: productName.trim(),
-  //     productDescription: productDescription.trim(),
-  //     modelNumber: modelNumber.trim(),
-  //     price: price,
-  //     manufacturer: manufacturer.trim(),
-  //     manufacturerWebsite: manufacturerWebsite.trim(),
-  //     keywords: keywords,
-  //     categories: categories,
-  //     dateReleased: dateReleased.trim(),
-  //     discontinued: discontinued,
-  //   };
-  //   const productCollection = await artworks();
-  //   const updatedProduct = await productCollection.findOneAndUpdate(
-  //     { _id: new ObjectId(productId) },
-  //     { $set: updateProduct },
-  //     { returnDocument: 'after' });
-  //     updatedProduct._id = updatedProduct._id.toString();
-  //     if (!updatedProduct) throw "Error: Could not update product";
-  //     return updatedProduct;
-  // }
+    const filter = {_id: new ObjectId(productId)};
+    const updateArr = {
+      $push:{reviews: {userId: userId, ratings: rating, comment: comment}}
+    };
+    const productCollection = await artworks();
+    const addRev = await productCollection.updateOne(filter, updateArr);
+    if (!(addcom.matchedCount && addcom.modifiedCount)) {
+      throw "Error: Could't add comment";
+    }
+  },
 };
 export default exportMethods;

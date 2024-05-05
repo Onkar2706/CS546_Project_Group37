@@ -88,4 +88,16 @@ router.route('/addToCart/:productId').get(async (req, res) => {
   }
 })
 
+router.route('/rate/:productId').post(async (req, res) => {
+  try {
+    const id = req.params.id.trim();
+    const rating = req.body.rating;
+    const comment = req.body.comment;
+    const addReview = await productMethods.addReview(id, req.session.user._id, rating, comment);
+    console.log('success');
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
+  }
+})
+
 export default router;

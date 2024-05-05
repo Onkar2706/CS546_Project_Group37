@@ -19,4 +19,18 @@
         <li>{{this}}</li>
         {{/each}}
     </ul>
+
+    <form action="/products/rate/{{productInfo._id}}" method="post">
+    <label for="rating">Rating:</label>
+    <select name="rating" id="rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <label for="comment">Comment:</label>
+    <input type="text" name="comment" id="comment">
+    <button type="submit">Submit Review</button>
+</form>
 </div>
