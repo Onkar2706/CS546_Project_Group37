@@ -9,9 +9,18 @@ import artWork from "../data/artwork.js";
 
 const router = express.Router();
 
-router.route("/deleteProduct")
+router.route("/edit/:id")
 .get(async (req, res) => {
   try {
+
+    const artworkid = req.params.id
+    const artData = await artWork.get(artworkid.trim())
+    console.log(artData)
+    res.render("home/addProduct",{title:"editProduct",artData})
+
+    
+    
+
     
 
   
