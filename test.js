@@ -5,7 +5,7 @@ import artist from "./data/artists.js";
 import productMethods from "./data/artwork.js";
 import posts from "./data/posts.js";
 import artwork from "./data/artwork.js"
-import { artistMethods } from "./data/index.js";
+import { artistMethods, postsMethod } from "./data/index.js";
 
 let oId = null;
 
@@ -155,8 +155,11 @@ let oId = null;
 
 try {
 
-  const artist = await artistMethods.getArtistProfile("663662e8ec1edaa24b1aa2dc")
-  console.log(artist)
+  // const artist = await artistMethods.getArtistProfile("663662e8ec1edaa24b1aa2dc")
+  // console.log(artist)
+
+  const test = await postsMethod.addComment("663694e6aae1037260317a3c","cbing", "new comment");
+  console.log("Done");
   
 } catch (error) {
   console.log(error)

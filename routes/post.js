@@ -1,5 +1,6 @@
 import express from "express";
 import { postsMethod } from "../data/index.js";
+import session from "express-session";
 
 const router = express.Router();
 router.route("/").get(async (req, res) => {
@@ -52,10 +53,24 @@ router
 .route('/:postId')
 .get(async (req, res) => {
   try{
-    console.log("hit")
     const id = req.params.postId;
     const getPost = await postsMethod.getPostById(id.trim());
     return res.render('post/openPost', {getPost, title: "Post"});
+  }
+  catch(error){
+    console.log(error);
+  }
+});
+
+router
+.route('/:postId/comment')
+.post(async (req, res) => {
+  try{
+    const id = req.params.postId;
+    const comment = req.body.comment;
+
+    const addComment = await postsMethod.addComment(id.trim(), req.session.user.username, comment);
+    return res.redirect(`/post/${id}`);
   }
   catch(error){
     console.log(error);

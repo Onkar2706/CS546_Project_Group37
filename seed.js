@@ -245,7 +245,7 @@ let post2 = await postsMethod.addPost(
   "jtrib",
   "Foooood",
   "This foood is AMAZING!!!",
-  "https://images.pexels.com/photos/1633525/pexels-photo-1633525.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  "https://images.pexels.com/photos/1633525/pexels-photo-1633525.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 );
 let post3 = await postsMethod.addPost(
   user1._id,
@@ -253,6 +253,13 @@ let post3 = await postsMethod.addPost(
   "Look what I found",
   "This dress is AMAZING!!!",
   "https://images.pexels.com/photos/1055691/pexels-photo-1055691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+);
+let post4 = await postsMethod.addPost(
+  user1._id,
+  "rgreen",
+  "My fav dress",
+  "This dress is AMAZING!!!",
+  "https://images.pexels.com/photos/2235071/pexels-photo-2235071.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 );
 
 let purchase = await purchaseMethods.create(

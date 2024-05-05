@@ -6,11 +6,17 @@
         <p><strong>Posted on:</strong> {{getPost.time}}</p>
         
         <div class="comments">
-            <h3>Comments</h3>
+            <h3>Comments:</h3>
             {{#each getPost.comment}}
                 <div class="comment">
-                    <p>{{this}}</p>
+                    <p><strong>{{this.userName}}</strong>: {{this.comment}}</p>
                 </div>
             {{/each}}
         </div>
+
+        <form action="/post/{{getPost._id}}/comment" method="POST">
+            <label for="comment">Add a comment:</label>
+            <textarea id="comment" name="comment" required></textarea>
+            <button type="submit">Submit Comment</button>
+        </form>
 </div>

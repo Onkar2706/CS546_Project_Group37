@@ -426,3 +426,21 @@ button:hover {
   
   /* Change the background color of the dropdown button when the dropdown content is shown */
   .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+  .add-blog-button {
+    display: inline-block; /* Makes the link behave like a button */
+    padding: 10px 20px; /* Padding inside the button */
+    text-decoration: none; /* Removes underline from the link */
+    color: white; /* Text color */
+    background-color: #007bff; /* Button background color */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* No border */
+    font-size: 16px; /* Text size */
+    text-align: center; /* Center text inside the button */
+    cursor: pointer; /* Shows a pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.add-blog-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}

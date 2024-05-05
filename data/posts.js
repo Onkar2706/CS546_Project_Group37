@@ -50,6 +50,24 @@ const exportMethods = {
     }
     return { _id: id, deleted: true };
   },
+
+  async addComment(postId, userName, inp){
+    validate.checkIfProperInput(inp);
+    validate.checkIfProperInput(postId);
+    validate.checkIfString(inp);
+    validate.checkIfString(postId);
+
+    const filter = {_id: new ObjectId(postId)};
+    const updateArr = {
+      $push:{comment: {userName: userName, comment:inp}}
+    };
+
+    const postCollection = await posts();
+    const addcom = await postCollection.updateOne(filter, updateArr);
+    if (!(addcom.matchedCount && addcom.modifiedCount)) {
+      throw "Error: Could't add comment";
+    }
+  }
 };
 
 export default exportMethods;
