@@ -135,6 +135,25 @@ const exportMethods = {
     if (validatedPassword !== true)
       throw "Either the username or password is invalid";
   },
+
+  async purchaseProduct(productId, userid){
+    validate.checkIfProperInput(userid);
+    validate.checkIfProperInput(productId);
+    validate.checkIfString(productId);
+    validate.checkIfString(userid);
+
+    const filter = {_id: new ObjectId(userid)};
+    const updateArr = {
+      $push:{purchases: productId}
+    };
+
+    const userCollection = await users();
+    const addPurchase = await userCollection.updateOne(filter, updateArr);
+    if (!(addPurchase.matchedCount && addPurchase.modifiedCount)) {
+      throw "Error: Could't add product to purchases";
+    }
+    return addPurchase;
+  }
 };
 
 export default exportMethods;

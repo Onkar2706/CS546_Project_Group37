@@ -5,7 +5,7 @@
             <img src="{{this}}" alt="Product Image">
     {{/each}}
     <p>Price: {{productInfo.price}}$</p>
-    <button class="addtocart">Add to Cart</button> 
+    <a href= "/products/addToCart/{{productInfo._id}}" class="addtocart">Add to Cart</a> 
     <br>
 
     <p>Ratings: {{productInfo.rating}}</p>

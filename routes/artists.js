@@ -29,12 +29,14 @@ router.route("/getProducts").get(async (req, res) => {
   try {
     let artistId = await artistMethods.getArtistProfile(req.session.user._id);
     let getArtwork = await artistMethods.get(artistId._id); 
+
     const artworkArr = [];
     let artwork = getArtwork.portfolio;
     for (let i=0; i<artwork.length; i++){
       let temp = await productMethods.get(artwork[i]);
       artworkArr.push(temp);
     }
+    
     if (req.session && req.session.user) {      
       return res.render("home/getProducts", {
         title: "Products",

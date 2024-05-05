@@ -1,6 +1,5 @@
 import express from "express";
 import { ObjectId } from "mongodb";
-import artWork from "../data/artwork.js";
 import { userMethods } from "../data/index.js";
 import bcrypt from "bcryptjs";
 import { posts, users } from "../config/mongoCollections.js";
