@@ -9,6 +9,20 @@ import artWork from "../data/artwork.js";
 
 const router = express.Router();
 
+router.route("/deleteProduct")
+.get(async (req, res) => {
+  try {
+    
+
+  
+    
+  } catch (error) {
+    
+  }
+
+
+})
+
 
 // router.route("/getProducts").get(async (req, res) => {
 //   const getArtwork = await artWork.getAll();

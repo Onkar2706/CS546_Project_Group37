@@ -56,20 +56,20 @@ router
       // validate.checkIfProperInput(purchases);;
       // validate.checkIfProperInput(posts);;
 
-      validate.checkIfString(firstName);
-      validate.checkIfString(lastName);
-      validate.checkIfString(userName);
-      validate.checkIfString(email);
-      validate.checkIfString(state);
-      validate.checkIfString(city);
-      validate.checkIfString(cart);
-      validate.checkIfString(purchases);
-      validate.checkIfString(posts);
+      // validate.checkIfString(firstName);
+      // validate.checkIfString(lastName);
+      // validate.checkIfString(userName);
+      // validate.checkIfString(email);
+      // validate.checkIfString(state);
+      // validate.checkIfString(city);
+      // validate.checkIfString(cart);
+      // validate.checkIfString(purchases);
+      // validate.checkIfString(posts);
 
-      validate.checkIfUsername(userName);
-      validate.checkIfName(firstName);
-      validate.checkIfName(lastName);
-      validate.validateState(state);
+      // validate.checkIfUsername(userName);
+      // validate.checkIfName(firstName);
+      // validate.checkIfName(lastName);
+      // validate.validateState(state);
 
       const newUser = await userMethods.create(
         firstName,
