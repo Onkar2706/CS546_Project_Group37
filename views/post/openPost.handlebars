@@ -13,10 +13,11 @@
                 </div>
             {{/each}}
         </div>
-
+        {{#if loggedIn}}
         <form action="/post/{{getPost._id}}/comment" method="POST">
             <label for="comment">Add a comment:</label>
             <textarea id="comment" name="comment" required></textarea>
             <button type="submit">Submit Comment</button>
         </form>
+        {{/if}}
 </div>
