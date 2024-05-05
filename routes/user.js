@@ -28,8 +28,7 @@ router
       if (!createUserData || Object.keys(createUserData).length === 0) {
         throw "Error: No fields in the request body";
       }
-      if (req.body.userName === userNameValidator.userName)
-        throw "username present";
+      if (userNameValidator) throw "username present";
       // Securing password
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
 
@@ -56,20 +55,20 @@ router
       // validate.checkIfProperInput(purchases);;
       // validate.checkIfProperInput(posts);;
 
-      validate.checkIfString(firstName);
-      validate.checkIfString(lastName);
-      validate.checkIfString(userName);
-      validate.checkIfString(email);
-      validate.checkIfString(state);
-      validate.checkIfString(city);
-      validate.checkIfString(cart);
-      validate.checkIfString(purchases);
-      validate.checkIfString(posts);
+      // validate.checkIfString(firstName);
+      // validate.checkIfString(lastName);
+      // validate.checkIfString(userName);
+      // validate.checkIfString(email);
+      // validate.checkIfString(state);
+      // validate.checkIfString(city);
+      // validate.checkIfString(cart);
+      // validate.checkIfString(purchases);
+      // validate.checkIfString(posts);
 
-      validate.checkIfUsername(userName);
-      validate.checkIfName(firstName);
-      validate.checkIfName(lastName);
-      validate.validateState(state);
+      // validate.checkIfUsername(userName);
+      // validate.checkIfName(firstName);
+      // validate.checkIfName(lastName);
+      // validate.validateState(state);
 
       const newUser = await userMethods.create(
         firstName,
@@ -86,7 +85,7 @@ router
       console.log("User Created!");
       return res.redirect("/user/login");
     } catch (e) {
-      return res.status(400).json(e);
+      console.log(e);
     }
   });
 
