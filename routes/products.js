@@ -17,6 +17,10 @@ router.route("/").get(async (req, res) => {
       user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true });
     }
+    else if (req.session && req.session.user && req.session.user.role === "admin"){
+      return res.render("product/market", {title: "MarketPlace", items: allProducts, userName: req.session.user.username, loggedIn: true,
+      artist:true, admin:true });
+    }
     return res.render("product/market", {
       title: "MarketPlace",
       items: allProducts,

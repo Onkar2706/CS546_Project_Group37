@@ -75,9 +75,21 @@ router.route("/edit/:id").get(async (req, res) => {
 router.route("/updateProduct").post(async (req, res) => {
   console.log("Inupdateproduct");
   try {
-    let updatedProduct = req.body;
-    console.log(updatedProduct.productDescription);
-    if (typeof updatedProduct.tags === "string") {
+   
+    let updatedProduct =req.body
+    // Validations
+    validate.checkIfProperInput(updatedProduct.productName)
+    validate.checkIfProperInput(updatedProduct.productDescription)
+    validate.checkIfProperInput(updatedProduct.price)
+    validate.checkIfProperInput(updatedProduct.images)
+    validate.checkIfProperInput(updatedProduct.tags)
+
+    validate.checkIfString(updatedProduct.productName)
+    validate.checkIfString(updatedProduct.productDescription)
+
+    validate.checkIfPositiveNumber(updatedProduct.price)
+
+    if (typeof updatedProduct.tags === 'string') {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }
 
@@ -180,9 +192,22 @@ router.route("/addProduct").get(async (req, res) => {
 router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => {
   console.log("In ADDproductsPOST");
   const productData = req.body;
+  console.log(productData)
+
+  validate.checkIfProperInput(productData.productName)
+  validate.checkIfProperInput(productData.productDescription)
+  validate.checkIfProperInput(productData.price)
+  validate.checkIfProperInput(productData.images)
+  validate.checkIfProperInput(productData.tags)
+
+  validate.checkIfString(productData.productName)
+  validate.checkIfString(productData.productDescription)
+  validate.checkIfPositiveNumber(productData.price)
+
   // console.log(productData);
   const tagsArray = productData.tags.split(",");
   const userId = req.session.user._id;
+  console.log("i AM HERE")
   const fetchArtistID = await artistMethods.getArtistProfile(userId);
   let imagesArray = req.files.map(file => file.path);
   imagesArray = imagesArray.map(image => '/'+ image.split('\\').join('/'));
@@ -264,10 +289,6 @@ router
       if (!artistData) {
         return res.status(400).json({ Error: "No fields in the request body" });
       }
-      // validate.checkIfProperInput(artistData.bio);
-      // validate.checkIfProperInput(artistData.profilePic);
-      // validate.checkIfString(artistData.bio);
-      // validate.checkIfString(artistData.profilePic);
 
       const newArtist = await artistMethods.create(
         req.session.user._id,

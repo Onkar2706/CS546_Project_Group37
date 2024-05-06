@@ -3,9 +3,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
-
 }
+
+
 
 body {
     font-family: 'Arial', sans-serif;
@@ -138,37 +138,37 @@ footer {
         width: calc(50% - 2rem);
     }
 }
-/* /* HALF PAGE */
-body, html {
+ /* HALF PAGE */
+/* body, html {
     width: 100%;
     overflow-x: hidden; 
-} */
+}  */
 
-main {
+/* main {
     max-width: 100%; 
     overflow-x: hidden;
     padding: 2rem 5%; 
-}
+} */
 
 .card-container {
-    justify-content: center; /*Center cards if they don't fill full width */
-}
+    justify-content: center; 
+} */
 
 .card {
     margin: 1rem;
     padding: 1rem;
-    box-sizing: border-box; /* Include padding and border in the width */
-    width: calc(33.333% - 2rem); /* Adjust for three cards per row */
+    box-sizing: border-box; 
+    width: calc(33.333% - 2rem); 
 }
 
 @media (max-width: 768px) {
     .card {
-        width: calc(50% - 2rem); /* Two cards per row on smaller screens */
+        width: calc(50% - 2rem); 
     }
 }
 @media (max-width: 768px) {
     .nav-links li {
-        padding: 0 10px; /* Reduce padding on smaller screens */
+        padding: 0 10px; 
     }
 
     .card-container {
@@ -177,7 +177,7 @@ main {
     }
 
     .card {
-        width: 90%; /* Full width cards on very small screens */
+        width: 90%; /* Full width cards on very small screens*/
     }
 }
 
@@ -636,18 +636,16 @@ button:hover {
 }
 
 /* footer for all pages */
-
-footer {
-    position: relative;
-    top: 100px;
-    right: 0px;
-    width: 1524px;
+#footer {
+    position: bottom;
+    bottom: 0;
+    width: 100%;
     background-color: #333;
     color: #fff;
     padding: 20px;
     text-align: center;
     word-spacing: 5px;
-    z-index: 1000; /* Ensure it appears above other content */
+    z-index: 9999; /* Ensure it appears above other content */
   }
   
   footer p {
@@ -663,8 +661,8 @@ footer {
   footer a:hover {
     text-decoration: underline;
   }
-
-
+  
+  
 
 
 
@@ -745,3 +743,38 @@ footer {
     text-decoration: underline; /* Underline on hover */
   }
   
+
+  #admin-dashboard {
+    background-color: white;
+    text-align: center;
+    margin: 50px auto;
+}
+
+#admin-dashboard h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#admin-dashboard nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#admin-dashboard nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+#admin-dashboard nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+#admin-dashboard nav ul li a:hover {
+    color: #e69c2d;
+}
+
+/* css for artist get products 
+
+

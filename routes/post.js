@@ -70,8 +70,8 @@ router
     imagePath = '/'+ imagePath.split('\\').join('/');
 
     //validation
-    // validate.checkIfProperInput(blogData.title)
-    // validate.checkIfProperInput(blogData.body)
+    validate.checkIfProperInput(blogData.title)
+    validate.checkIfProperInput(blogData.body)
 
     // validate.checkIfString(blogData.title)
     // validate.checkIfString(blogData.body)

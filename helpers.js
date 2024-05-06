@@ -2,23 +2,25 @@ import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
 
 const validate = {
-    checkIfName: (inp) => {
+  checkIfName: (inp) => {
     let letters = /^[a-zA-Z]+$/;
     inp = inp.trim();
-    if(inp.length < 2 || inp.length > 25) throw "Error: Input lenght should be in range on 2 and 25";
-    if(!letters.test(inp)) throw "Error: Input should only contain letters";
+    if (inp.length < 2 || inp.length > 25)
+      throw "Error: Input lenght should be in range on 2 and 25";
+    if (!letters.test(inp)) throw "Error: Input should only contain letters";
   },
 
   checkIfUsername: (inp) => {
     let letters = /^[a-zA-Z]+$/;
     inp = inp.trim();
-    if(inp.length < 5 || inp.length > 10) throw "Error: Input lenght should be in range on 5 and 10";
-    if(!letters.test(inp)) throw "Error: Input should only contain letters";
+    if (inp.length < 5 || inp.length > 10)
+      throw "Error: Input lenght should be in range on 5 and 10";
+    if (!letters.test(inp)) throw "Error: Input should only contain letters";
   },
 
   checkIfPassword: (inp) => {
     let password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
-    if(!password.test(inp.trim())) "Error: Weak password";
+    if (!password.test(inp.trim())) "Error: Weak password";
   },
 
   async hashPassword(inp) {
@@ -49,12 +51,14 @@ const validate = {
   },
   checkIfPositiveNumber: (inp) => {
     validate.checkIfProperInput(inp);
-    if (typeof inp !== "number" || inp === NaN)
-      throw "Error: Input parameter must be a positive number";
-    if (inp < 1) throw "Error: Price must be positive";
+    inp = parseFloat(inp);
+    if (typeof inp !== "number")
+       throw "Error: Input parameter must be a positive number";
+    if (inp <= 0) throw "Error: Price must be positive";
     if (!Number.isInteger(inp)) {
       let temp = inp.toString().split(".");
-      if (temp[1].length > 2) throw "Error: Only two decimal points allowed";
+      if (temp.length > 1 && temp[1].length > 2)
+        throw "Error: Only two decimal points allowed";
     }
   },
 
@@ -73,15 +77,18 @@ const validate = {
       throw "Error: Invalid URL"; // https://javascript.plainenglish.io/check-if-string-is-alphanumeric-in-javascript-e325caa3ee
   },
 
-  // checkIfValidArray: (inp) => {
-  //   checkIfProperInput(inp);
-  //   if (typeof inp !== "object" || Array.isArray(inp) !== true)
-  //     throw "Error: Input parameter must be an array";
-  //   // if (inp.length === 0) throw "Error: Empty array provided";
-  //   for (let string of inp) {
-  //     validate.checkIfString(string);
-  //   }
-  // },
+  checkIfValidArray: (inp) => {
+    validate.checkIfProperInput(inp);
+    if (typeof inp !== "object")
+      throw "Error: Input parameter must be an array";
+    if (Array.isArray(inp) !== true)
+      throw "Error: Input parameter must be an array";
+
+    // if (inp.length === 0) throw "Error: Empty array provided";
+    for (let string of inp) {
+      validate.checkIfString(string);
+    }
+  },
 
   checkIfValidDate: (inp) => {
     validate.checkIfProperInput(inp);

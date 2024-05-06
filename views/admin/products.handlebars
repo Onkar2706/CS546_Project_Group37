@@ -1,0 +1,19 @@
+{{#if allProducts}}
+    <ul class="card-container">
+        {{#each allProducts}}
+          <li class="card">
+            <div class="artwork-item">
+              <a href="/product/{{this._id}}">
+                <img src="{{this.images.[0]}}" alt="{{this.productName}}" class="artwork-image">
+                <h2 class="artwork-name">{{this.productName}}</h2> 
+              </a>
+              <p class="artwork-description">{{this.productDescription}}</p> 
+              <p class="artwork-artist">Price: {{this.price}}</p> 
+           <a href="/admin/removeProduct/{{this._id}}">Delete Product</a>
+            </div>
+           </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No items available at the moment.</p>
+{{/if}}
