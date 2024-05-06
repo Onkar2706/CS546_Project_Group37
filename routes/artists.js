@@ -18,17 +18,73 @@ import artWork from "../data/artwork.js";
 
 const router = express.Router();
 
+let idOutside = null
+let idOutside_delete=null
+
+
+
+// router.route("/deleteProduct/:id")
+// .get(async (req, res) => {
+//   try {
+//     idOutside_delete = req.params.id
+//     const deleteProduct = await artWork.remove(idOutside_delete.trim())
+//     const deleteProduct_artistCollection= await artistMethods.removeFromCollection(idOutside_delete.trim())
+//     console.log(deleteProduct_artistCollection)
+    
+
+    
+//   } catch (error) {
+//     res.status(400).render("error",{errorMessage:error});
+    
+//   }
+  
+
+// })
+
 router.route("/edit/:id")
 .get(async (req, res) => {
   try {
-    const artworkid = req.params.id
-    const artData = await artWork.get(artworkid.trim())
+    idOutside = req.params.id
+    const artData = await artWork.get(idOutside.trim())
     console.log(artData)
-    res.render("product/addProduct",{title:"editProduct",artData})
+    res.render("product/editUpdateProduct",{title:"editProduct",artData, idOutside})
   } catch (error) {
       res.status(400).render("error",{errorMessage:error});
   }
 
+
+})
+
+
+
+router
+.route("/updateProduct")
+.post(async(req,res)=>{
+  console.log("Inupdateproduct")
+  try {
+   
+    let updatedProduct =req.body
+    if (typeof updatedProduct.tags === 'string') {
+      updatedProduct.tags = updatedProduct.tags.split(",");
+    }
+    
+    if (typeof updatedProduct.images === 'string') {
+      updatedProduct.images = updatedProduct.images.split(",");
+    }
+    console.log(updatedProduct)
+    const updatedproductInDB = await artWork.updateProduct(idOutside,updatedProduct)
+    console.log(updatedproductInDB)
+    res.redirect("/artist/getProducts")
+
+    
+    
+
+    
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
 
 })
 

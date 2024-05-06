@@ -1,7 +1,7 @@
 
 <h1>Art Blog</h1>
 {{#if loggedIn}}
-    <a href="/post/addBlog" class="add-blog-button">Add Blog</a>
+        <button class="add-blog"><a href="/post/addBlog" class="add-blog-button">Add Blog</a></button>
 {{/if}}
 <div id="posts" class="card-container">
     {{#each allPosts}}
