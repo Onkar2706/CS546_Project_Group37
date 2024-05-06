@@ -6,52 +6,62 @@ import { artistMethods } from "../data/index.js";
 // import { artistMethods } from "../data/index.js";
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
+// Upload Image
+// import fileExtLimiter from "../middleware/fileExtLimiter.js"
+// import fileSizesLimiter from "../middleware/fileSizeLimiter.js"
+// import filesPayloadExists from "../middleware/filesPayloadExists.js"
+// import fileUpload from "express-fileupload";
+
+// import path from "path";
 
 const router = express.Router();
 
-let idOutside = null
-let idOutside_delete=null
+let idOutside = null;
+let idOutside_delete = null;
 
-
-
-// router.route("/deleteProduct/:id")
-// .get(async (req, res) => {
-//   try {
-//     idOutside_delete = req.params.id
-//     const deleteProduct = await artWork.remove(idOutside_delete.trim())
-//     const deleteProduct_artistCollection= await artistMethods.removeFromCollection(idOutside_delete.trim())
-//     console.log(deleteProduct_artistCollection)
-    
-
-    
-//   } catch (error) {
-//     res.status(400).render("error",{errorMessage:error});
-    
-//   }
-  
-
-// })
-
-router.route("/edit/:id")
-.get(async (req, res) => {
+router.route("/deleteProduct/:id").get(async (req, res) => {
   try {
-    idOutside = req.params.id
-    const artData = await artWork.get(idOutside.trim())
-    console.log(artData)
-    res.render("product/editUpdateProduct",{title:"editProduct",artData, idOutside})
+    idOutside_delete = req.params.id;
+    const userId = req.session.user._id;
+    const fetchArtist = await artistMethods.getArtistProfile(userId.trim());
+    const removeFromArtist = await productMethods.removeFromArtWork(
+      idOutside_delete,
+      fetchArtist._id
+    );
+    console.log("Removed from artist port..");
+    const removeFromDB = await productMethods.remove(idOutside_delete);
+    console.log("product removed from db");
+    // if(req.params.id === null) res.redirect("product/getProduct")
+
+    // console.log(idOutside_delete.toString())
+    // const deleteProduct = await artWork.removeProductfromDB(idOutside_delete.trim())
+    // console.log(deleteProduct)
+    return res.redirect("/artist/getProducts");
+    // const deleteProduct_artistCollection= await artistMethods.removeFromCollection(idOutside_delete.trim())
+    // console.log(deleteProduct_artistCollection)
   } catch (error) {
-      res.status(400).render("error",{errorMessage:error});
+    res.status(400).render("error", { errorMessage: error });
   }
+});
 
+router.route("/edit/:id").get(async (req, res) => {
+  try {
+    idOutside = req.params.id;
+    // if(req.params.id === null) res.redirect("product/getProduct")
+    const artData = await artWork.get(idOutside.trim());
+    console.log(artData);
+    res.render("product/editUpdateProduct", {
+      title: "editProduct",
+      artData,
+      idOutside,
+    });
+  } catch (error) {
+    res.status(400).render("error", { errorMessage: error });
+  }
+});
 
-})
-
-
-
-router
-.route("/updateProduct")
-.post(async(req,res)=>{
-  console.log("Inupdateproduct")
+router.route("/updateProduct").post(async (req, res) => {
+  console.log("Inupdateproduct");
   try {
    
     let updatedProduct =req.body
@@ -70,22 +80,21 @@ router
     if (typeof updatedProduct.tags === 'string') {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }
-    
-    if (typeof updatedProduct.images === 'string') {
+
+    if (typeof updatedProduct.images === "string") {
       updatedProduct.images = updatedProduct.images.split(",");
     }
-    console.log(updatedProduct)
-    const updatedproductInDB = await artWork.updateProduct(idOutside,updatedProduct)
-    console.log(updatedproductInDB)
-    res.redirect("/artist/getProducts")
-    
+    console.log(updatedProduct);
+    const updatedproductInDB = await artWork.updateProduct(
+      idOutside,
+      updatedProduct
+    );
+    console.log(updatedproductInDB);
+    res.redirect("/artist/getProducts");
   } catch (error) {
-    console.log(error)
-    
+    console.log(error);
   }
-
-})
-
+});
 
 // router.route("/getProducts").get(async (req, res) => {
 //   const getArtwork = await artWork.getAll();
@@ -105,25 +114,24 @@ router
 router.route("/getProducts").get(async (req, res) => {
   try {
     let artistId = await artistMethods.getArtistProfile(req.session.user._id);
-    let getArtwork = await artistMethods.get(artistId._id); 
+    let getArtwork = await artistMethods.get(artistId._id);
 
     const artworkArr = [];
     let artwork = getArtwork.portfolio;
-    for (let i=0; i<artwork.length; i++){
+    for (let i = 0; i < artwork.length; i++) {
       let temp = await productMethods.get(artwork[i]);
       artworkArr.push(temp);
     }
-    
-    if (req.session && req.session.user) {      
+
+    if (req.session && req.session.user) {
       return res.render("product/getProducts", {
         title: "Products",
         products: artworkArr,
         userName: req.session.user.username,
         loggedIn: true,
         user: req.session.user.role === "user" ? true : false,
-        artist: req.session.user.role === "user" ? false : true 
+        artist: req.session.user.role === "user" ? false : true,
       });
-      
     } else {
       getArtwork = await artWork.getAll();
       return res.render("product/getProducts", {
@@ -131,31 +139,43 @@ router.route("/getProducts").get(async (req, res) => {
         products: artworkArr,
       });
     }
-  } catch (error) {+
-    res.status(500).render("error",{errorMessage:error});
+  } catch (error) {
+    res.status(500).render("error", { errorMessage: error });
   }
 });
 
-
-
-router
-.route('/addProduct')
-.get(async(req,res)=>{
-
-  if (req.session && req.session.user && req.session.user.role === "user"){
-    return res.render("product/addProduct", { userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
-    artist: req.session.user.role === "user" ? false : true });
+router.route("/addProduct").get(async (req, res) => {
+  if (req.session && req.session.user && req.session.user.role === "user") {
+    return res.render("product/addProduct", {
+      userName: req.session.user.username,
+      loggedIn: true,
+      user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true,
+    });
+  } else if (
+    req.session &&
+    req.session.user &&
+    req.session.user.role === "artist"
+  ) {
+    return res.render("product/addProduct", {
+      userName: req.session.user.username,
+      loggedIn: true,
+      user: req.session.user.role === "user" ? true : false,
+      artist: req.session.user.role === "user" ? false : true,
+    });
   }
-  else if (req.session && req.session.user && req.session.user.role === "artist"){
-    return res.render("product/addProduct", {userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
-    artist: req.session.user.role === "user" ? false : true});
-  }
-  return res.render("product/addProduct")
-})
+  return res.render("product/addProduct");
+});
 
+// router
+// .route('/addProduct')
+// .post(async(req,res)=>{
+//   console.log("In ADDproductsPOST")
+//   const productData = req.body
+//   const userId=req.session.user._id.trim()
+//   const fetchArtistID =  await artistMethods.getArtistProfile(userId)
+//   console.log(fetchArtistID)
 
-
-  
 // });
 router.route("/addProduct")
 .post(async (req, res) => {
@@ -187,40 +207,72 @@ router.route("/addProduct")
     productData.productDescription,
     tagsArray,
     productData.price,
-    imagesArray);
+    imagesArray
+  );
 
-  
   // fetchArtistID.portfolio.push(addProduct._id);
-  const result = await artistMethods.updateProductInArtist(fetchArtistID._id,addProduct._id)
-  
+  const result = await artistMethods.updateProductInArtist(
+    fetchArtistID._id,
+    addProduct._id
+  );
+
   // fetchArtistID.
   // console.log(artworkId);
   // const enterArtidintoArtist = await artistMethods.updateArtist()
 
-  return res.redirect("/artist/getProducts")
+  return res.redirect("/artist/getProducts");
 });
 
 router
   .route("/artistreg")
   .get(async (req, res) => {
-    
     try {
       return res.render("artist/artistreg", { title: "Artist Registration" });
     } catch (error) {
-      res.status(400).render("error",{errorMessage:error});
+      res.status(400).render("error", { errorMessage: error });
     }
   })
+  // Upload Image
+  // .post( fileUpload({ createParentPath: true }),
+  // filesPayloadExists,
+  // fileExtLimiter([".png",".jpg",".jpeg"]),
+  // fileSizesLimiter,
+  // async (req, res) => {
   .post(async (req, res) => {
-    
     try {
       const artistData = req.body;
-      console.log(artistData);
-      
-      validate.checkIfProperInput(artistData.bio);
-      validate.checkIfString(artistData.bio);
-      // profile pic validation left
-      validate.checkIfProperInput(artistData.profilePicture)
+      // Upload Image
 
+      // let files = req.files;
+      // let fileName;
+      // let filepath;
+      // Object.keys(files).forEach((key) => {
+      //    filepath = path.join(
+      //     "public",
+      //     "images",
+      //     "files",
+      //     req.session.user.username
+      //     ,files[key].name
+      //   );
+      //   fileName = files[key].name;
+      //   console.log(filepath);
+      //   files[key].mv(filepath, (err) => {
+      //     if (err)
+      //       return res.status(500).json({ status: "error", message: err });
+      //   });
+      // });
+      // console.log(filepath)
+
+      // console.log(artistData);
+      // validate.checkIfProperInput(user_id);
+      // validate.checkIfProperInput(bio);
+      // validate.checkIfProperInput(profilePic);
+
+      // validate.checkIfString(user_id);
+      // validate.checkIfString(bio);
+      // validate.checkIfString(profilePic);
+
+      // validate.checkIfValidObjectId(user_id);
       console.log(artistData);
       if (!artistData) {
         return res.status(400).json({ Error: "No fields in the request body" });
@@ -228,14 +280,16 @@ router
 
       const newArtist = await artistMethods.create(
         req.session.user._id,
-        artistData.bio,
-        artistData.profilePicture
+        req.body.bio,
+        req.body.profilePicture
+        // Upload Image
+        // req.body.bio,
+        // '/'+filepath
       );
+      // console.log(newArtist);
       res.redirect("/user/login");
-    } 
-     
-     catch (error) {
-      res.status(400).render("error",{errorMessage:error});
+    } catch (error) {
+      res.status(400).render("error", { errorMessage: error });
     }
   });
 
@@ -244,69 +298,126 @@ router.route("/:artistId").get(async (req, res) => {
     const id = req.params.artistId;
     const artistInfo = await artistMethods.get(id.trim());
     const artworkArr = [];
-    for (let i=0; i<artistInfo.portfolio.length; i++){
+    const fetchRatings = artistInfo.ratings;
+    const ratingsArr = [];
+    for (let i = 0; i < fetchRatings.length; i++) {
+      ratingsArr.push(fetchRatings[i]["ratings"]);
+    }
+    const avgRating = validate.calculateAverageRating(ratingsArr);
+
+    for (let i = 0; i < artistInfo.portfolio.length; i++) {
       let temp = await productMethods.get(artistInfo.portfolio[i]);
       artworkArr.push(temp);
     }
-    if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("artist/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username,
-      loggedIn: true, user: req.session.user.role === "user" ? true : false,
-      artist: req.session.user.role === "user" ? false : true});
+    if (req.session && req.session.user && req.session.user.role === "user") {
+      return res.render("artist/artistclick", {
+        artistInfo,
+        artworkArr,
+        avgRating,
+        title: "Artist Info",
+        userName: req.session.user.username,
+        loggedIn: true,
+        user: req.session.user.role === "user" ? true : false,
+        artist: req.session.user.role === "user" ? false : true,
+      });
+    } else if (
+      req.session &&
+      req.session.user &&
+      req.session.user.role === "artist"
+    ) {
+      return res.render("artist/artistclick", {
+        artistInfo,
+        artworkArr,
+        avgRating,
+        title: "Artist Info",
+        userName: req.session.user.username,
+        loggedIn: true,
+        user: req.session.user.role === "user" ? true : false,
+        artist: req.session.user.role === "user" ? false : true,
+      });
     }
-    else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("artist/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username,
-      loggedIn: true, user: req.session.user.role === "user" ? true : false,
-      artist: req.session.user.role === "user" ? false : true});
-    }
-    
-    return res.render("artist/artistclick", {artistInfo, artworkArr, title:"Artist Info"})
-  }
-  catch(error){
-    res.status(400).render("error",{errorMessage:error});
+
+    return res.render("artist/artistclick", {
+      artistInfo,
+      artworkArr,
+      avgRating,
+      title: "Artist Info",
+    });
+  } catch (error) {
+    res.status(400).render("error", { errorMessage: error });
   }
 });
 
-
 router
-.route("/")
-.get(async (req, res) => {
-  try {
-    let allArtists = await artistMethods.getAll();
-    
-    if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("artist/artist", {allArtists, title: "Artists", userName: req.session.user.username,
-      loggedIn: true,
-      user: req.session.user.role === "user" ? true : false,
-      artist: req.session.user.role === "user" ? false : true });
+  .route("/")
+  .get(async (req, res) => {
+    try {
+      let allArtists = await artistMethods.getAll();
+
+      if (req.session && req.session.user && req.session.user.role === "user") {
+        return res.render("artist/artist", {
+          allArtists,
+          title: "Artists",
+          userName: req.session.user.username,
+          loggedIn: true,
+          user: req.session.user.role === "user" ? true : false,
+          artist: req.session.user.role === "user" ? false : true,
+        });
+      } else if (
+        req.session &&
+        req.session.user &&
+        req.session.user.role === "artist"
+      ) {
+        return res.render("artist/artist", {
+          allArtists,
+          title: "Artists",
+          userName: req.session.user.username,
+          loggedIn: true,
+          user: req.session.user.role === "user" ? true : false,
+          artist: req.session.user.role === "user" ? false : true,
+        });
+      }
+
+      return res.render("artist/artist", { allArtists, title: "Artists" });
+    } catch (error) {
+      res.status(404).render("error", { errorMessage: error });
     }
-    else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("artist/artist", {allArtists, title: "Artists", userName: req.session.user.username,
-      loggedIn: true,
-      user: req.session.user.role === "user" ? true : false,
-      artist: req.session.user.role === "user" ? false : true });
-    }
-    
-    return res.render("artist/artist", {allArtists, title: "Artists"});
-  } catch (error) {
-    res.status(404).render("error",{errorMessage:error});
-  }
-  
   })
+  .post(async (req, res) => {
+    try {
+      let artists = await artistMethods.getByName(
+        req.body.firstName,
+        req.body.lastName
+      );
+      res.status(200).send(artists);
+    } catch (e) {
+      console.log(e);
+      res.status(400).send(e);
+    }
+  });
 
+router.route("/rateArtist/:artistId").post(async (req, res) => {
+  try {
+    const id = req.params.artistId;
+    const rating = req.body.rating;
+    const addRating = await artistMethods.addArtistRating(
+      id,
+      rating,
+      req.session.user.username
+    );
+    return res.redirect(`/artist/${id}`);
+  } catch (error) {
+    res.status(404).render("error", { errorMessage: error });
+  }
+});
 
-  
-
-export default router
-
-
-
+export default router;
 
 // console.log("In ADDproductsPOST")
 //   const productData = req.body
 //   const userId=req.session.user._id.trim()
 //   const fetchArtistID =  await artistMethods.getArtistProfile(userId)
 //   console.log(fetchArtistID)
-
 
 // router.route("/addProduct").post(async (req, res) => {
 //   console.log("In ADDproductsPOST");
@@ -326,10 +437,9 @@ export default router
 //     productData.price,
 //     imagesArray);
 
-  
 //   // fetchArtistID.portfolio.push(addProduct._id);
 //   const result = await artistMethods.updateProductInArtist(fetchArtistID._id,addProduct._id)
-  
+
 //   // fetchArtistID.
 //   // console.log(artworkId);
 //   // const enterArtidintoArtist = await artistMethods.updateArtist()

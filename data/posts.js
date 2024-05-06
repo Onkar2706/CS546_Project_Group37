@@ -1,4 +1,4 @@
-import { posts } from "../config/mongoCollections.js";
+import { posts, users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
@@ -72,7 +72,18 @@ const exportMethods = {
     if (!(addcom.matchedCount && addcom.modifiedCount)) {
       throw "Error: Could't add comment";
     }
-  }
+  },
+  async removePost(postid){
+    validate.checkIfProperInput(postid);
+    // validate.checkIfString(userid);
+    // validate.checkIfString(productId);
+
+    const postCollection = await posts();
+    const removeProduct = await postCollection.deleteOne({
+        _id: new ObjectId(postid)
+    });
+    return removeProduct;
+  },
 };
 
 export default exportMethods;

@@ -1,5 +1,5 @@
 //data functions for artists collection
-import { artists, users } from "../config/mongoCollections.js";
+import { artists, users, artworks } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import productMethods from "./artwork.js";
 import userMethods from "./users.js";
@@ -33,7 +33,7 @@ const exportedMethods = {
       bio: bio.trim(),
       profilePic: profilePic.trim(),
       portfolio: [],
-      ratings: 0,
+      ratings: [],
     };
     let artistCollection = await artists();
     const insertInfo = await artistCollection.insertOne(newArtist);
@@ -49,30 +49,49 @@ const exportedMethods = {
     return await this.get(insertInfo.insertedId);
   },
 
-//   async removeFromCollection(artworkId) {
-    
-//     if (!artworkId || typeof artworkId !== 'string') {
-//         throw new Error('Invalid artwork ID');
-//     }
+  async getByName(firstName, lastName) {
+    if (!firstName && !lastName) {
+      throw `You must provide a first name and/or last name`;
+    }
+    if (
+      typeof firstName != "string" ||
+      typeof lastName != "string" ||
+      firstName.trim() === "" ||
+      lastName.trim() === ""
+    ) {
+      throw `first name and last name cannot be empty`;
+    }
+    let artistCollection = await artists();
+    const artistList = await artistCollection
+      .find({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+      })
+      .toArray();
+    if (!artistList) {
+      throw `couldn't find an artist with that name!`;
+    }
+    return artistList;
+  },
+  async removeFromCollection(artworkId) {
+    if (!artworkId || typeof artworkId !== "string") {
+      throw new Error("Invalid artwork ID");
+    }
 
-    
-//     const objectId = new ObjectId(artworkId);
+    const objectId = new ObjectId(artworkId);
 
-    
-//     const artworkCollection = await artworks();
-//     const updateResult = await artworkCollection.updateMany(
-//         { collection: objectId },
-//         { $pull: { collection: objectId } }
-//     );
+    const artworkCollection = await artworks();
+    const updateResult = await artworkCollection.updateMany(
+      { collection: objectId },
+      { $pull: { collection: objectId } }
+    );
 
-    
-//     if (updateResult.modifiedCount === 0) {
-//         throw new Error('No documents were updated');
-//     }
+    if (updateResult.modifiedCount === 0) {
+      throw new Error("No documents were updated");
+    }
 
-//     return true; 
-// },
-
+    return true;
+  },
 
   async get(id) {
     //retrieves an artist if the artist exists in the database
@@ -89,9 +108,6 @@ const exportedMethods = {
   },
 
   async getArtistProfile(userid) {
-    //retrieves an artist if the artist exists in the database
-    // validate.checkIfProperInput(userid)
-    // validate.checkIfValidObjectId(userid);
     const artistCollection = await artists();
     const findArtist = await artistCollection.findOne({ user_id: userid });
     if (!findArtist) {
@@ -115,18 +131,50 @@ const exportedMethods = {
     });
     return artistList;
   },
-  async updateProductInArtist( artistId, portfolio) {
-    const filter = {_id: new ObjectId(artistId)};
+  async updateProductInArtist(artistId, portfolio) {
+    const filter = { _id: new ObjectId(artistId) };
     const updateProduct = {
-      $push:{portfolio}
+      $push: { portfolio },
     };
 
     const artistCollection = await artists();
     const addprod = await artistCollection.updateOne(filter, updateProduct);
-    return addprod
+    return addprod;
   },
 
-  
+  async addRating(productId, username, rating, comment) {
+    validate.checkIfProperInput(productId);
+    validate.checkIfProperInput(username);
+    validate.checkIfProperInput(rating);
+    validate.checkIfProperInput(comment);
 
+    const filter = { _id: new ObjectId(productId) };
+    const updateArr = {
+      $push: {
+        reviews: { userName: username, ratings: rating, comment: comment },
+      },
+    };
+    const productCollection = await artworks();
+    const addRev = await productCollection.updateOne(filter, updateArr);
+    if (!(addRev.matchedCount && addRev.modifiedCount)) {
+      throw "Error: Could't add comment";
+    }
+  },
+
+  async addArtistRating(artistId, rating, username) {
+    validate.checkIfProperInput(artistId);
+    validate.checkIfProperInput(username);
+    validate.checkIfProperInput(rating);
+
+    const filter = { _id: new ObjectId(artistId) };
+    const updateArr = {
+      $push: { ratings: { userName: username, ratings: rating } },
+    };
+    const artistCollection = await artists();
+    const addRate = await artistCollection.updateOne(filter, updateArr);
+    if (!(addRate.matchedCount && addRate.modifiedCount)) {
+      throw "Error: Could't add rating";
+    }
+  },
 };
 export default exportedMethods;

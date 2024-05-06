@@ -5,8 +5,53 @@
         <textarea id="bio" name="bio" rows="4" cols="50"></textarea><br><br>
 
         <label for="profilePicture">Profile Picture:</label><br>
-        <input type="url" id="profilePicture" name="profilePicture"><br><br>
-
+        <input type="url" name="profilePicture" id="profilePicture">
+        {{!-- <input type="file" id="profilePicture" accept=".png,.jpg,.jpeg" ><br><br> --}}
+{{!-- <input type="file" id="fileInput" accept=".pdf" /> --}}
         <button type="submit">Submit</button>
     </form>
 </body>
+{{!-- Upload Image
+<script>
+         document.getElementById("artistRegisterForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const bio = document.getElementById("bio").value.trim();
+                const uploadedFiles = document.getElementById("profilePicture").files;
+
+                if (uploadedFiles.length === 0) {
+                    return alert("Please select a file");
+                }
+
+                if (uploadedFiles.length > 1) {
+                    return alert("Please select only one file");
+                }
+
+           
+
+                const formData = new FormData();
+                Object.keys(uploadedFiles).forEach((key) => {
+                    formData.append(uploadedFiles.item(key).name, uploadedFiles.item(key));
+                });
+           formData.append("bio", bio);
+
+                try {
+                    const response = await fetch(window.location.href, {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        console.log("File uploaded successfully");
+                        window.location.reload();
+                    } else {
+                        throw "File upload failed";
+                    }
+                } catch (error) {
+                    setError(error);
+                    console.error("Error:", error);
+                }
+            });
+
+
+
+</script> --}}

@@ -3,7 +3,7 @@
     <div class="artist-profile">
         <img src="{{artistInfo.profilePic}}" alt="Profile of {{artistInfo.firstName}} {{artistInfo.lastName}}">
         <p>{{artistInfo.bio}}</p>
-        <p>Ratings: {{artistInfo.ratings}}</p>
+        <p>Ratings: {{avgRating}}</p>
     </div>
     
     <h2>Featured Artworks</h2>
@@ -21,7 +21,7 @@
         {{/each}}
     </div>
     {{#if loggedIn}}
-    <form action="/rateArtist/{{artistInfo._id}}" method="post">
+    <form action="/artist/rateArtist/{{artistInfo._id}}" method="POST">    
         <label for="rating">Rate this artist:</label>
         <select name="rating" id="rating">
             <option value="1">1 - Poor</option>
