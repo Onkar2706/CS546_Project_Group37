@@ -33,7 +33,7 @@ const exportedMethods = {
       bio: bio.trim(),
       profilePic: profilePic.trim(),
       portfolio: [],
-      ratings: 0,
+      ratings: [],
     };
     let artistCollection = await artists();
     const insertInfo = await artistCollection.insertOne(newArtist);
@@ -124,7 +124,38 @@ const exportedMethods = {
     return addprod
   },
 
-  
+  async addRating(productId, username, rating, comment){
+    validate.checkIfProperInput(productId);
+    validate.checkIfProperInput(username);
+    validate.checkIfProperInput(rating);
+    validate.checkIfProperInput(comment);
+
+    const filter = {_id: new ObjectId(productId)};
+    const updateArr = {
+      $push:{reviews: {userName: username, ratings: rating, comment: comment}}
+    };
+    const productCollection = await artworks();
+    const addRev = await productCollection.updateOne(filter, updateArr);
+    if (!(addRev.matchedCount && addRev.modifiedCount)) {
+      throw "Error: Could't add comment";
+    }
+  },
+
+  async addArtistRating(artistId, rating, username){
+    validate.checkIfProperInput(artistId);
+    validate.checkIfProperInput(username);
+    validate.checkIfProperInput(rating);
+
+    const filter = {_id: new ObjectId(artistId)};
+    const updateArr = {
+      $push:{ratings: {userName: username, ratings: rating}}
+    };
+    const artistCollection = await artists();
+    const addRate = await artistCollection.updateOne(filter, updateArr);
+    if (!(addRate.matchedCount && addRate.modifiedCount)) {
+      throw "Error: Could't add rating";
+    }
+  },
 
 };
 export default exportedMethods;
