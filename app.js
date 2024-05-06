@@ -61,16 +61,53 @@ app.use("/", (res, req, next) => {
 //   next();
 // });
 
+// app.use("/user/registerArtist", (res, req, next) => {
+//   if (req.req.session.user && req.req.session.user.role === "user") {
+//     next();
+//   }
+// });
+
+app.use("/user/userInfo", (res, req, next) => {
+  if (req.req.session.user) {
+    next();
+  } else {
+    return res.res.redirect("/");
+  }
+});
+app.use("/user/editUserInfo", (res, req, next) => {
+  if (req.req.session.user) {
+    next();
+  } else {
+    return res.res.redirect("/");
+  }
+});
+app.use("/user/editArtistInfo", (res, req, next) => {
+  if (!req.req.session.user || req.req.session.user.role !== "artist") {
+    return res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+app.use("/post/addBlog", (res, req, next) => {
+  if (!req.req.session.user) {
+    return res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+app.use("/post/:postId/comment", (res, req, next) => {
+  if (!req.req.session.user) {
+    return res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
 app.use("/user/register", (res, req, next) => {
   if (req.req.session.user) {
-    if (
-      req.req.session.user.role === "user" ||
-      req.req.session.user.role === "artist"
-    ) {
-      return res.res.redirect("/");
-    } else {
-      return res.res.redirect("/");
-    }
+    return res.res.redirect("/");
   }
   next();
 });
