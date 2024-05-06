@@ -1,6 +1,6 @@
 import express from "express";
 import { ObjectId } from "mongodb";
-import { userMethods } from "../data/index.js";
+import { artistMethods, userMethods } from "../data/index.js";
 import bcrypt from "bcryptjs";
 import { posts, users } from "../config/mongoCollections.js";
 import validate from "../helpers.js";
@@ -251,6 +251,8 @@ router.route("/getUserInfo").get(async (req, res) => {
     req.session.user &&
     req.session.user.role === "artist"
   ) {
+    const artistInfo = await artistMethods.getArtistProfile(req.session.user._id);
+
     return res.render("user/userInfo", {
       title: "My Profile",
       firstName: req.session.user.firstName,
@@ -264,6 +266,8 @@ router.route("/getUserInfo").get(async (req, res) => {
       state: req.session.user.state,
       cart: req.session.user.cart.length === 0 ? "No Items" : req.session.user.cart,
       role: req.session.user.role,
+      bio: artistInfo.bio,
+      profilePic: artistInfo.profilePic,
       userName: req.session.user.username,
       loggedIn: true,
       user: req.session.user.role === "user" ? true : false,
@@ -276,8 +280,12 @@ router
 .route('/editUserInfo')
 .get(async (req, res) => {
   try {
+    let artistInfo;
+    if (req.session.user.role == "artist"){
+      artistInfo = await artistMethods.getArtistProfile(req.session.user._id);
+    }
     const userInfo = req.session.user;
-    return res.render('user/editUserForm', {userInfo, title: "Update Profile",  userName: req.session.user.username,
+    return res.render('user/editUserForm', {userInfo, title: "Update Profile",  userName: req.session.user.username, artistInfo,
     loggedIn: true,
     user: req.session.user.role === "user" ? true : false,
     artist: req.session.user.role === "user" ? false : true});
@@ -290,6 +298,20 @@ router
     const updateInfo = req.body;
     const userid = req.session.user._id;
     const updateUser = await userMethods.updateUser(userid, updateInfo);
+    return res.redirect('/user/login');
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
+  }
+});
+
+router
+.route('/editArtistInfo')
+.post(async (req, res) => {
+  try {
+    const artistInfo = await artistMethods.getArtistProfile(req.session.user._id);
+    const updateInfo = req.body;
+    const artistId = artistInfo._id;
+    const updateUser = await userMethods.updateArtist(artistId, updateInfo);
     return res.redirect('/user/login');
   } catch (error) {
     res.status(400).render("error",{errorMessage:error});

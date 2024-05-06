@@ -20,6 +20,7 @@
         </div>
         {{/each}}
     </div>
+    {{#if loggedIn}}
     <form action="/rateArtist/{{artistInfo._id}}" method="post">
         <label for="rating">Rate this artist:</label>
         <select name="rating" id="rating">
@@ -31,4 +32,5 @@
         </select>
         <button type="submit">Submit Rating</button>
     </form>
+    {{/if}}
 </div>
