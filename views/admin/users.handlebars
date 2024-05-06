@@ -1,0 +1,20 @@
+{{#if allUsers}}
+    <ul class="card-container">
+        {{#each allUsers}}
+          <li class="card">
+            <div class="artwork-item">
+              {{!-- <a href="/post/{{this._id}}">?
+                <img src="{{this.image}}" alt="{{this.title}}" class="artwork-image">
+                <h2 class="artwork-name">{{this.title}}</h2> 
+              </a> --}}
+              <p class="artwork-price">Username: ${{this.userName}}</p> 
+              {{!-- <p class="artwork-description">{{this.body}}</p> 
+              <p class="artwork-artist">Date Posted: {{this.time}}</p>  --}}
+           <a href="/admin/removeUser/{{this._id}}">Delete User</a>
+            </div>
+           </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No items available at the moment.</p>
+{{/if}}
