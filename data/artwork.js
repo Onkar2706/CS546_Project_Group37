@@ -1,5 +1,7 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
+// This data file should export all functions using the ES6 standard as shown in the lecture code
 import { artworks } from "../config/mongoCollections.js";
+import { artists } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
@@ -26,7 +28,6 @@ const exportMethods = {
     tags,
     price,
     images,
-    rating,
     reviews
   ) {
     // validate.checkIfProperInput(artistId);
@@ -56,8 +57,8 @@ const exportMethods = {
       tags: Array.isArray(tags) ? tags.map((item) => item.trim()) : [],
       price: price,
       date: validate.getTodayDate(),
+      avgRating: 0,
       images: Array.isArray(images) ? images.map((item) => item.trim()) : [],
-      rating: rating,
       reviews: Array.isArray(reviews) ? reviews.map((item) => item.trim()) : [],
     };
 
@@ -96,94 +97,120 @@ const exportMethods = {
     return allProducts;
   },
 
-  async remove(id) {
-    validate.checkIfProperInput(id);
-    validate.checkIfString(id);
-    id = id.trim();
-    if (!ObjectId.isValid(id)) throw "Error: Invalid object ID";
-
-    const productCollection = await artworks();
-    const removeProduct = await productCollection.findOneAndDelete({
-      _id: new ObjectId(id),
-    });
-    if (!removeProduct)
-      throw `Error: Could not remove the product with id ${id}`;
-    let artistToUpdate = await artistMethods.get(removeProduct.artistId);
-    let updatedPortfolio = artistToUpdate.portfolio.filter(
-      (element) => element != id
-    );
-    await artistMethods.updateArtist(
-      removeProduct.artistId,
-      artistToUpdate.user_id,
-      artistToUpdate.bio,
-      artistToUpdate.profilePic,
-      updatedPortfolio
-    );
-    return { _id: id, deleted: true };
+  async getByArtist(artistId) {
+    const artistsCollection = await artists(); 
+    const artist = await artistsCollection.findOne({ _id: artistId });
+    if (!artist) throw "Error: Artist not found";
+    const artistProducts = artist.portfolio; 
+    return artistProducts || [];
   },
 
-  // async update(
-  //   productId,
-  //   productName,
-  //   productDescription,
-  //   modelNumber,
-  //   price,
-  //   manufacturer,
-  //   manufacturerWebsite,
-  //   keywords,
-  //   categories,
-  //   dateReleased,
-  //   discontinued
-  // ){
-  //   validate.checkIfProperInput(productId);
-  //   validate.checkIfProperInput(productName);
-  //   validate.checkIfProperInput(productDescription);
-  //   validate.checkIfProperInput(modelNumber);
-  //   validate.checkIfProperInput(price);
-  //   validate.checkIfProperInput(manufacturer);
-  //   validate.checkIfProperInput(manufacturerWebsite);
-  //   validate.checkIfProperInput(keywords);
-  //   validate.checkIfProperInput(categories);
-  //   validate.checkIfProperInput(dateReleased);
-  //   if (discontinued === undefined) throw "Error: Input parameter not provided";
+  async remove(productId) {
+    if (!productId) throw "Error: Product ID is required.";
 
-  //   validate.checkIfString(productId)
-  //   validate.checkIfString(productName);
-  //   validate.checkIfString(productDescription);
-  //   validate.checkIfString(modelNumber);
-  //   validate.checkIfString(manufacturer);
-  //   validate.checkIfString(manufacturerWebsite);
-  //   validate.checkIfString(dateReleased);
+    const productCollection = await artworks();
+    const deletionInfo = await productCollection.deleteOne({
+        _id: new ObjectId(productId)
+    });
 
-  //   checkIfPositiveNumber(price);
-  //   checkIfValidURL(manufacturerWebsite);
-  //   checkIfValidArray(keywords);
-  //   checkIfValidArray(categories);
-  //   checkIfValidDate(dateReleased);
-  //   checkIfBoolean(discontinued);
-  //   if (!ObjectId.isValid(productId)) throw 'Error: Invalid object ID';
+    if (deletionInfo.deletedCount === 0) {
+        throw `Error: Could not delete product with ID ${productId}`;
+    }
 
-  //   const updateProduct = {
-  //     _id: new ObjectId(productId),
-  //     productName: productName.trim(),
-  //     productDescription: productDescription.trim(),
-  //     modelNumber: modelNumber.trim(),
-  //     price: price,
-  //     manufacturer: manufacturer.trim(),
-  //     manufacturerWebsite: manufacturerWebsite.trim(),
-  //     keywords: keywords,
-  //     categories: categories,
-  //     dateReleased: dateReleased.trim(),
-  //     discontinued: discontinued,
+    return { deleted: true };
+},
+
+  async addReview(productId, username, rating, comment){
+    validate.checkIfProperInput(productId);
+    validate.checkIfProperInput(username);
+    validate.checkIfProperInput(rating);
+    validate.checkIfProperInput(comment);
+
+    const filter = {_id: new ObjectId(productId)};
+    const updateArr = {
+      $push:{reviews: {userName: username, ratings: rating, comment: comment}}
+    };
+    const productCollection = await artworks();
+    const addRev = await productCollection.updateOne(filter, updateArr);
+    if (!(addRev.matchedCount && addRev.modifiedCount)) {
+      throw "Error: Could't add comment";
+    }
+  },
+
+  async removeFromArtWork(productId, artistId){
+    validate.checkIfProperInput(artistId);
+    validate.checkIfProperInput(productId);
+    validate.checkIfString(productId);
+    validate.checkIfString(artistId);
+
+    const artistCollection = await artists();
+    const removeProduct = await artistCollection.updateOne(
+      {_id: new ObjectId(artistId)},
+      {$pull: {portfolio: productId}}
+    );
+    if (!(removeProduct.matchedCount && removeProduct.modifiedCount)) {
+      throw "Error: Could't remove product from purchases";
+    }
+    return removeProduct;
+  },
+
+
+  // async updateProduct(productId, updateInfo){
+  //   const filter = { _id: new ObjectId(productId)};
+  //   const update = {
+  //     $mod: updateInfo
   //   };
   //   const productCollection = await artworks();
-  //   const updatedProduct = await productCollection.findOneAndUpdate(
-  //     { _id: new ObjectId(productId) },
-  //     { $set: updateProduct },
-  //     { returnDocument: 'after' });
-  //     updatedProduct._id = updatedProduct._id.toString();
-  //     if (!updatedProduct) throw "Error: Could not update product";
-  //     return updatedProduct;
+  //   const result = await productCollection.updateOne(filter, update);
+  //   if (result.modifiedCount === 1) {
+  //       console.log('User information updated successfully.');
+  //   } else {
+  //       console.log('No user document was updated.');
+  //   }
+  //   return result
   // }
+
+
+  async updateProduct(productId, updatedProduct) {
+    if (!productId || typeof productId !== 'string') {
+      throw new Error('Error: Invalid product ID');
+    }
+    
+    if (!updatedProduct || typeof updatedProduct !== 'object') {
+      throw new Error('Error: Invalid updated product object');
+    }
+  
+    const productCollection = await artworks();
+  
+    
+    const existingProduct = await productCollection.findOne({ _id: new ObjectId(productId) });
+    if (!existingProduct) {
+      throw new Error('Error: Product not found');
+    }
+  
+    
+    const updateQuery = {
+      $set: {
+        productName: updatedProduct.name ? updatedProduct.name.trim() : existingProduct.productName,
+        productDescription: updatedProduct.productDescription ? updatedProduct.productDescription.trim() : existingProduct.productDescription,
+        tags: Array.isArray(updatedProduct.tags) ? updatedProduct.tags.map(tag => tag.trim()) : existingProduct.tags,
+        price: updatedProduct.price ? updatedProduct.price : existingProduct.price,
+        images: Array.isArray(updatedProduct.images) ? updatedProduct.images.map(image => image.trim()) : existingProduct.images,
+        reviews: Array.isArray(updatedProduct.reviews) ? updatedProduct.reviews.map(review => review.trim()) : existingProduct.reviews
+      }
+    };
+  
+    
+    const updateResult = await productCollection.updateOne({ _id: new ObjectId(productId) }, updateQuery);
+  
+    if (updateResult.modifiedCount === 0) {
+      throw new Error('Error: Product update failed');
+    }
+  
+    
+    const updatedProductInfo = await productCollection.findOne({ _id: new ObjectId(productId) });
+    updatedProductInfo._id = updatedProductInfo._id.toString();
+    return updatedProductInfo;
+  }
 };
 export default exportMethods;

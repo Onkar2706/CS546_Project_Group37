@@ -1,0 +1,36 @@
+<h1>{{artistInfo.firstName}} {{artistInfo.lastName}}</h1>
+<div class="artist-details">
+    <div class="artist-profile">
+        <img src="{{artistInfo.profilePic}}" alt="Profile of {{artistInfo.firstName}} {{artistInfo.lastName}}">
+        <p>{{artistInfo.bio}}</p>
+        <p>Ratings: {{avgRating}}</p>
+    </div>
+    
+    <h2>Featured Artworks</h2>
+    <div class="artwork-container">
+        {{#each artworkArr}}
+        <div class="artwork">
+            <a href="/products/{{this._id}}">
+                <img src="{{this.images.[0]}}" alt="Artwork">
+            
+            <h3>{{this.productName}}</h3>
+            <p>Price: {{this.price}}$</p>
+            <p>Ratings: {{this.rating}}</p>
+            </a>
+        </div>
+        {{/each}}
+    </div>
+    {{#if loggedIn}}
+    <form action="/artist/rateArtist/{{artistInfo._id}}" method="POST">    
+        <label for="rating">Rate this artist:</label>
+        <select name="rating" id="rating">
+            <option value="1">1 - Poor</option>
+            <option value="2">2 - Fair</option>
+            <option value="3">3 - Good</option>
+            <option value="4">4 - Very Good</option>
+            <option value="5">5 - Excellent</option>
+        </select>
+        <button type="submit">Submit Rating</button>
+    </form>
+    {{/if}}
+</div>

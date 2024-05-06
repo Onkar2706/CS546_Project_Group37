@@ -1,0 +1,108 @@
+{{!-- 
+{{#each products}}
+<div class="product">
+    <h2>{{productName}}</h2>
+    <p>{{productDescription}}</p>
+    <p>Price: ${{price}}</p>
+    <p>Rating: {{rating}}</p>
+    <p>Release Date: {{date}}</p>
+    <h3>Images</h3>
+    <div class="images">
+        {{#each images}}
+            <img src="{{this}}" alt="Product Image {{@index}}">
+        {{/each}}
+    </div>
+    <h3>Reviews</h3>
+    <ul class="reviews">
+        {{#each reviews}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    <h3>Tags</h3>
+    <ul class="tags">
+        {{#each tags}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+{{/each}} --}}
+
+
+<!-- Button to add a product -->
+
+{{!-- <a href='/artist/addProduct' class="add-product-button">Add Product</a>
+
+{{#each products}}
+<div class="product">
+    <h2>{{productName}}</h2>
+    <p>{{productDescription}}</p>
+    <p>Price: ${{price}}</p>
+    <p>Rating: {{rating}}</p>
+    <p>Release Date: {{date}}</p>
+    <h3>Images</h3>
+    <div class="images">
+        {{#each images}}
+            <img src="{{this}}" alt="Product Image {{@index}}">
+        {{/each}}
+    </div>
+    <h3>Reviews</h3>
+    <ul class="reviews">
+        {{#each reviews}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    <h3>Tags</h3>
+    <ul class="tags">
+        {{#each tags}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    <!-- Product options: Edit and Delete -->
+    <div class="product-options">
+        <a href='/artist/edit' >Edit</a>
+
+        <a href='/artist/delete' >Delete</a>
+    </div>
+</div>
+{{/each}} --}}
+
+<!-- Button to delete a product -->
+{{!-- <button onclick="deleteProduct()">Delete Product</button> --}}
+
+
+<button class="add-button"><a href='/artist/addProduct' class="add-product-button" >Add Product</a></button>
+
+<div class="card-container">
+    {{#each products}}
+    <div class="card product">
+        <h2>{{productName}}</h2>
+        <p>{{productDescription}}</p>
+        <p>Price: ${{price}}</p>
+        <p>Rating: {{rating}}</p>
+        <p>Release Date: {{date}}</p>
+        <h3>Images</h3>
+        <div class="images">
+            {{#each images}}
+                <img src="{{this}}" alt="Product Image {{@index}}">
+            {{/each}}
+        </div>
+        <h3>Reviews</h3>
+        <ul class="reviews">
+            {{#each reviews}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+        <h3>Tags</h3>
+        <ul class="tags">
+            {{#each tags}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+        <!-- Product options: Edit and Delete -->
+        <div class="product-options">
+            <a href='/artist/edit/{{_id}}' >Edit</a>
+            <a href='/artist/deleteProduct/{{_id}}' >Delete</a>
+        </div>
+    </div>
+    {{/each}}
+</div>

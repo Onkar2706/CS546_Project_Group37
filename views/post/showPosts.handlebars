@@ -1,12 +1,18 @@
+
 <h1>Art Blog</h1>
-    <div id="posts" class="card">
-            {{#each allPosts}}
-            <div class="post">
-                <h2>{{this.title}}</h2>
-                <img src="{{this.image}}" alt="Image here">
-                <p>{{this.body}}</p>
-                <p><strong>Author:</strong> Author here</p>
-                <p><strong>Date:</strong> {{this.time}}</p>
-            </div>
-            {{/each}}
+{{#if loggedIn}}
+        <button class="add-blog"><a href="/post/addBlog" class="add-blog-button">Add Blog</a></button>
+{{/if}}
+<div id="posts" class="card-container">
+    {{#each allPosts}}
+    <div class="card post">
+        <a href = "/post/{{this._id}}">
+        <h2>{{this.title}}</h2>
+        <img src="{{this.image}}" alt="Image here">
+        <p>{{this.body}}</p>
+        <p><strong>Author:</strong> {{this.userName}} </p>
+        <p><strong>Date:</strong> {{this.time}}</p>
+        </a>
     </div>
+    {{/each}}
+</div>

@@ -139,7 +139,7 @@ const validate = {
 
     let sum = null;
     for (let i = 0; i < arr.length; i++) {
-      sum += arr[i]["rating"];
+      sum += parseFloat(arr[i]);
     }
     let result = sum / arr.length;
     result = result.toFixed(1);

@@ -1,0 +1,39 @@
+
+<h1>{{productInfo.productName}}</h1>
+<div class="product-details">
+    {{#each productInfo.images}}
+            <img src="{{this}}" alt="Product Image">
+    {{/each}}
+    <p>Price: {{productInfo.price}}$</p>
+    <a href= "/products/addToCart/{{productInfo._id}}" class="addtocart">Add to Cart</a> 
+    <br>
+
+    <p>Ratings: {{avgRating}}</p>
+    <p>Description: {{productInfo.productDescription}}</p>
+    <a href="/artist/{{artistInfo._id}}">
+        <p>Artist: {{artistInfo.firstName}} {{artistInfo.lastName}}</p>
+    </a>
+    <h2>Reviews</h2>
+    <ul>
+        {{#each productInfo.reviews}}
+            <li><strong>{{this.userName}}</strong>: {{this.comment}}</li>
+        {{/each}}
+    </ul>
+
+    {{#if loggedIn}}
+        <form action="/products/rate/{{productInfo._id}}" method="post">
+        <label for="rating">Rating:</label>
+        <select name="rating" id="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <label for="comment">Comment:</label>
+        <input type="text" name="comment" id="comment">
+        <button type="submit">Submit Review</button>
+        </form>
+    {{/if}}
+</div>
+

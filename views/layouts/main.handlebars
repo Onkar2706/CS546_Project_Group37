@@ -9,23 +9,30 @@
 <body>
     <nav>
         <div class="logo">
-            <h1><a href="/">ArtistHub</a></h1> 
+            <h1 ><a href="/", style="color: antiquewhite;">ArtistHub</a></h1> 
         </div>
         <ul class="nav-links">
             <li><a href="/">HOME</a></li>
-            <li><a href="/user/getProducts">PRODUCTS</a></li>
+            {{#if artist}}
+            <li><a href="/artist/getProducts">MY PRODUCTS</a></li>
+            {{/if}}
             <li><a href="/artist">ARTISTS</a></li>
             {{!-- <li><a href="/blogs">EXHIBITIONS</a></li> --}}
             <li><a href="/products">MARKETPLACE</a></li>
             <li><a href="/post">ART BLOG</a></li>
 
-            {{#if loggedIn}}
-                <li><a href="/user/getUserInfo">{{userName}}</a></li>
-                <li><a href="/logout">Logout</a></li>
-                {{#if user}}
+            {{#if user}}
                     <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
-                {{!-- <li><a href="/logout/logout">Logout</a></li> --}}
-                {{/if}}
+            {{/if}}
+
+            {{#if loggedIn}}
+                <div class="dropdown">
+                    <button class="dropbtn">{{userName}}</button>
+                    <div class="dropdown-content">
+                        <a href="/user/getUserInfo">PROFILE</a>
+                        <a href="/products/cart">MY CART</a>
+                        <a href="/logout">LOGOUT</a>
+                    </div>
             {{else}}
                 <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
             {{/if}}
@@ -34,7 +41,11 @@
     <main>
         {{{body}}}
     </main>
-    <script src = "/public/js/clientside.js"></script>
+    <footer>
+            <p>&copy; 2024 ArtistHub. All rights reserved. Registered in USA, LLC.</p>
+            </footer>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src = "/public/js/clientside.js"></script>
+</body>
 </html>

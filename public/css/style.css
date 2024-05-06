@@ -3,6 +3,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
+
 }
 
 body {
@@ -26,24 +28,41 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 10%;
+    border: 10px solid black;
+    border-radius: 5px;
+    background-color: black;
+    opacity: 0.8;
+    font-family: monospace;
+    font-size: 20px;
+
+    
+    
+
+}
+
+a{
+    text-decoration: none;
 }
 
 .logo h1 {
     margin-left: 0.5rem;
+    
 }
 
 .nav-links {
     list-style: none;
+    
 }
 
 .nav-links li {
     display: inline;
     padding: 0 15px;
+    
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #333;
+    color: whitesmoke;
     font-weight: bold;
 }
 
@@ -52,9 +71,33 @@ main {
     padding: 2rem 10%;
 }
 
+.error-container {
+    max-width: 600px;
+    margin: 100px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+}
+
 .errorMsg {
+    font-size: 24px;
     font-weight:bold;
     color:#333;
+}
+.error-container a{
+    padding-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.error-container a:hover {
+    background-color: #0056b3;
 }
 
 .card-container {
@@ -62,6 +105,7 @@ main {
     flex-wrap: wrap;
     justify-content: space-around;
     list-style:none;
+    
 }
 
 .card {
@@ -71,6 +115,7 @@ main {
     width: calc(33% - 2rem);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     text-align: center;
+    
 }
 
 .card img {
@@ -93,20 +138,20 @@ footer {
         width: calc(50% - 2rem);
     }
 }
-
+/* /* HALF PAGE */
 body, html {
     width: 100%;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-}
+    overflow-x: hidden; 
+} */
 
 main {
-    max-width: 100%; /* Limit main content width */
-    overflow-x: hidden; /* Prevent horizontal overflow */
-    padding: 2rem 5%; /* Adjust padding for responsiveness */
+    max-width: 100%; 
+    overflow-x: hidden;
+    padding: 2rem 5%; 
 }
 
 .card-container {
-    justify-content: center; /* Center cards if they don't fill full width */
+    justify-content: center; /*Center cards if they don't fill full width */
 }
 
 .card {
@@ -135,10 +180,7 @@ main {
         width: 90%; /* Full width cards on very small screens */
     }
 }
-img {
-    max-width: 100%;
-    height: auto; /* Maintain aspect ratio */
-}
+
 
 /*registration*/
 
@@ -163,10 +205,9 @@ h1 {
 }
 
 form {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    top: 0px;
+    width: 284px;
+    height: 231px;
 }
 
 label {
@@ -204,42 +245,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* market handlebar*/
-
-/* .artwork-list {
-    list-style: none;
-    padding: 0;
-}
-
-.artwork-item {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
-}
-
-.artwork-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
-.artwork-name {
-    font-size: 1.5em;
-    margin-top: 10px;
-}
-
-.artwork-description {
-    margin-top: 5px;
-}
-
-.artwork-price {
-    margin-top: 5px;
-}
-
-.artwork-artist {
-    margin-top: 5px;
-} */
 
 .artwork-list {
     display: grid;
@@ -251,7 +256,7 @@ button:hover {
 .artwork-item {
     list-style:none;
     text-align: center;
-    border: 1px solid #ddd; /* Add a border */
+    border: 2px solid black; /* Add a border */
     border-radius: 5px; /* Add border radius */
     padding: 10px;
 }
@@ -352,35 +357,391 @@ button:hover {
 .artwork-container {
     display: flex;
     flex-wrap: wrap;
+
+   
 }
 
 .artwork {
     width: calc(33.33% - 20px); /* Adjust according to your design */
     margin: 0 10px 20px; /* Adjust margins between artwork cards */
+   
 }
 
 .artwork img {
-    width: 100%;
-    height: auto;
+    width: 214px;
+    height: 167px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-starts;
+    
 }
 
 .artwork h3 {
     font-size: 18px;
     margin-bottom: 5px;
+
 }
 
 .artwork p {
     margin-bottom: 5px;
 }
 
-.error-container {
-    max-width: 600px;
-    margin: 100px auto;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
-    text-align: center;
+/*dropdown button*/
+
+.dropbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+  ul {
+    text-decoration: none;
+  }
+
+  .tags {
+    list-style: none; /* Remove default bullet points */
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
 }
 
+
+
+
+  .add-blog-button {
+    display: inline-block; /* Makes the link behave like a button */
+    padding: 10px 20px; /* Padding inside the button */
+    text-decoration: none; /* Removes underline from the link */
+    color: white; /* Text color */
+    background-color: #007bff; /* Button background color */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* No border */
+    font-size: 16px; /* Text size */
+    text-align: center; /* Center text inside the button */
+    cursor: pointer; /* Shows a pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.add-blog-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Style for the cart container */
+#cart {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+/* Style for the table */
+#cart table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Style for table headers */
+#cart th {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Style for table cells */
+#cart td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Style for input fields */
+#cart input[type="number"] {
+    width: 50px;
+    padding: 5px;
+}
+
+/* Style for the "Place Order" button */
+#cart button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* Style for the empty cart message */
+#cart p {
+    font-style: italic;
+    color: #777;
+}
+
+
+/* Style for the user info container */
+#user-info {
+    border: 1px solid #ccc;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Style for the heading */
+#user-info h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style for the welcome message */
+#user-info p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* Style for the list */
+#user-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Style for list items */
+#user-info li {
+    margin-bottom: 10px;
+}
+
+/* Style for the edit profile link */
+#user-info a {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 150px;
+}
+
+/* Style for the edit profile link on hover */
+#user-info a:hover {
+    background-color: #0056b3;
+}
+
+.card-container h3{
+    color: #333;
+}
+.card-container p{
+    color: #333;
+}
+.add-button{
+    position: relative;
+    left: 630px;
+    background-color: #007bff;
+    width: 107px;
+    height: 53px;
+    color: black;
+    font-size: 17px;
+    
+    font-family: monospace;
+}
+.add-blog{
+    position: relative;
+    left: 610px;
+}
+
+.card-container h2{
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+}
+
+/* addProductform css 
+
+/* Style for the form */
+#addProductForm {
+    margin-top: 20px; /* Adjust margin as needed */
+}
+
+/* Styling for form labels */
+#addProductForm label {
+    color: black; /* Adjust color as needed */
+}
+
+/* Styling for form inputs */
+#addProductForm input[type="text"] {
+    color: black; /* Adjust color as needed */
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 3px;
+    width: 100%; /* Adjust width to fill the container */
+    box-sizing: border-box; /* Include padding and border in the width */
+}
+
+/* Styling for form inputs on focus */
+#addProductForm input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff; /* Example color, adjust as needed */
+}
+
+/* Style for the submit button */
+#addProductForm button[type="submit"] {
+    margin-top: 10px; /* Adjust margin as needed */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Style for the submit button on hover */
+#addProductForm button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* footer for all pages */
+
+footer {
+    position: relative;
+    top: 100px;
+    right: 0px;
+    width: 1524px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    word-spacing: 5px;
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+  
+  footer p {
+    margin: 5px 0;
+  }
+  
+  /* Optional: Add styles for links */
+  footer a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+
+
+
+
+
+  /* CSS FOR THE SIGNUP AND SIGN IN */
+
+  body {
+    background-color: #f2f2f2; /* Light grey background */
+    color: #333; /* Black text */
+    font-family: Arial, sans-serif; /* Default font */
+  }
+  
+  .container {
+    background-color: #fff; /* White container background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 20px; /* Padding inside container */
+    margin: 50px auto; /* Center container */
+    max-width: 400px; /* Maximum width */
+  }
+  
+  h2 {
+    color: #333; /* Black heading text */
+  }
+  
+  .input-group {
+    margin-bottom: 20px; /* Spacing between input groups */
+  }
+  
+  label {
+    display: block; /* Display labels in block format */
+    margin-bottom: 5px; /* Spacing below labels */
+    color: #333; /* Black label text */
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%; /* Full width input fields */
+    padding: 10px; /* Padding inside input fields */
+    border: 1px solid #ccc; /* Grey border */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in width */
+  }
+  
+  input[type="submit"] {
+    width: 100%; /* Full width submit button */
+    padding: 10px; /* Padding inside button */
+    background-color: #333; /* Black button background */
+    color: #fff; /* White button text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Show pointer cursor on hover */
+  }
+  
+  .input-group-icon {
+    position: relative; /* Position relative for icon */
+  }
+  
+  .input-group-icon i {
+    position: absolute; /* Position absolute for icon */
+    top: 50%; /* Align icon vertically */
+    right: 10px; /* Align icon to the right */
+    transform: translateY(-50%); /* Adjust vertical position */
+    color: #999; /* Grey icon color */
+  }
+  
+  .create-account-text {
+    margin-top: 20px; /* Spacing above create account text */
+    color: #666; /* Grey create account text */
+  }
+  
+  .create-account-text a {
+    color: #333; /* Black link text */
+    text-decoration: none; /* Remove underline */
+  }
+  
+  .create-account-text a:hover {
+    text-decoration: underline; /* Underline on hover */
+  }
+  

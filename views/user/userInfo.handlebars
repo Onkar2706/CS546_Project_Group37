@@ -1,0 +1,23 @@
+<div id="user-info">
+    <h1>My Profile</h1>
+    
+    <p>Welcome, {{userName}}</p>
+    <ul>
+        <li>First Name: {{firstName}}</li>
+        <li>Last Name: {{lastName}}</li>
+        <li>Age: {{age}}</li>
+        <li>Email: {{email}}</li>
+        <li>City: {{city}}</li>
+        <li>State: {{state}}</li>
+        <li>Purchases: {{purchases}}</li>
+        <li>Cart: {{cart}}</li>
+        <li>You are an {{role}}</li>
+
+        {{#if artist}}
+        <li>Bio: {{bio}}</li>
+        <li>profilePic: <img src="{{profilePic}}"/></li>
+        {{/if}}
+    </ul>
+
+    <a href="/user/editUserInfo">Edit Profile</a>
+</div>

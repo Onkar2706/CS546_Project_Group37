@@ -1,4 +1,4 @@
-import { posts } from "../config/mongoCollections.js";
+import { posts, users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
@@ -9,17 +9,13 @@ const exportMethods = {
     return await postCollection.find({}).toArray();
   },
 
-  async addPost(userId, title, body, image) {
-    // title = pkg.isAlpha(title, "title");
-    // body = pkg.isAlpha(body, "body");
-    // posterId = pkg.i(posterId);
+  async addPost(userId, userName, title, body, image) {
+    
     userId = userId.trim();
-    // content = content.,
-
-    // const userThatPosted = await users.get(userId)
 
     let newPost = {
       userId: userId,
+      userName: userName.trim(),
       title: title,
       body: body,
       image: image,
@@ -34,6 +30,11 @@ const exportMethods = {
   },
 
   async getPostById(id) {
+    // Validations
+    // validate.checkIfProperInput(id)
+    // validate.checkIfString(id)
+    // validate.checkIfValidObjectId(id)
+
     // id = validation.checkId(id);
     const postCollection = await posts();
     const post = await postCollection.findOne({ _id: new ObjectId(id) });
@@ -43,7 +44,7 @@ const exportMethods = {
   },
 
   async deletePost(id) {
-    validate.checkIfValidObjectId(id);
+    // validate.checkIfValidObjectId(id);
     id = id.trim();
     const postCollection = await posts();
     const removedPost = await postCollection.findOneAndDelete({
@@ -53,6 +54,35 @@ const exportMethods = {
       throw `Error: Post could not be removed`;
     }
     return { _id: id, deleted: true };
+  },
+
+  async addComment(postId, userName, inp){
+    validate.checkIfProperInput(inp);
+    validate.checkIfProperInput(postId);
+    validate.checkIfString(inp);
+    validate.checkIfString(postId);
+
+    const filter = {_id: new ObjectId(postId)};
+    const updateArr = {
+      $push:{comment: {userName: userName, comment:inp}}
+    };
+
+    const postCollection = await posts();
+    const addcom = await postCollection.updateOne(filter, updateArr);
+    if (!(addcom.matchedCount && addcom.modifiedCount)) {
+      throw "Error: Could't add comment";
+    }
+  },
+  async removePost(postid){
+    validate.checkIfProperInput(postid);
+    // validate.checkIfString(userid);
+    // validate.checkIfString(productId);
+
+    const postCollection = await posts();
+    const removeProduct = await postCollection.deleteOne({
+        _id: new ObjectId(postid)
+    });
+    return removeProduct;
   },
 };
 

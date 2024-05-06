@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections.js";
+import { artists, users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import bcrypt from "bcryptjs";
@@ -12,20 +12,20 @@ const exportMethods = {
     userName,
     password,
     email,
+    age,
     state,
     city,
     cart,
     purchases,
-    posts
   ) {
     try {
-      validate.checkIfProperInput(firstName);
-      validate.checkIfProperInput(lastName);
-      validate.checkIfProperInput(userName);
-      validate.checkIfProperInput(password);
-      validate.checkIfProperInput(email);
-      validate.checkIfProperInput(state);
-      validate.checkIfProperInput(city);
+      // validate.checkIfProperInput(firstName);
+      // validate.checkIfProperInput(lastName);
+      // validate.checkIfProperInput(userName);
+      // validate.checkIfProperInput(password);
+      // validate.checkIfProperInput(email);
+      // validate.checkIfProperInput(state);
+      // validate.checkIfProperInput(city);
     } catch (e) {
       throw e;
     }
@@ -39,13 +39,13 @@ const exportMethods = {
       userName: userName.trim().toLowerCase(),
       password: password.trim(),
       email: email.trim(),
+      age: age,
       state: state.trim(),
-      city: city,
+      city: city.trim(),
       cart: Array.isArray(cart) ? cart.map((item) => item.trim()) : [],
       purchases: Array.isArray(purchases)
         ? purchases.map((item) => item.trim())
         : [],
-      posts: Array.isArray(posts) ? posts.map((item) => item.trim()) : [],
       // artist_Id: artist_Id,
       role: "user",
     };
@@ -135,6 +135,70 @@ const exportMethods = {
     if (validatedPassword !== true)
       throw "Either the username or password is invalid";
   },
+
+  async purchaseProduct(productId, userid){
+    validate.checkIfProperInput(userid);
+    validate.checkIfProperInput(productId);
+    validate.checkIfString(productId);
+    validate.checkIfString(userid);
+
+    const filter = {_id: new ObjectId(userid)};
+    const updateArr = {
+      $push:{purchases: productId}
+    };
+
+    const userCollection = await users();
+    const addPurchase = await userCollection.updateOne(filter, updateArr);
+    if (!(addPurchase.matchedCount && addPurchase.modifiedCount)) {
+      throw "Error: Could't add product to purchases";
+    }
+    return addPurchase;
+  },
+
+  async removeFromCart(productId, userid){
+    validate.checkIfProperInput(userid);
+    validate.checkIfProperInput(productId);
+    validate.checkIfString(productId);
+    validate.checkIfString(userid);
+
+    const userCollection = await users();
+    const removeProduct = await userCollection.updateOne(
+      {_id: new ObjectId(userid)},
+      {$pull: {purchases: productId}}
+    );
+    if (!(removeProduct.matchedCount && removeProduct.modifiedCount)) {
+      throw "Error: Could't remove product from purchases";
+    }
+    return removeProduct;
+  },
+
+  async updateUser(userId, updateInfo){
+    const filter = { _id: new ObjectId(userId)};
+    const update = {
+      $set: updateInfo
+    };
+    const userCollection = await users();
+    const result = await userCollection.updateOne(filter, update);
+    if (result.modifiedCount === 1) {
+        console.log('User information updated successfully.');
+    } else {
+        console.log('No user document was updated.');
+    }
+  },
+
+  async updateArtist(artistId, updateInfo){
+    const filter = { _id: new ObjectId(artistId)};
+    const update = {
+      $set: updateInfo
+    };
+    const artistCollection = await artists();
+    const result = await artistCollection.updateOne(filter, update);
+    if (result.modifiedCount === 1) {
+        console.log('Artist information updated successfully.');
+    } else {
+        console.log('No artist document was updated.');
+    }
+  }
 };
 
 export default exportMethods;
