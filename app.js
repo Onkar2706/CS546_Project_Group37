@@ -5,7 +5,6 @@ import exphbs from "express-handlebars";
 import session from "express-session";
 import path from "path";
 
-
 const app = express();
 const now = new Date();
 const expiresAt = new Date();
@@ -155,7 +154,7 @@ app.use("/artist/deleteProduct/:id", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
@@ -167,7 +166,7 @@ app.use("/artist/edit/:id", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
@@ -179,7 +178,7 @@ app.use("/artist/updateProduct", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
