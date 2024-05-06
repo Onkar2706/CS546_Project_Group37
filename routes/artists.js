@@ -227,7 +227,7 @@ router
   .route("/artistreg")
   .get(async (req, res) => {
     try {
-      return res.render("artist/artistreg", { title: "Artist Registration" });
+      return res.render("artist/artistreg", { title: "Artist Registration", loggedIn: true, user: true, userName: req.session.user.username});
     } catch (error) {
       res.status(400).render("error", { errorMessage: error });
     }
