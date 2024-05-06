@@ -22,7 +22,6 @@ let user1 = await userMethods.create(
   "Hoboken",
   [],
   [],
-  []
 );
 let user2 = await userMethods.create(
   "Chandler",
@@ -35,7 +34,6 @@ let user2 = await userMethods.create(
   "Hoboken",
   [],
   [],
-  []
 );
 let user3 = await userMethods.create(
   "Joey",
@@ -48,7 +46,6 @@ let user3 = await userMethods.create(
   "Hoboken",
   [],
   [],
-  []
 );
 let user4 = await userMethods.create(
   "Barney",
@@ -61,7 +58,6 @@ let user4 = await userMethods.create(
   "Hoboken",
   [],
   [],
-  []
 );
 let user5 = await userMethods.create(
   "Ted",
@@ -74,7 +70,6 @@ let user5 = await userMethods.create(
   "Hoboken",
   [],
   [],
-  []
 );
 let user6 = await userMethods.create(
   "HIMYM",
@@ -87,7 +82,6 @@ let user6 = await userMethods.create(
   "Hoboken",
   [],
   [],
-  []
 );
 
 // Saving Created Artists

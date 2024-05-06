@@ -82,8 +82,7 @@ router
         state,
         city,
         cart,
-        purchases,
-        posts
+        purchases
       );
       console.log("User Created!");
       return res.redirect("/user/login");
@@ -176,7 +175,7 @@ router
 });
 
 router.route("/admin").get(async (req, res) => {
-  res.render("admin/admin", { title: "Admin" });
+  res.render("admin/admin", { title: "Admin Dashboard" });
 })
   .post(async (req, res) => {
     if (req.session.user && req.session.user.role === "admin") {
