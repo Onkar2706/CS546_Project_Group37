@@ -1,5 +1,5 @@
 import express from "express";
-import { postsMethod } from "../data/index.js";
+import { postsMethod, productMethods } from "../data/index.js";
 import { userMethods } from "../data/index.js";
 
 const router = express.Router();
@@ -24,6 +24,32 @@ router
     const id = req.params.postId;
     const removePost = await postsMethod.removePost(id);
     return res.redirect('/admin/posts');
+  } catch (error) {
+    console.log(error);
+    res.status(400).render("error",{errorMessage:error});
+  }
+});
+
+router.route('/products')
+.get(async (req, res) => {
+  try {
+    const allProducts = await productMethods.getAll();
+    return res.render('admin/products', {allProducts, title: "All Products"});
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
+  }
+});
+
+router
+.route('/removeProduct/:productId')
+.get( async (req, res) => {
+  try {
+    console.log("Inside here");
+    const id = req.params.productId;
+    const productInfo = await productMethods.get(id);
+    const removeProduct = await productMethods.remove(id);
+    const removeProductFromArtist = await productMethods.removeFromArtWork(id, productInfo.artistId);
+    return res.redirect('/admin/products');
   } catch (error) {
     console.log(error);
     res.status(400).render("error",{errorMessage:error});

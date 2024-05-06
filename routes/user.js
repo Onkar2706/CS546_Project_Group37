@@ -207,22 +207,22 @@ router.route("/user").get(async (req, res) => {
     })
   }});
 
-router.route("/registerArtist").get(async (req, res) => {
-  res.render("artist/artist", { title: "artist" });
-})
-.post(async (req, res) => {
-    if (req.session.user && req.session.user.role === "artist") {
-      const admin = req.session.user;
-      const currentTime = new Date().toLocaleString();
+// router.route("/registerArtist").get(async (req, res) => {
+//   res.render("artist/artist", { title: "artist" });
+// })
+// .post(async (req, res) => {
+//     if (req.session.user && req.session.user.role === "artist") {
+//       const admin = req.session.user;
+//       const currentTime = new Date().toLocaleString();
 
-      res.render("artist/artist", {
-        firstName: admin.firstName,
-        lastName: admin.lastName,
-        userName: admin.userName,
-        currentTime: currentTime,
-      });
-    }
-  });
+//       res.render("artist/artist", {
+//         firstName: admin.firstName,
+//         lastName: admin.lastName,
+//         userName: admin.userName,
+//         currentTime: currentTime,
+//       });
+//     }
+//   });
 
 router.route("/getUserInfo").get(async (req, res) => {
 
