@@ -250,7 +250,7 @@ router
   // fileExtLimiter([".png",".jpg",".jpeg"]),
   // fileSizesLimiter,
   // async (req, res) => {
-  .post(async (req, res) => {
+  .post(uploads.single("profilePicture"), async (req, res) => {
     try {
       const artistData = req.body;
       // Upload Image
@@ -289,11 +289,12 @@ router
       if (!artistData) {
         return res.status(400).json({ Error: "No fields in the request body" });
       }
-
+      let profilePicPath = req.file.path;
+      profilePicPath = "/" + profilePicPath.split("\\").join("/");
       const newArtist = await artistMethods.create(
         req.session.user._id,
         req.body.bio,
-        req.body.profilePicture
+        profilePicPath
         // Upload Image
         // req.body.bio,
         // '/'+filepath
