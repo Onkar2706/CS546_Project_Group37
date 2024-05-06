@@ -775,6 +775,15 @@ button:hover {
     color: #e69c2d;
 }
 
-/* css for artist get products 
+
+#user-info img {
+    width: 250px;  /* You can adjust this value to fit your layout */
+    height: auto; /* Maintaining square dimension */
+    object-fit: cover; /* Ensures the image covers the area without distorting aspect ratio */
+    border-radius: 5%; /* Optional: rounds the image to make it circular, remove if not needed */
+}
+
+/* css for artist get products  */
+
 
 
