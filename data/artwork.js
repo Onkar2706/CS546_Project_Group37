@@ -1,4 +1,5 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
+// This data file should export all functions using the ES6 standard as shown in the lecture code
 import { artworks } from "../config/mongoCollections.js";
 import { artists } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
@@ -56,8 +57,8 @@ const exportMethods = {
       tags: Array.isArray(tags) ? tags.map((item) => item.trim()) : [],
       price: price,
       date: validate.getTodayDate(),
+      avgRating: 0,
       images: Array.isArray(images) ? images.map((item) => item.trim()) : [],
-      rating: 0,
       reviews: Array.isArray(reviews) ? reviews.map((item) => item.trim()) : [],
     };
 
@@ -130,21 +131,80 @@ const exportMethods = {
     return { _id: id, deleted: true };
   },
 
-  async addReview(productId, userId, rating, comment){
+  async addReview(productId, username, rating, comment){
     validate.checkIfProperInput(productId);
-    validate.checkIfProperInput(userId);
+    validate.checkIfProperInput(username);
     validate.checkIfProperInput(rating);
     validate.checkIfProperInput(comment);
 
     const filter = {_id: new ObjectId(productId)};
     const updateArr = {
-      $push:{reviews: {userId: userId, ratings: rating, comment: comment}}
+      $push:{reviews: {userName: username, ratings: rating, comment: comment}}
     };
     const productCollection = await artworks();
     const addRev = await productCollection.updateOne(filter, updateArr);
-    if (!(addcom.matchedCount && addcom.modifiedCount)) {
+    if (!(addRev.matchedCount && addRev.modifiedCount)) {
       throw "Error: Could't add comment";
     }
   },
+
+
+  // async updateProduct(productId, updateInfo){
+  //   const filter = { _id: new ObjectId(productId)};
+  //   const update = {
+  //     $mod: updateInfo
+  //   };
+  //   const productCollection = await artworks();
+  //   const result = await productCollection.updateOne(filter, update);
+  //   if (result.modifiedCount === 1) {
+  //       console.log('User information updated successfully.');
+  //   } else {
+  //       console.log('No user document was updated.');
+  //   }
+  //   return result
+  // }
+
+
+  async updateProduct(productId, updatedProduct) {
+    if (!productId || typeof productId !== 'string') {
+      throw new Error('Error: Invalid product ID');
+    }
+    
+    if (!updatedProduct || typeof updatedProduct !== 'object') {
+      throw new Error('Error: Invalid updated product object');
+    }
+  
+    const productCollection = await artworks();
+  
+    
+    const existingProduct = await productCollection.findOne({ _id: new ObjectId(productId) });
+    if (!existingProduct) {
+      throw new Error('Error: Product not found');
+    }
+  
+    
+    const updateQuery = {
+      $set: {
+        productName: updatedProduct.name ? updatedProduct.name.trim() : existingProduct.productName,
+        productDescription: updatedProduct.description ? updatedProduct.description.trim() : existingProduct.productDescription,
+        tags: Array.isArray(updatedProduct.tags) ? updatedProduct.tags.map(tag => tag.trim()) : existingProduct.tags,
+        price: updatedProduct.price ? updatedProduct.price : existingProduct.price,
+        images: Array.isArray(updatedProduct.images) ? updatedProduct.images.map(image => image.trim()) : existingProduct.images,
+        reviews: Array.isArray(updatedProduct.reviews) ? updatedProduct.reviews.map(review => review.trim()) : existingProduct.reviews
+      }
+    };
+  
+    
+    const updateResult = await productCollection.updateOne({ _id: new ObjectId(productId) }, updateQuery);
+  
+    if (updateResult.modifiedCount === 0) {
+      throw new Error('Error: Product update failed');
+    }
+  
+    
+    const updatedProductInfo = await productCollection.findOne({ _id: new ObjectId(productId) });
+    updatedProductInfo._id = updatedProductInfo._id.toString();
+    return updatedProductInfo;
+  }
 };
 export default exportMethods;

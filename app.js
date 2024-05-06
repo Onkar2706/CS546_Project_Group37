@@ -3,6 +3,8 @@ import express from "express";
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
+import path from "path";
+
 const app = express();
 const now = new Date();
 const expiresAt = new Date();
@@ -23,6 +25,7 @@ app.use(
 app.use(express.json());
 
 app.use("/public", express.static("public"));
+app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
@@ -47,16 +50,16 @@ app.use("/", (res, req, next) => {
   }
   next();
 });
-app.use("/user/login", (res, req, next) => {
-  if (req.req.session.user) {
-    if (req.req.session.user.role === "user") {
-      return res.res.redirect("/user/user");
-    } else if (req.req.session.user.role === "artist") {
-      return res.res.redirect("");
-    }
-  }
-  next();
-});
+// app.use("/user/login", (res, req, next) => {
+//   if (req.req.session.user) {
+//     if (req.req.session.user.role === "user") {
+//       return res.res.redirect("/user/user");
+//     } else if (req.req.session.user.role === "artist") {
+//       return res.res.redirect("");
+//     }
+//   }
+//   next();
+// });
 
 app.use("/user/register", (res, req, next) => {
   if (req.req.session.user) {

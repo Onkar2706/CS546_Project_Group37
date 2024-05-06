@@ -6,10 +6,8 @@
                 <div class="card">
                   <a href="/artist/{{this._id}}">
                     <img src="{{this.profilePic}}" alt="Profile of {{this.profile.firstName}} {{this.profile.lastName}}">
-                    <h3 >{{this.firstName}} {{this.lastName}}</h3>
-                    <div class="bio"><p >{{this.bio}}</p></div>
-                    
-                    <p > rating: {{this.ratings}}</p>
+                    <h3>{{this.firstName}} {{this.lastName}}</h3>
+                    <p>{{this.bio}}</p>
                   </a>
                 </div>
                 {{/each}}
@@ -23,9 +21,8 @@
                 <div class="card">
                   <a href = "/products/{{this._id}}">
                     <img src="{{this.images.[0]}}" alt="{{this.productName}}">
-                    <h3 >{{this.productName}}</h3>
-                    <p >Price:{{this.price}}$</p>
-                    <p>Ratings:{{this.rating}}</p>
+                    <h3>{{this.productName}}</h3>
+                    <p>Price:{{this.price}}$</p>
                    </a> 
                 </div>
                 {{/each}}

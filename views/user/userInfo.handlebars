@@ -12,6 +12,11 @@
         <li>Purchases: {{purchases}}</li>
         <li>Cart: {{cart}}</li>
         <li>You are an {{role}}</li>
+
+        {{#if artist}}
+        <li>Bio: {{bio}}</li>
+        <li>profilePic: <img src="{{profilePic}}"/></li>
+        {{/if}}
     </ul>
 
     <a href="/user/editUserInfo">Edit Profile</a>

@@ -49,6 +49,31 @@ const exportedMethods = {
     return await this.get(insertInfo.insertedId);
   },
 
+//   async removeFromCollection(artworkId) {
+    
+//     if (!artworkId || typeof artworkId !== 'string') {
+//         throw new Error('Invalid artwork ID');
+//     }
+
+    
+//     const objectId = new ObjectId(artworkId);
+
+    
+//     const artworkCollection = await artworks();
+//     const updateResult = await artworkCollection.updateMany(
+//         { collection: objectId },
+//         { $pull: { collection: objectId } }
+//     );
+
+    
+//     if (updateResult.modifiedCount === 0) {
+//         throw new Error('No documents were updated');
+//     }
+
+//     return true; 
+// },
+
+
   async get(id) {
     //retrieves an artist if the artist exists in the database
     // validate.checkIfProperInput(id)
@@ -100,6 +125,8 @@ const exportedMethods = {
     const addprod = await artistCollection.updateOne(filter, updateProduct);
     return addprod
   },
+
+  
 
 };
 export default exportedMethods;
