@@ -229,6 +229,22 @@ const validate = {
 };
 (function () {
   const registerForm = document.getElementById("registerForm");
+  const loginForm = document.getElementById("loginForm");
+  if (loginForm) {
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      try {
+        let userName = document.getElementById("userName").value;
+        validate.checkIfUsername(userName);
+        let password = document.getElementById("password").value;
+        validate.checkIfPassword(password);
+        loginForm.submit();
+      } catch (e) {
+        console.log(e);
+        alert("Woops! Something went wrong! " + e);
+      }
+    });
+  }
   if (registerForm) {
     registerForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -250,7 +266,6 @@ const validate = {
         let city = document.getElementById("city").value;
         validate.checkIfString(city);
         registerForm.submit();
-        alert("You're registered!");
         // let requestConfig = {
         //   method: "POST",
         //   URL: "/user/register",
@@ -274,7 +289,7 @@ const validate = {
         // errorMsg.textContent = e;
         // errorMsg.show();
         console.log(e);
-        alert("Woops! Something went wrong!");
+        alert("Woops! Something went wrong! " + e);
       }
     });
   }
