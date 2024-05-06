@@ -299,7 +299,7 @@ router
         // '/'+filepath
       );
       // console.log(newArtist);
-      res.redirect("/user/login");
+      res.redirect("/logout");
     } catch (error) {
       res.status(400).render("error", { errorMessage: error });
     }
