@@ -55,6 +55,18 @@ router
   try {
    
     let updatedProduct =req.body
+    // Validations
+    validate.checkIfProperInput(updatedProduct.productName)
+    validate.checkIfProperInput(updatedProduct.productDescription)
+    validate.checkIfProperInput(updatedProduct.price)
+    validate.checkIfProperInput(updatedProduct.images)
+    validate.checkIfProperInput(updatedProduct.tags)
+
+    validate.checkIfString(updatedProduct.productName)
+    validate.checkIfString(updatedProduct.productDescription)
+
+    validate.checkIfPositiveNumber(updatedProduct.price)
+
     if (typeof updatedProduct.tags === 'string') {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }
@@ -66,11 +78,6 @@ router
     const updatedproductInDB = await artWork.updateProduct(idOutside,updatedProduct)
     console.log(updatedproductInDB)
     res.redirect("/artist/getProducts")
-
-    
-    
-
-    
     
   } catch (error) {
     console.log(error)
@@ -124,7 +131,7 @@ router.route("/getProducts").get(async (req, res) => {
         products: artworkArr,
       });
     }
-  } catch (error) {
+  } catch (error) {+
     res.status(500).render("error",{errorMessage:error});
   }
 });
@@ -147,23 +154,30 @@ router
 })
 
 
-// router
-// .route('/addProduct')
-// .post(async(req,res)=>{
-//   console.log("In ADDproductsPOST")
-//   const productData = req.body
-//   const userId=req.session.user._id.trim()
-//   const fetchArtistID =  await artistMethods.getArtistProfile(userId)
-//   console.log(fetchArtistID)
+
   
 // });
-router.route("/addProduct").post(async (req, res) => {
-  console.log("In ADDproductsPOST");
+router.route("/addProduct")
+.post(async (req, res) => {
+  // console.log("In ADDproductsPOST");
   const productData = req.body;
+  console.log(productData)
+
+  validate.checkIfProperInput(productData.productName)
+  validate.checkIfProperInput(productData.productDescription)
+  validate.checkIfProperInput(productData.price)
+  validate.checkIfProperInput(productData.images)
+  validate.checkIfProperInput(productData.tags)
+
+  validate.checkIfString(productData.productName)
+  validate.checkIfString(productData.productDescription)
+  validate.checkIfPositiveNumber(productData.price)
+
   // console.log(productData);
   const tagsArray = productData.tags.split(",");
   const imagesArray = productData.images.split(",");
   const userId = req.session.user._id;
+  console.log("i AM HERE")
   const fetchArtistID = await artistMethods.getArtistProfile(userId);
   // console.log(fetchArtistID);
 
@@ -200,24 +214,17 @@ router
     
     try {
       const artistData = req.body;
-      // console.log(artistData);
-      // validate.checkIfProperInput(user_id);
-      // validate.checkIfProperInput(bio);
-      // validate.checkIfProperInput(profilePic);
+      console.log(artistData);
+      
+      validate.checkIfProperInput(artistData.bio);
+      validate.checkIfString(artistData.bio);
+      // profile pic validation left
+      validate.checkIfProperInput(artistData.profilePicture)
 
-      // validate.checkIfString(user_id);
-      // validate.checkIfString(bio);
-      // validate.checkIfString(profilePic);
-
-      // validate.checkIfValidObjectId(user_id);
       console.log(artistData);
       if (!artistData) {
         return res.status(400).json({ Error: "No fields in the request body" });
       }
-      // validate.checkIfProperInput(artistData.bio);
-      // validate.checkIfProperInput(artistData.profilePic);
-      // validate.checkIfString(artistData.bio);
-      // validate.checkIfString(artistData.profilePic);
 
       const newArtist = await artistMethods.create(
         req.session.user._id,
