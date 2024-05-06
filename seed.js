@@ -25,6 +25,19 @@ let user1 = await userMethods.create(
   [],
   []
 );
+let testUser = await userMethods.create(
+  "Rachel",
+  "Green",
+  "rgreen1",
+  await bcrypt.hash("password@123", 10),
+  "rgreen@friends.com",
+  29,
+  "NJ",
+  "Hoboken",
+  [],
+  [],
+  []
+);
 let user2 = await userMethods.create(
   "Chandler",
   "Bing",
@@ -92,6 +105,11 @@ let user6 = await userMethods.create(
 );
 
 // Saving Created Artists
+let testArtist = await artistMethods.create(
+  testUser._id,
+  "Hi",
+  "https://www.instyle.com/thmb/kUBbYGxX9MRxi8yan8S4lFZA-30=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/100421-rachel-green-outfis-08-dd43a04a48b3493b90a5b508e9d8bd5a.jpg"
+);
 let artist1 = await artistMethods.create(
   user1._id,
   "Hi this is Rachel",

@@ -230,6 +230,63 @@ const validate = {
 (function () {
   const registerForm = document.getElementById("registerForm");
   const loginForm = document.getElementById("loginForm");
+  const searchArtistsForm = document.getElementById("searchForArtists");
+  let searchResults = $("#searchResults");
+  if (searchArtistsForm) {
+    console.log(searchResults);
+    searchResults.empty();
+    searchResults.hide();
+    searchArtistsForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      try {
+        let firstName = document.getElementById("firstNameInput").value;
+        let lastName = document.getElementById("lastNameInput").value;
+        let requestConfig = {
+          method: "POST",
+          URL: "/artist",
+          contentType: "application/json",
+          data: JSON.stringify({ firstName: firstName, lastName: lastName }),
+        };
+        $.ajax(requestConfig).then(function (responseMessage) {
+          let ulElement = $("<ul/>");
+          ulElement.attr("class", "card-container");
+          responseMessage.forEach((element) => {
+            let li = $("<li/>");
+            li.attr("class", "card");
+            let div = $("<div/>");
+            div.attr("class", "artwork-item");
+            let img = $("<img/>");
+            img.attr("class", "artwork-image");
+            img.attr("src", element.profilePic);
+            img.attr("alt", "Image of " + element.firstName);
+            let h2 = $("<h2/>");
+            h2.attr("class", "artwork-name");
+            h2.textContent = element.firstName + " " + element.lastName;
+            let p = $("<p/>");
+            p.attr("class", "artwork-description");
+            p.textContent = element.bio;
+            let a = $("<a/>");
+            a.attr("href", "/artist/" + element._id);
+            let button = $("<button/>");
+            button.attr("class", "buy-button");
+            button.textContent = "Visit Profile";
+            a.append(button);
+            div.append(img);
+            div.append(h2);
+            div.append(p);
+            div.append(a);
+            li.append(div);
+            ulElement.append(li);
+          });
+          // console.log(responseMessage);
+          searchResults.append(ulElement);
+          searchResults.show();
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  }
   if (loginForm) {
     loginForm.addEventListener("submit", (event) => {
       event.preventDefault();
