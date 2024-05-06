@@ -136,19 +136,19 @@ app.use("/user/admin", (res, req, next) => {
   }
 });
 
-app.use("/artist/addProduct", (res, req, next) => {
-  if (!req.req.session.user) {
-    console.log("here");
-    return res.res.redirect("/");
-  } else {
-    if (req.req.session.user.role === "artist") {
-      next();
-    } else {
-      console.log(req.req.session.user.role);
-      res.res.redirect("/");
-    }
-  }
-});
+// app.use("/artist/addProduct", (res, req, next) => {
+//   if (!req.req.session.user) {
+//     console.log(req.req.session);
+//     return res.res.redirect("/");
+//   } else {
+//     if (req.req.session.user.role === "artist") {
+//       next();
+//     } else {
+//       console.log(req.req.session.user.role);
+//       res.res.redirect("/");
+//     }
+//   }
+// });
 
 app.use("/artist/deleteProduct/:id", (res, req, next) => {
   if (!req.req.session.user) {
@@ -190,7 +190,7 @@ app.use("/artist/addProduct", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
