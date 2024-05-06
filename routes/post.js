@@ -5,6 +5,7 @@ import validate from "../helpers.js";
 import path from "path";
 import multer from "multer";
 import { get } from "http";
+import xss from "xss"
 
 
 const storage = multer.diskStorage({
@@ -66,7 +67,9 @@ router
     const userInfo = req.session.user;
     const userId = userInfo._id.toString().trim();
     const blogData = req.body;
-    let imagePath = path.normalize(req.file.path);
+    blogData.title=xss(blogData.title)
+    blogData.body=xss(blogData.body)
+    let imagePath = path.normalize(xss(req.file.path));
     imagePath = '/'+ imagePath.split('\\').join('/');
 
     //validation
@@ -137,8 +140,8 @@ router
 .route('/:postId/comment')
 .post(async (req, res) => {
   try{
-    const id = req.params.postId;
-    const comment = req.body.comment;
+    const id = xss(req.params.postId);
+    const comment = xss(req.body.comment);
 
     const addComment = await postsMethod.addComment(id.trim(), req.session.user.username, comment);
     return res.redirect(`/post/${id}`);
