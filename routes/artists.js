@@ -14,28 +14,40 @@ let idOutside_delete=null
 
 
 
-// router.route("/deleteProduct/:id")
-// .get(async (req, res) => {
-//   try {
-//     idOutside_delete = req.params.id
-//     const deleteProduct = await artWork.remove(idOutside_delete.trim())
-//     const deleteProduct_artistCollection= await artistMethods.removeFromCollection(idOutside_delete.trim())
-//     console.log(deleteProduct_artistCollection)
+router.route("/deleteProduct/:id")
+.get(async (req, res) => {
+  try {
+    idOutside_delete = req.params.id
+    const userId = req.session.user._id;
+    const fetchArtist = await artistMethods.getArtistProfile(userId.trim());
+    const removeFromArtist = await productMethods.removeFromArtWork(idOutside_delete, fetchArtist._id)
+    console.log("Removed from artist port..")
+    const removeFromDB = await productMethods.remove(idOutside_delete);
+    console.log('product removed from db')
+    // if(req.params.id === null) res.redirect("product/getProduct")
+
+    // console.log(idOutside_delete.toString())
+    // const deleteProduct = await artWork.removeProductfromDB(idOutside_delete.trim())
+    // console.log(deleteProduct)
+    return res.redirect("/artist/getProducts");
+    // const deleteProduct_artistCollection= await artistMethods.removeFromCollection(idOutside_delete.trim())
+    // console.log(deleteProduct_artistCollection)
     
 
     
-//   } catch (error) {
-//     res.status(400).render("error",{errorMessage:error});
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
     
-//   }
+  }
   
 
-// })
+})
 
 router.route("/edit/:id")
 .get(async (req, res) => {
   try {
     idOutside = req.params.id
+    // if(req.params.id === null) res.redirect("product/getProduct")
     const artData = await artWork.get(idOutside.trim())
     console.log(artData)
     res.render("product/editUpdateProduct",{title:"editProduct",artData, idOutside})
@@ -53,8 +65,8 @@ router
 .post(async(req,res)=>{
   console.log("Inupdateproduct")
   try {
-   
     let updatedProduct =req.body
+    console.log(updatedProduct.productDescription)
     if (typeof updatedProduct.tags === 'string') {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }

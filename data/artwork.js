@@ -105,31 +105,20 @@ const exportMethods = {
     return artistProducts || [];
   },
 
-  async remove(id) {
-    validate.checkIfProperInput(id);
-    validate.checkIfString(id);
-    id = id.trim();
-    if (!ObjectId.isValid(id)) throw "Error: Invalid object ID";
+  async remove(productId) {
+    if (!productId) throw "Error: Product ID is required.";
 
     const productCollection = await artworks();
-    const removeProduct = await productCollection.findOneAndDelete({
-      _id: new ObjectId(id),
+    const deletionInfo = await productCollection.deleteOne({
+        _id: new ObjectId(productId)
     });
-    if (!removeProduct)
-      throw `Error: Could not remove the product with id ${id}`;
-    let artistToUpdate = await artistMethods.get(removeProduct.artistId);
-    let updatedPortfolio = artistToUpdate.portfolio.filter(
-      (element) => element != id
-    );
-    await artistMethods.updateArtist(
-      removeProduct.artistId,
-      artistToUpdate.user_id,
-      artistToUpdate.bio,
-      artistToUpdate.profilePic,
-      updatedPortfolio
-    );
-    return { _id: id, deleted: true };
-  },
+
+    if (deletionInfo.deletedCount === 0) {
+        throw `Error: Could not delete product with ID ${productId}`;
+    }
+
+    return { deleted: true };
+},
 
   async addReview(productId, username, rating, comment){
     validate.checkIfProperInput(productId);
@@ -146,6 +135,23 @@ const exportMethods = {
     if (!(addRev.matchedCount && addRev.modifiedCount)) {
       throw "Error: Could't add comment";
     }
+  },
+
+  async removeFromArtWork(productId, artistId){
+    validate.checkIfProperInput(artistId);
+    validate.checkIfProperInput(productId);
+    validate.checkIfString(productId);
+    validate.checkIfString(artistId);
+
+    const artistCollection = await artists();
+    const removeProduct = await artistCollection.updateOne(
+      {_id: new ObjectId(artistId)},
+      {$pull: {portfolio: productId}}
+    );
+    if (!(removeProduct.matchedCount && removeProduct.modifiedCount)) {
+      throw "Error: Could't remove product from purchases";
+    }
+    return removeProduct;
   },
 
 
@@ -186,7 +192,7 @@ const exportMethods = {
     const updateQuery = {
       $set: {
         productName: updatedProduct.name ? updatedProduct.name.trim() : existingProduct.productName,
-        productDescription: updatedProduct.description ? updatedProduct.description.trim() : existingProduct.productDescription,
+        productDescription: updatedProduct.productDescription ? updatedProduct.productDescription.trim() : existingProduct.productDescription,
         tags: Array.isArray(updatedProduct.tags) ? updatedProduct.tags.map(tag => tag.trim()) : existingProduct.tags,
         price: updatedProduct.price ? updatedProduct.price : existingProduct.price,
         images: Array.isArray(updatedProduct.images) ? updatedProduct.images.map(image => image.trim()) : existingProduct.images,

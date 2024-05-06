@@ -49,29 +49,29 @@ const exportedMethods = {
     return await this.get(insertInfo.insertedId);
   },
 
-//   async removeFromCollection(artworkId) {
+  async removeFromCollection(artworkId) {
     
-//     if (!artworkId || typeof artworkId !== 'string') {
-//         throw new Error('Invalid artwork ID');
-//     }
+    if (!artworkId || typeof artworkId !== 'string') {
+        throw new Error('Invalid artwork ID');
+    }
 
     
-//     const objectId = new ObjectId(artworkId);
+    const objectId = new ObjectId(artworkId);
 
     
-//     const artworkCollection = await artworks();
-//     const updateResult = await artworkCollection.updateMany(
-//         { collection: objectId },
-//         { $pull: { collection: objectId } }
-//     );
+    const artworkCollection = await artworks();
+    const updateResult = await artworkCollection.updateMany(
+        { collection: objectId },
+        { $pull: { collection: objectId } }
+    );
 
     
-//     if (updateResult.modifiedCount === 0) {
-//         throw new Error('No documents were updated');
-//     }
+    if (updateResult.modifiedCount === 0) {
+        throw new Error('No documents were updated');
+    }
 
-//     return true; 
-// },
+    return true; 
+},
 
 
   async get(id) {
@@ -89,9 +89,7 @@ const exportedMethods = {
   },
 
   async getArtistProfile(userid) {
-    //retrieves an artist if the artist exists in the database
-    // validate.checkIfProperInput(userid)
-    // validate.checkIfValidObjectId(userid);
+    
     const artistCollection = await artists();
     const findArtist = await artistCollection.findOne({ user_id: userid });
     if (!findArtist) {

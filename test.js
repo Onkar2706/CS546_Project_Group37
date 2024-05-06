@@ -158,7 +158,7 @@ try {
   // const artist = await artistMethods.getArtistProfile("663662e8ec1edaa24b1aa2dc")
   // console.log(artist)
 
-  const test = await postsMethod.addComment("663694e6aae1037260317a3c","cbing", "new comment");
+  const test = await artwork.removeProductfromDB('66387d11b764022205cc5ff1')
   console.log("Done");
   
 } catch (error) {
