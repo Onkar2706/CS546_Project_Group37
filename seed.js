@@ -1,5 +1,6 @@
 import { dbConnection, closeConnection } from "./config/mongoConnection.js";
 import validate from "./helpers.js";
+import bcrypt from "bcryptjs";
 import {
   userMethods,
   artistMethods,
@@ -15,7 +16,20 @@ let user1 = await userMethods.create(
   "Rachel",
   "Green",
   "rgreen",
-  "$2a$10$SaOuj75IYJPec.A66mTBb.MEOsl61aPsU8wQyqMGx6Pny6xXGZXaG",
+  await bcrypt.hash("password@123", 10),
+  "rgreen@friends.com",
+  29,
+  "NJ",
+  "Hoboken",
+  [],
+  [],
+  []
+);
+let testUser = await userMethods.create(
+  "Rachel",
+  "Green",
+  "rgreen1",
+  await bcrypt.hash("password@123", 10),
   "rgreen@friends.com",
   29,
   "NJ",
@@ -27,7 +41,7 @@ let user2 = await userMethods.create(
   "Chandler",
   "Bing",
   "cbing",
-  "$2a$10$RW68vmo3QYlsa/LqNyEfI.v.GkMw1x/8olOE6K/U39QoRhVo2V86u",
+  await bcrypt.hash("password@123", 10),
   "cbing@friends.com",
   32,
   "NJ",
@@ -39,7 +53,7 @@ let user3 = await userMethods.create(
   "Joey",
   "Tribianni",
   "jtrib",
-  "$2a$10$/fB3h7VjE5JLb0OQ/4Pt3.59DnDiPEvf.UXg5Ox8pjWRmW8tX/tq2",
+  await bcrypt.hash("password@123", 10),
   "jtrib@friends.com",
   30,
   "NJ",
@@ -51,7 +65,7 @@ let user4 = await userMethods.create(
   "Barney",
   "Stinson",
   "Bstin",
-  "$2a$10$Eu8aabfdUE60./Ta7JDTxeLPUhL9Vv.GW8dAikCEOLTW2MHsw4Gea",
+  await bcrypt.hash("password@123", 10),
   "bstin@friends.com",
   32,
   "NJ",
@@ -63,7 +77,7 @@ let user5 = await userMethods.create(
   "Ted",
   "Mosby",
   "tmosby",
-  "$2a$10$Eu8aabfdUE60./Ta7JDTxeLPUhL9Vv.GW8dAikCEOLTW2MHsw4Gea",
+  await bcrypt.hash("password@123", 10),
   "tmosby@friends.com",
   31,
   "NJ",
@@ -75,7 +89,7 @@ let user6 = await userMethods.create(
   "HIMYM",
   "We Copied FRIENDS",
   "himym",
-  "$2a$10$Eu8aabfdUE60./Ta7JDTxeLPUhL9Vv.GW8dAikCEOLTW2MHsw4Gea",
+  await bcrypt.hash("password@123", 10),
   "bstin@friends.com",
   18,
   "NJ",
@@ -85,6 +99,11 @@ let user6 = await userMethods.create(
 );
 
 // Saving Created Artists
+let testArtist = await artistMethods.create(
+  testUser._id,
+  "Hi",
+  "https://www.instyle.com/thmb/kUBbYGxX9MRxi8yan8S4lFZA-30=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/100421-rachel-green-outfis-08-dd43a04a48b3493b90a5b508e9d8bd5a.jpg"
+);
 let artist1 = await artistMethods.create(
   user1._id,
   "Hi this is Rachel",
@@ -237,7 +256,7 @@ let post2 = await postsMethod.addPost(
   "jtrib",
   "Foooood",
   "This foood is AMAZING!!!",
-  "https://images.pexels.com/photos/1633525/pexels-photo-1633525.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  "https://images.pexels.com/photos/1633525/pexels-photo-1633525.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 );
 let post3 = await postsMethod.addPost(
   user1._id,
