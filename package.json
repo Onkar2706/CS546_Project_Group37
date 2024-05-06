@@ -30,6 +30,8 @@
     "mongo": "^0.1.0",
     "session": "^0.1.0",
     "validator": "^13.11.0"
+    ,"path": "^0.12.7",
+    "express-fileupload": "^1.4.3"
   },
   "devDependencies": {
     "@types/validator": "^13.11.9"

@@ -146,5 +146,6 @@ const exportMethods = {
       throw "Error: Could't add comment";
     }
   },
+
 };
 export default exportMethods;

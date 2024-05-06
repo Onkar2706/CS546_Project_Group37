@@ -6,6 +6,15 @@ import { artistMethods } from "../data/index.js";
 // import { artistMethods } from "../data/index.js";
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
+// Upload Image
+// import fileExtLimiter from "../middleware/fileExtLimiter.js"
+// import fileSizesLimiter from "../middleware/fileSizeLimiter.js"
+// import filesPayloadExists from "../middleware/filesPayloadExists.js"
+// import fileUpload from "express-fileupload";
+
+// import path from "path";
+
+
 
 const router = express.Router();
 
@@ -140,10 +149,38 @@ router
       res.status(400).render("error",{errorMessage:error});
     }
   })
+// Upload Image
+  // .post( fileUpload({ createParentPath: true }),
+  // filesPayloadExists,
+  // fileExtLimiter([".png",".jpg",".jpeg"]),
+  // fileSizesLimiter,
+  // async (req, res) => {
   .post(async (req, res) => {
-    
     try {
       const artistData = req.body;
+// Upload Image
+
+      // let files = req.files;
+      // let fileName;
+      // let filepath;
+      // Object.keys(files).forEach((key) => {
+      //    filepath = path.join(
+      //     "public",
+      //     "images",
+      //     "files",
+      //     req.session.user.username
+      //     ,files[key].name
+      //   );
+      //   fileName = files[key].name;
+      //   console.log(filepath);
+      //   files[key].mv(filepath, (err) => {
+      //     if (err)
+      //       return res.status(500).json({ status: "error", message: err });
+      //   });
+      // });
+      // console.log(filepath)
+      
+  
       // console.log(artistData);
       // validate.checkIfProperInput(user_id);
       // validate.checkIfProperInput(bio);
@@ -165,9 +202,13 @@ router
 
       const newArtist = await artistMethods.create(
         req.session.user._id,
-        artistData.bio,
-        artistData.profilePicture
+        req.body.bio,
+        req.body.profilePicture
+    // Upload Image    
+        // req.body.bio,
+        // '/'+filepath
       );
+      // console.log(newArtist);
       res.redirect("/user/login");
     } 
      
@@ -181,22 +222,29 @@ router.route("/:artistId").get(async (req, res) => {
     const id = req.params.artistId;
     const artistInfo = await artistMethods.get(id.trim());
     const artworkArr = [];
+    const fetchRatings = artistInfo.ratings;
+    const ratingsArr = [];
+    for (let i=0; i<fetchRatings.length; i++){
+      ratingsArr.push(fetchRatings[i]['ratings'])
+    }
+    const avgRating = validate.calculateAverageRating(ratingsArr);
+
     for (let i=0; i<artistInfo.portfolio.length; i++){
       let temp = await productMethods.get(artistInfo.portfolio[i]);
       artworkArr.push(temp);
     }
     if (req.session && req.session.user && req.session.user.role === "user"){
-      return res.render("artist/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username,
+      return res.render("artist/artistclick", {artistInfo, artworkArr, avgRating, title:"Artist Info", userName: req.session.user.username,
       loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
     }
     else if (req.session && req.session.user && req.session.user.role === "artist"){
-      return res.render("artist/artistclick", {artistInfo, artworkArr, title:"Artist Info", userName: req.session.user.username,
+      return res.render("artist/artistclick", {artistInfo, artworkArr, avgRating, title:"Artist Info", userName: req.session.user.username,
       loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
     }
     
-    return res.render("artist/artistclick", {artistInfo, artworkArr, title:"Artist Info"})
+    return res.render("artist/artistclick", {artistInfo, artworkArr,avgRating, title:"Artist Info"})
   }
   catch(error){
     res.status(400).render("error",{errorMessage:error});
@@ -228,12 +276,22 @@ router
     res.status(404).render("error",{errorMessage:error});
   }
   
-  })
+});
 
+router
+.route('/rateArtist/:artistId')
+.post(async (req, res) => {
+  try {
+    const id = req.params.artistId;
+    const rating = req.body.rating;
+    const addRating = await artistMethods.addArtistRating(id, rating, req.session.user.username);
+    return res.redirect(`/artist/${id}`);
+  } catch (error) {
+    res.status(404).render("error",{errorMessage:error});    
+  }
+})
 
-  
-
-export default router
+export default router;
 
 
 
