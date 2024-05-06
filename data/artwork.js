@@ -149,18 +149,62 @@ const exportMethods = {
   },
 
 
-  async updateProduct(productId, updateInfo){
-    const filter = { _id: new ObjectId(productId)};
-    const update = {
-      $set: updateInfo
-    };
-    const productCollection = await artworks();
-    const result = await productCollection.updateOne(filter, update);
-    if (result.modifiedCount === 1) {
-        console.log('User information updated successfully.');
-    } else {
-        console.log('No user document was updated.');
+  // async updateProduct(productId, updateInfo){
+  //   const filter = { _id: new ObjectId(productId)};
+  //   const update = {
+  //     $mod: updateInfo
+  //   };
+  //   const productCollection = await artworks();
+  //   const result = await productCollection.updateOne(filter, update);
+  //   if (result.modifiedCount === 1) {
+  //       console.log('User information updated successfully.');
+  //   } else {
+  //       console.log('No user document was updated.');
+  //   }
+  //   return result
+  // }
+
+
+  async updateProduct(productId, updatedProduct) {
+    if (!productId || typeof productId !== 'string') {
+      throw new Error('Error: Invalid product ID');
     }
+    
+    if (!updatedProduct || typeof updatedProduct !== 'object') {
+      throw new Error('Error: Invalid updated product object');
+    }
+  
+    const productCollection = await artworks();
+  
+    
+    const existingProduct = await productCollection.findOne({ _id: new ObjectId(productId) });
+    if (!existingProduct) {
+      throw new Error('Error: Product not found');
+    }
+  
+    
+    const updateQuery = {
+      $set: {
+        productName: updatedProduct.name ? updatedProduct.name.trim() : existingProduct.productName,
+        productDescription: updatedProduct.description ? updatedProduct.description.trim() : existingProduct.productDescription,
+        tags: Array.isArray(updatedProduct.tags) ? updatedProduct.tags.map(tag => tag.trim()) : existingProduct.tags,
+        price: updatedProduct.price ? updatedProduct.price : existingProduct.price,
+        images: Array.isArray(updatedProduct.images) ? updatedProduct.images.map(image => image.trim()) : existingProduct.images,
+        reviews: Array.isArray(updatedProduct.reviews) ? updatedProduct.reviews.map(review => review.trim()) : existingProduct.reviews
+      }
+    };
+  
+    
+    const updateResult = await productCollection.updateOne({ _id: new ObjectId(productId) }, updateQuery);
+  
+    if (updateResult.modifiedCount === 0) {
+      throw new Error('Error: Product update failed');
+    }
+  
+    
+    const updatedProductInfo = await productCollection.findOne({ _id: new ObjectId(productId) });
+    updatedProductInfo._id = updatedProductInfo._id.toString();
+    return updatedProductInfo;
   }
 };
 export default exportMethods;
