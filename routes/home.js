@@ -7,7 +7,8 @@ router
   .route('/')
   .get(async (req, res) => {
     try {
-      const artists = await artistMethods.getAll();
+      let artists = await artistMethods.getAll();
+      if (artists.length > 6) artists = artists.slice(0,6);
       let products = await productMethods.getAll();
       if (products.length > 6) products = products.slice(0,6);
         // sort top 5 artists based on ratings. 
