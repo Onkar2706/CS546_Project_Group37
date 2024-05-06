@@ -7,6 +7,18 @@ import { artistMethods } from "../data/index.js";
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
 import xss from 'xss'
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/') // Uploads folder where images will be stored temporarily
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Use original filename
+  }
+});
+const uploads = multer({ storage: storage });
+
 // Upload Image
 // import fileExtLimiter from "../middleware/fileExtLimiter.js"
 // import fileSizesLimiter from "../middleware/fileSizeLimiter.js"
@@ -178,9 +190,8 @@ router.route("/addProduct").get(async (req, res) => {
 //   console.log(fetchArtistID)
 
 // });
-router.route("/addProduct")
-.post(async (req, res) => {
-  // console.log("In ADDproductsPOST");
+router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => {
+  console.log("In ADDproductsPOST");
   const productData = req.body;
   console.log(productData)
 
@@ -196,10 +207,11 @@ router.route("/addProduct")
 
   // console.log(productData);
   const tagsArray = productData.tags.split(",");
-  const imagesArray = productData.images.split(",");
-  const userId = xss(req.session.user._id);
+  const userId = req.session.user._id;
   console.log("i AM HERE")
   const fetchArtistID = await artistMethods.getArtistProfile(userId);
+  let imagesArray = req.files.map(file => file.path);
+  imagesArray = imagesArray.map(image => '/'+ image.split('\\').join('/'));
   // console.log(fetchArtistID);
 
   const addProduct = await productMethods.create(
@@ -228,7 +240,7 @@ router
   .route("/artistreg")
   .get(async (req, res) => {
     try {
-      return res.render("artist/artistreg", { title: "Artist Registration" });
+      return res.render("artist/artistreg", { title: "Artist Registration", loggedIn: true, user: true, userName: req.session.user.username});
     } catch (error) {
       res.status(400).render("error", { errorMessage: error });
     }
@@ -239,7 +251,7 @@ router
   // fileExtLimiter([".png",".jpg",".jpeg"]),
   // fileSizesLimiter,
   // async (req, res) => {
-  .post(async (req, res) => {
+  .post(uploads.single("profilePicture"), async (req, res) => {
     try {
       const artistData = req.body;
       // Upload Image
@@ -278,17 +290,18 @@ router
       if (!artistData) {
         return res.status(400).json({ Error: "No fields in the request body" });
       }
-
+      let profilePicPath = req.file.path;
+      profilePicPath = "/" + profilePicPath.split("\\").join("/");
       const newArtist = await artistMethods.create(
         req.session.user._id,
-        xss(req.body.bio),
-        xss(req.body.profilePicture)
+        req.body.bio,
+        profilePicPath
         // Upload Image
         // req.body.bio,
         // '/'+filepath
       );
       // console.log(newArtist);
-      res.redirect("/user/login");
+      res.redirect("/logout");
     } catch (error) {
       res.status(400).render("error", { errorMessage: error });
     }

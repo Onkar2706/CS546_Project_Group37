@@ -194,21 +194,21 @@ router.route("/admin").get(async (req, res) => {
     }
   });
 
-router.route("/user").get(async (req, res) => {
-  res.render("home/home", { title: "User" });
-})
-.post(async (req, res) => {
-  if (req.session.user && req.session.user.role === "user") {
-    const admin = req.session.user;
-    const currentTime = new Date().toLocaleString();
+// router.route("/user").get(async (req, res) => {
+//   res.render("home/home", { title: "User" });
+// })
+// .post(async (req, res) => {
+//   if (req.session.user && req.session.user.role === "user") {
+//     const admin = req.session.user;
+//     const currentTime = new Date().toLocaleString();
 
-    res.render("home/home", {
-      firstName: admin.firstName,
-      lastName: admin.lastName,
-      userName: admin.userName,
-      currentTime: currentTime,
-    })
-  }});
+//     res.render("home/home", {
+//       firstName: admin.firstName,
+//       lastName: admin.lastName,
+//       userName: admin.userName,
+//       currentTime: currentTime,
+//     })
+//   }});
 
 // router.route("/registerArtist").get(async (req, res) => {
 //   res.render("artist/artist", { title: "artist" });
@@ -300,7 +300,7 @@ router
     const updateInfo = xss(req.body);
     const userid = xss(req.session.user._id);
     const updateUser = await userMethods.updateUser(userid, updateInfo);
-    return res.redirect('/user/login');
+    return res.redirect('/logout');
   } catch (error) {
     res.status(400).render("error",{errorMessage:error});
   }
@@ -314,7 +314,7 @@ router
     const updateInfo = req.body;
     const artistId = artistInfo._id;
     const updateUser = await userMethods.updateArtist(artistId, updateInfo);
-    return res.redirect('/user/login');
+    return res.redirect('/logout');
   } catch (error) {
     res.status(400).render("error",{errorMessage:error});
   }

@@ -1,4 +1,4 @@
-<form action="/post/addBlog" method="POST" class="container blogForm" enctype="multipart/form-data">
+<form action="/post/addBlog" method="POST" id="blogForm" enctype="multipart/form-data">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" placeholder="Input Blog Title">
     <br>
@@ -16,9 +16,9 @@
     </div>
     <br><br> --}}
 
-    <label for="image">
+    <label for="addImg">
         <span>Choose photos</span>
-        <input name="image" id="addImg" type="file" accept="image/jpg, image/png, image/jpeg, image/gif, image/tiff" multiple>
+        <input name="addImg" id="addImg" type="file" accept="image/jpg, image/png, image/jpeg, image/gif, image/tiff" multiple>
     </label>
 
     <button type="submit">Submit</button>

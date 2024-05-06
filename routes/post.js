@@ -120,7 +120,6 @@ router
   try{
     const id = req.params.postId;
     const getPost = await postsMethod.getPostById(id.trim());
-    getPost.image = '/' + getPost.image;
     if (req.session && req.session.user && req.session.user.role === "user"){
       return res.render('post/openPost', { getPost, title: "Post", userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
@@ -152,3 +151,4 @@ router
 });
 
 export default router;
+export { upload };

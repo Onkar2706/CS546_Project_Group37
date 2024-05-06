@@ -24,6 +24,10 @@ router
           loggedIn: true, user: req.session.user.role === "user" ? true : false,
           artist: req.session.user.role === "user" ? false : true, title: "Home Page"});
         }
+        else if (req.session && req.session.user && req.session.user.role === "admin"){
+          return res.render("home/home.handlebars", {artists, products, userName: req.session.user.username,
+          loggedIn: true, artist:true, admin: true, title: "Home Page"});
+        }
         return res.render("home/home.handlebars", {artists, products, title: "Home Page"});
 
     }
