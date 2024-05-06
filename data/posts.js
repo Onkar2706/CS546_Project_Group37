@@ -16,9 +16,9 @@ const exportMethods = {
     let newPost = {
       userId: userId,
       userName: userName.trim(),
-      title: title.trim(),
-      body: body.trim(),
-      image: image.trim(),
+      title: title,
+      body: body,
+      image: image,
       comment: [],
       time: validate.getTodayDate(),
     };

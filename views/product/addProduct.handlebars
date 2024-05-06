@@ -1,36 +1,29 @@
-<form id="addProductForm" action="/artist/addProduct" method="POST">
+
+
+<form id="addProductForm" action="/artist/addProduct" method="POST" enctype="multipart/form-data">
     <label for="productName">Product Name:</label>
     <input required type="text" id="productName" value="{{artData.productName}}" name="productName">
-    <br>
-    <br>
+    <br><br>
     
     <label for="productDescription">Product Description:</label>
-    <input required type="text" id="productDescription" value="{{artData.productDescription}}" name="productDescription"></textarea>
-    <br>
-    <br>
+    <input required type="text" id="productDescription" value="{{artData.productDescription}}" name="productDescription">
+    <br><br>
     
     <label for="price">Price:</label>
-    <input required type="text" id="price" value="{{artData.price}} " name="price">
-    <br>
-    <br>
-    
-    {{!-- <label for="rating">Rating:</label><br>
-    <input required type="number" id="rating" name="rating"><br> --}}
-    
-    {{!-- <label for="date">Release Date:</label><br>
-    <input required type="date" id="date" name="date"><br> --}}
+    <input required type="text" id="price" value="{{artData.price}}" name="price">
+    <br><br>
     
     <label for="images">Images:</label>
-    <input required type="text" id="images"  value="{{artData.images}}"  name="images">
-    <br>
-    <br>
-    
-    {{!-- <label for="reviews">Reviews :</label><br>
-    <textarea id="reviews" name="reviews"></textarea><br> --}}
+    <div class="file-wrapper">
+        <span id="file-label">Choose File</span>
+        <input required type="file" id="images" name="images" accept="image/*" onchange="updateFileName(this)">
+    </div>
+    <br><br>
     
     <label for="tags">Tags :</label>
-    <input required type="text" id="tags" value ="{{artData.tags}}" name="tags">
-    <br>
-    <br>
+    <input required type="text" id="tags" value="{{artData.tags}}" name="tags">
+    <br><br>
+    
     <button type="submit">Add Product</button>
 </form>
+

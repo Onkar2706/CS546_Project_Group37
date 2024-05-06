@@ -15,3 +15,4 @@ document.addEventListener("DOMContentLoaded", function () {
     userNameElement.style.display = "none";
   }
 });
+
