@@ -239,7 +239,7 @@ router
   .route("/artistreg")
   .get(async (req, res) => {
     try {
-      return res.render("artist/artistreg", { title: "Artist Registration" });
+      return res.render("artist/artistreg", { title: "Artist Registration", loggedIn: true, user: true, userName: req.session.user.username});
     } catch (error) {
       res.status(400).render("error", { errorMessage: error });
     }
@@ -250,7 +250,7 @@ router
   // fileExtLimiter([".png",".jpg",".jpeg"]),
   // fileSizesLimiter,
   // async (req, res) => {
-  .post(async (req, res) => {
+  .post(uploads.single("profilePicture"), async (req, res) => {
     try {
       const artistData = req.body;
       // Upload Image
@@ -289,17 +289,18 @@ router
       if (!artistData) {
         return res.status(400).json({ Error: "No fields in the request body" });
       }
-
+      let profilePicPath = req.file.path;
+      profilePicPath = "/" + profilePicPath.split("\\").join("/");
       const newArtist = await artistMethods.create(
         req.session.user._id,
         req.body.bio,
-        req.body.profilePicture
+        profilePicPath
         // Upload Image
         // req.body.bio,
         // '/'+filepath
       );
       // console.log(newArtist);
-      res.redirect("/user/login");
+      res.redirect("/logout");
     } catch (error) {
       res.status(400).render("error", { errorMessage: error });
     }
