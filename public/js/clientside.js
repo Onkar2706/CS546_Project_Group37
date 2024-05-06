@@ -208,6 +208,24 @@ const validate = {
   const searchArtistsForm = document.getElementById("searchForArtists");
   let artistRegForm = document.getElementById("artistRegisterForm");
   let addProductForm = document.getElementById("addProductForm");
+  let postForm = document.getElementsByClassName("container blogForm");
+  if (postForm) {
+    postForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      try {
+        let title = document.getElementById("title");
+        validate.checkIfString(title);
+        let body = document.getElementById("body");
+        validate.checkIfString(body);
+        let img = document.getElementById("image");
+        validate.checkIfString(img);
+        postForm.submit();
+      } catch (e) {
+        console.log(e);
+        alert(e);
+      }
+    });
+  }
   if (addProductForm) {
     addProductForm.addEventListener("submit", (event) => {
       event.preventDefault();
