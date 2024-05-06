@@ -208,16 +208,16 @@ const validate = {
   const searchArtistsForm = document.getElementById("searchForArtists");
   let artistRegForm = document.getElementById("artistRegisterForm");
   let addProductForm = document.getElementById("addProductForm");
-  let postForm = document.getElementsByClassName("container blogForm");
+  let postForm = document.getElementById("blogForm");
   if (postForm) {
     postForm.addEventListener("submit", (event) => {
       event.preventDefault();
       try {
-        let title = document.getElementById("title");
+        let title = document.getElementById("title").value;
         validate.checkIfString(title);
-        let body = document.getElementById("body");
+        let body = document.getElementById("body").value;
         validate.checkIfString(body);
-        let img = document.getElementById("image");
+        let img = document.getElementById("addImg").value;
         validate.checkIfString(img);
         postForm.submit();
       } catch (e) {
