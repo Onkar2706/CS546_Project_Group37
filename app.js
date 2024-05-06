@@ -50,16 +50,16 @@ app.use("/", (res, req, next) => {
   }
   next();
 });
-app.use("/user/login", (res, req, next) => {
-  if (req.req.session.user) {
-    if (req.req.session.user.role === "user") {
-      return res.res.redirect("/user/user");
-    } else if (req.req.session.user.role === "artist") {
-      return res.res.redirect("");
-    }
-  }
-  next();
-});
+// app.use("/user/login", (res, req, next) => {
+//   if (req.req.session.user) {
+//     if (req.req.session.user.role === "user") {
+//       return res.res.redirect("/user/user");
+//     } else if (req.req.session.user.role === "artist") {
+//       return res.res.redirect("");
+//     }
+//   }
+//   next();
+// });
 
 app.use("/user/register", (res, req, next) => {
   if (req.req.session.user) {

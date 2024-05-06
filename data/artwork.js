@@ -56,8 +56,8 @@ const exportMethods = {
       tags: Array.isArray(tags) ? tags.map((item) => item.trim()) : [],
       price: price,
       date: validate.getTodayDate(),
+      avgRating: 0,
       images: Array.isArray(images) ? images.map((item) => item.trim()) : [],
-      rating: 0,
       reviews: Array.isArray(reviews) ? reviews.map((item) => item.trim()) : [],
     };
 
@@ -130,19 +130,19 @@ const exportMethods = {
     return { _id: id, deleted: true };
   },
 
-  async addReview(productId, userId, rating, comment){
+  async addReview(productId, username, rating, comment){
     validate.checkIfProperInput(productId);
-    validate.checkIfProperInput(userId);
+    validate.checkIfProperInput(username);
     validate.checkIfProperInput(rating);
     validate.checkIfProperInput(comment);
 
     const filter = {_id: new ObjectId(productId)};
     const updateArr = {
-      $push:{reviews: {userId: userId, ratings: rating, comment: comment}}
+      $push:{reviews: {userName: username, ratings: rating, comment: comment}}
     };
     const productCollection = await artworks();
     const addRev = await productCollection.updateOne(filter, updateArr);
-    if (!(addcom.matchedCount && addcom.modifiedCount)) {
+    if (!(addRev.matchedCount && addRev.modifiedCount)) {
       throw "Error: Could't add comment";
     }
   },
