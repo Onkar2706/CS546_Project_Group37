@@ -149,3 +149,4 @@ router
 });
 
 export default router;
+export { upload };
