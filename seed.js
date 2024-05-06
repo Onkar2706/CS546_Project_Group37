@@ -108,7 +108,7 @@ let artist3 = await artistMethods.create(
 );
 let artist4 = await artistMethods.create(
   user4._id,
-  `"Legen—wait for it—dary! Gather 'round, my fine comrades of the night, for tonight, we embark on an adventure so epic, even Zeus would give it a thumbs-up. Picture this: a night filled with more twists and turns than a rollercoaster designed by Salvador Dalí, more laughter than a stand-up comedy show featuring a herd of laughing hyenas, and more legendary moments than... well, than anything else legendary! So, suit up, my friends, because tonight, we're not just making memories, we're crafting legends!"`,
+  `"Legen—wait for it—dary!"`,
   "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/310613953_664827498341332_8131777393604310854_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=mqfHmrFEJFQQ7kNvgE4shma&_nc_ht=scontent-lga3-2.xx&oh=00_AfCvvVT8PxnG4Qdy4QvT6jJ6FX8EUnJLzb3ehH9Ax-4k8A&oe=663B7FF5"
 );
 let artist5 = await artistMethods.create(
