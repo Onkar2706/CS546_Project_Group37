@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections.js";
+import { artists, users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import bcrypt from "bcryptjs";
@@ -185,6 +185,20 @@ const exportMethods = {
         console.log('User information updated successfully.');
     } else {
         console.log('No user document was updated.');
+    }
+  },
+
+  async updateArtist(artistId, updateInfo){
+    const filter = { _id: new ObjectId(artistId)};
+    const update = {
+      $set: updateInfo
+    };
+    const artistCollection = await artists();
+    const result = await artistCollection.updateOne(filter, update);
+    if (result.modifiedCount === 1) {
+        console.log('Artist information updated successfully.');
+    } else {
+        console.log('No artist document was updated.');
     }
   }
 };
