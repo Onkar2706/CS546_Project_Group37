@@ -743,6 +743,38 @@ button:hover {
     text-decoration: underline; /* Underline on hover */
   }
   
+
+  #admin-dashboard {
+    background-color: white;
+    text-align: center;
+    margin: 50px auto;
+}
+
+#admin-dashboard h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#admin-dashboard nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#admin-dashboard nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+#admin-dashboard nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+#admin-dashboard nav ul li a:hover {
+    color: #e69c2d;
+}
+
 /* css for artist get products 
 
 

@@ -6,6 +6,18 @@ import { artistMethods } from "../data/index.js";
 // import { artistMethods } from "../data/index.js";
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/') // Uploads folder where images will be stored temporarily
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Use original filename
+  }
+});
+const uploads = multer({ storage: storage });
+
 // Upload Image
 // import fileExtLimiter from "../middleware/fileExtLimiter.js"
 // import fileSizesLimiter from "../middleware/fileSizeLimiter.js"
@@ -177,9 +189,8 @@ router.route("/addProduct").get(async (req, res) => {
 //   console.log(fetchArtistID)
 
 // });
-router.route("/addProduct")
-.post(async (req, res) => {
-  // console.log("In ADDproductsPOST");
+router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => {
+  console.log("In ADDproductsPOST");
   const productData = req.body;
   console.log(productData)
 
@@ -195,10 +206,11 @@ router.route("/addProduct")
 
   // console.log(productData);
   const tagsArray = productData.tags.split(",");
-  const imagesArray = productData.images.split(",");
   const userId = req.session.user._id;
   console.log("i AM HERE")
   const fetchArtistID = await artistMethods.getArtistProfile(userId);
+  let imagesArray = req.files.map(file => file.path);
+  imagesArray = imagesArray.map(image => '/'+ image.split('\\').join('/'));
   // console.log(fetchArtistID);
 
   const addProduct = await productMethods.create(
