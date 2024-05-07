@@ -4,6 +4,7 @@ import { artistMethods, userMethods } from "../data/index.js";
 import bcrypt from "bcryptjs";
 import { posts, users } from "../config/mongoCollections.js";
 import validate from "../helpers.js";
+import xss from "xss"
 
 const saltRounds = 10;
 let hash = null;
@@ -20,8 +21,9 @@ router
   .post(async (req, res) => {
     try {
       const createUserData = req.body;
+      console.log(createUserData)
       const userNameValidator = await userMethods.getByUsername(
-        createUserData.userName.toLowerCase()
+        xss(createUserData.userName.toLowerCase())
       );
       if (!createUserData || Object.keys(createUserData).length === 0) {
         throw "Error: No fields in the request body";
@@ -102,6 +104,7 @@ router
   })
   .post(async (req, res) => {
     try {
+      const authorizeUser = req.body;
       // Validation
       // validate.checkIfProperInput(_id);
       // validate.checkIfProperInput(firstName);
@@ -118,7 +121,7 @@ router
       validate.checkIfUsername(req.body.userName);
       validate.checkIfPassword(req.body.password);
 
-      const authorizeUser = req.body;
+      // const authorizeUser = req.body;
       // Validation
       // validate.checkIfProperInput(authorizeUser.userName);
       // validate.checkIfProperInput(authorizeUser.password);
@@ -183,10 +186,9 @@ router.route("/admin").get(async (req, res) => {
       const currentTime = new Date().toLocaleString();
 
       res.render("admin/admin", {
-        firstName: admin.firstName,
-        lastName: admin.lastName,
-        userName: admin.userName,
-        currentTime: currentTime,
+        loggedIn: true,
+        admin: true,
+        userName:req.session.user.username
       });
     }
   });
@@ -273,6 +275,7 @@ router.route("/getUserInfo").get(async (req, res) => {
       artist: req.session.user.role === "user" ? false : true
     });
   }
+
 });
 
 router
@@ -294,8 +297,8 @@ router
 })
 .post(async (req, res) => {
   try {
-    const updateInfo = req.body;
-    const userid = req.session.user._id;
+    const updateInfo = xss(req.body);
+    const userid = xss(req.session.user._id);
     const updateUser = await userMethods.updateUser(userid, updateInfo);
     return res.redirect('/logout');
   } catch (error) {
@@ -316,6 +319,43 @@ router
     res.status(400).render("error",{errorMessage:error});
   }
 });
+
+router.route('/editPassword')
+.get(async (req, res) => {
+  try {
+    return res.render('user/editPasswordForm', {title: "Update Password",  userName: req.session.user.username,
+    loggedIn: true,
+    user: req.session.user.role === "user" ? true : false,
+    artist: req.session.user.role === "user" ? false : true});
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
+  }
+})
+.post(async (req, res) => {
+  try {
+    let currentPassword = req.body.currentPassword;
+    // currentPassword = await bcrypt.hash(currentPassword, 10);
+    const newPassword = req.body.newPassword;
+    const id = req.session.user._id;
+
+    const fetchUser = await userMethods.get(id);
+    const match = await bcrypt.compare(
+      currentPassword,
+      fetchUser.password
+    );
+    if (match){
+      const changePassword = await userMethods.changePassword(newPassword.trim(), id.trim());
+    }
+    else throw("Error: Wrong Password")
+    return res.redirect('/user/getUserInfo');
+
+
+    
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
+    
+  }
+})
 
 
 export default router;

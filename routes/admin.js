@@ -1,6 +1,8 @@
 import express from "express";
 import { artistMethods, postsMethod, productMethods } from "../data/index.js";
 import { userMethods } from "../data/index.js";
+import xss from "xss"
+
 
 const router = express.Router();
 
@@ -10,7 +12,12 @@ router
     try {
         const allPosts = await postsMethod.getAllPosts();
         console.log(allPosts);
-        return res.render('admin/posts',{allPosts, title: "All Posts"});
+        res.render("admin/posts", {
+          allPosts, title: "All Posts",
+          loggedIn: true,
+          admin: true,
+          userName:req.session.user.username
+        });
     } catch (error) {
       res.status(400).render("error",{errorMessage:error});
     }
@@ -34,7 +41,12 @@ router.route('/products')
 .get(async (req, res) => {
   try {
     const allProducts = await productMethods.getAll();
-    return res.render('admin/products', {allProducts, title: "All Products"});
+        res.render("admin/products", {
+          allProducts, title: "All Products",
+          loggedIn: true,
+          admin: true,
+          userName:req.session.user.username
+        });
   } catch (error) {
     res.status(400).render("error",{errorMessage:error});
   }
@@ -62,8 +74,12 @@ router
 .get( async (req, res) => {
   try {
     const allUsers = await userMethods.getUsersByRoles();
-    
-    return res.render('admin/users',{allUsers, title: "All Users"});
+    res.render("admin/users", {
+      allUsers, title: "All Users",
+      loggedIn: true,
+      admin: true,
+      userName:req.session.user.username
+    });
 } catch (error) {
   res.status(400).render("error",{errorMessage:error});
 }
