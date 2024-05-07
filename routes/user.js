@@ -308,7 +308,7 @@ router
 .post(async (req, res) => {
   try {
     const artistInfo = await artistMethods.getArtistProfile(req.session.user._id);
-    const updateInfo = req.body;
+    let updateInfo = req.body;
     const artistId = artistInfo._id;
     const updateUser = await userMethods.updateArtist(artistId, updateInfo);
     return res.redirect('/logout');

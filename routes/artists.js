@@ -93,9 +93,9 @@ router.route("/updateProduct").post(async (req, res) => {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }
 
-    if (typeof updatedProduct.images === "string") {
-      updatedProduct.images = updatedProduct.images.split(",");
-    }
+    // if (typeof updatedProduct.images === "string") {
+    //   updatedProduct.images = updatedProduct.images.split(",");
+    // }
     console.log(updatedProduct);
     const updatedproductInDB = await artWork.updateProduct(
       idOutside,
@@ -190,6 +190,7 @@ router.route("/addProduct").get(async (req, res) => {
 
 // });
 router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => {
+  try{
   console.log("In ADDproductsPOST");
   const productData = req.body;
   console.log(productData)
@@ -197,7 +198,7 @@ router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => 
   validate.checkIfProperInput(productData.productName)
   validate.checkIfProperInput(productData.productDescription)
   validate.checkIfProperInput(productData.price)
-  validate.checkIfProperInput(productData.images)
+  // validate.checkIfProperInput(productData.images)
   validate.checkIfProperInput(productData.tags)
 
   validate.checkIfString(productData.productName)
@@ -233,7 +234,11 @@ router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => 
   // const enterArtidintoArtist = await artistMethods.updateArtist()
 
   return res.redirect("/artist/getProducts");
-});
+  }
+  catch(error){
+    res.status(400).render("error", { errorMessage: error });
+  }
+}); 
 
 router
   .route("/artistreg")
