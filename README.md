@@ -32,11 +32,6 @@
 - {Step 4 : Go to the landing page in web browser at: `localhost:3000/`}
 
 
-## Features Implemented
-- • Home page:
-o The home page will show the trending artists (profile photo, ratings, short intro)
-o Category wise art selection 
-- {Feature 2}
 
 ### Users and User Keys 
 - {admin cred}
