@@ -1,6 +1,7 @@
 import { dbConnection, closeConnection } from "./config/mongoConnection.js";
 import validate from "./helpers.js";
 import bcrypt from "bcryptjs";
+import { ObjectId } from "mongodb";
 import {
   userMethods,
   artistMethods,
@@ -8,8 +9,18 @@ import {
   postsMethod,
   purchaseMethods,
 } from "./data/index.js";
+import { users } from "./config/mongoCollections.js";
 const db = await dbConnection();
 await db.dropDatabase();
+
+const createAdmin = async (userid) => {
+  const usercollection = await users();
+  const updateRole = await usercollection.updateOne(
+    { _id: new ObjectId(userid) },
+    { $set: { role: "admin" } }
+  );
+  console.log(updateRole);
+};
 
 // Creating Users
 let user1 = await userMethods.create(
@@ -97,6 +108,30 @@ let user6 = await userMethods.create(
   [],
   []
 );
+let user7 = await userMethods.create(
+  "TestUser",
+  "Dali",
+  "admin",
+  await bcrypt.hash("Imadmin@123", 10),
+  "salvador.dali@example.com",
+  84,
+  "Spain",
+  "Figueres",
+  [],
+  []
+);
+let user8 = await userMethods.create(
+  "TestUser",
+  "Dali",
+  "users",
+  await bcrypt.hash("Password@123", 10),
+  "salvador.dali@example.com",
+  84,
+  "Spain",
+  "Figueres",
+  [],
+  []
+);
 
 // Saving Created Artists
 let testArtist = await artistMethods.create(
@@ -134,6 +169,14 @@ let artist6 = await artistMethods.create(
   "Salvador Dalí",
   "https://cdn.britannica.com/40/79340-050-7C62816E/Salvador-Dali.jpg?w=400&h=300&c=crop"
 );
+
+let artist7 = await artistMethods.create(
+  user7._id,
+  "Test Artist",
+  "https://cdn.britannica.com/57/250457-050-342611AD/Claude-Monet-French-Impressionist-painter.jpg?w=400&h=300&c=crop"
+);
+
+const assignAdmin = await createAdmin(user7._id);
 
 let product1 = await productMethods.create(
   artist1._id,
