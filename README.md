@@ -34,16 +34,10 @@
 
 
 ### Users and User Keys 
-- {admin cred}
+- {User: }
 
 
-## Features
 
-List the features of your project. What can users do with it? What makes it unique or useful?
-
-- Feature 1
-- Feature 2
-- ...
 
 ## Installation
 
