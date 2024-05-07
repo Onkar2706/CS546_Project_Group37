@@ -207,7 +207,7 @@ router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => 
   try{
   console.log("In ADDproductsPOST");
   const productData = req.body;
-  console.log(productData)
+  console.log(productData);
 
   validate.checkIfProperInput(productData.productName)
   validate.checkIfProperInput(productData.productDescription)
@@ -215,9 +215,9 @@ router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => 
   // validate.checkIfProperInput(productData.images)
   validate.checkIfProperInput(productData.tags)
 
-  validate.checkIfString(productData.productName)
-  validate.checkIfString(productData.productDescription)
-  validate.checkIfPositiveNumber(productData.price)
+  validate.checkIfString(productData.productName);
+  validate.checkIfString(productData.productDescription);
+  validate.checkIfPositiveNumber(productData.price);
 
       // console.log(productData);
       const tagsArray = productData.tags.split(",");
@@ -279,6 +279,10 @@ router
   .post(uploads.single("profilePicture"), async (req, res) => {
     try {
       const artistData = req.body;
+      validate.checkIfProperInput(artistData.bio);
+      validate.checkIfProperInput(artistData.profilePic);
+
+      validate.checkIfString(artistData.bio);
       // Upload Image
 
       // let files = req.files;
@@ -302,13 +306,6 @@ router
       // console.log(filepath)
 
       // console.log(artistData);
-      // validate.checkIfProperInput(user_id);
-      // validate.checkIfProperInput(bio);
-      // validate.checkIfProperInput(profilePic);
-
-      // validate.checkIfString(user_id);
-      // validate.checkIfString(bio);
-      // validate.checkIfString(profilePic);
 
       // validate.checkIfValidObjectId(user_id);
       console.log(artistData);
@@ -446,6 +443,8 @@ router
   })
   .post(async (req, res) => {
     try {
+      console.log(req.body);
+
       let artists = await artistMethods.getByName(
         xss(req.body.firstName),
         xss(req.body.lastName)
@@ -457,7 +456,8 @@ router
     }
   });
 
-router.route("/rateArtist/:artistId").post(async (req, res) => {
+router.route("/rateArtist/:artistId")
+.post(async (req, res) => {
   try {
     const id = xss(req.params.artistId);
     const rating = xss(req.body.rating);

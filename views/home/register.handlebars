@@ -81,19 +81,12 @@
         <option value="WI">Wisconsin</option>
         <option value="WY">Wyoming</option>
       </select>
-      {{!-- <input type="text" id="state" name="state" required /> --}}
     </div>
     <div class="input-group">
       <label for="city">City:</label>
       <input type="text" id="city" name="city" required />
     </div>
-      <input type="submit" value="Register" />
-      <p class="login-link">Already have an account?</p>
-      
-    <action="/user/login" id="loginForm" method="POST">
-
+    <input type="submit" value="Register" />
   </form>
-    
-
-    <a href="/user/login">Login here </a></p>
+  <p class="login-link">Already have an account? <a href="/user/login">Login here</a></p>
 </div>

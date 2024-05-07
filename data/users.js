@@ -19,13 +19,13 @@ const exportMethods = {
     purchases,
   ) {
     try {
-      // validate.checkIfProperInput(firstName);
-      // validate.checkIfProperInput(lastName);
-      // validate.checkIfProperInput(userName);
-      // validate.checkIfProperInput(password);
-      // validate.checkIfProperInput(email);
-      // validate.checkIfProperInput(state);
-      // validate.checkIfProperInput(city);
+      validate.checkIfProperInput(firstName);
+      validate.checkIfProperInput(lastName);
+      validate.checkIfProperInput(userName);
+      validate.checkIfProperInput(password);
+      validate.checkIfProperInput(email);
+      validate.checkIfProperInput(state);
+      validate.checkIfProperInput(city);
     } catch (e) {
       throw e;
     }
