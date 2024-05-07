@@ -102,7 +102,7 @@ let user6 = await userMethods.create(
 let testArtist = await artistMethods.create(
   testUser._id,
   "Pablo Picasso",
-  "https://hips.hearstapps.com/hmg-prod/images/pablo-picasso-at-his-home-in-cannes-circa-1960-photo-by-popperfoto_getty-images.jpg?crop=1xw:1.0xh;center,top&resize=640:*"
+  ""
 );
 let artist1 = await artistMethods.create(
   user1._id,
