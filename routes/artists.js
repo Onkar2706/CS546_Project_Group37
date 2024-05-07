@@ -63,7 +63,6 @@ router.route("/updateProduct").post(async (req, res) => {
     validate.checkIfProperInput(xss(updatedProduct.productName));
     validate.checkIfProperInput(xss(updatedProduct.productDescription));
     validate.checkIfProperInput(xss(updatedProduct.price));
-    validate.checkIfProperInput(xss(updatedProduct.images));
     validate.checkIfProperInput(xss(updatedProduct.tags));
 
     validate.checkIfString(xss(updatedProduct.productName));
