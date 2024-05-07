@@ -41,8 +41,7 @@
 
 # Create a JavaScript Action
 
-[![GitHub Super-Linter](https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
-![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
+[![GitHub Super-Linter]([https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg](https://github.com/Onkar2706/CS546_Project_Group37.git))]
 
 Use this template to bootstrap the creation of a JavaScript action. :rocket:
 
