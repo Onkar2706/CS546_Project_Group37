@@ -2,8 +2,7 @@ import express from "express";
 import { ObjectId } from "mongodb";
 import { productMethods } from "../data/index.js";
 import { artistMethods } from "../data/index.js";
-// import { productMethods } from "../data/index.js";
-// import { artistMethods } from "../data/index.js";
+
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
 import xss from "xss";
@@ -18,15 +17,6 @@ const storage = multer.diskStorage({
   },
 });
 const uploads = multer({ storage: storage });
-
-// Upload Image
-// import fileExtLimiter from "../middleware/fileExtLimiter.js"
-// import fileSizesLimiter from "../middleware/fileSizeLimiter.js"
-// import filesPayloadExists from "../middleware/filesPayloadExists.js"
-// import fileUpload from "express-fileupload";
-
-// import path from "path";
-
 const router = express.Router();
 
 let idOutside = null;
@@ -44,14 +34,7 @@ router.route("/deleteProduct/:id").get(async (req, res) => {
     console.log("Removed from artist port..");
     const removeFromDB = await productMethods.remove(idOutside_delete);
     console.log("product removed from db");
-    // if(req.params.id === null) res.redirect("product/getProduct")
-
-    // console.log(idOutside_delete.toString())
-    // const deleteProduct = await artWork.removeProductfromDB(idOutside_delete.trim())
-    // console.log(deleteProduct)
     return res.redirect("/artist/getProducts");
-    // const deleteProduct_artistCollection= await artistMethods.removeFromCollection(idOutside_delete.trim())
-    // console.log(deleteProduct_artistCollection)
   } catch (error) {
     res.status(400).render("error", { errorMessage: error });
   }
@@ -60,7 +43,6 @@ router.route("/deleteProduct/:id").get(async (req, res) => {
 router.route("/edit/:id").get(async (req, res) => {
   try {
     idOutside = xss(req.params.id);
-    // if(req.params.id === null) res.redirect("product/getProduct")
     const artData = await artWork.get(idOutside.trim());
     console.log(artData);
     res.render("product/editUpdateProduct", {
@@ -93,9 +75,6 @@ router.route("/updateProduct").post(async (req, res) => {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }
 
-    // if (typeof updatedProduct.images === "string") {
-    //   updatedProduct.images = updatedProduct.images.split(",");
-    // }
     console.log(updatedProduct);
     const updatedproductInDB = await artWork.updateProduct(
       idOutside,
@@ -107,21 +86,6 @@ router.route("/updateProduct").post(async (req, res) => {
     console.log(error);
   }
 });
-
-// router.route("/getProducts").get(async (req, res) => {
-//   const getArtwork = await artWork.getAll();
-//   if (req.session && req.session.user && req.session.user.role === "user"){
-//     return res.render("home/getProducts", {title: "Products", products: getArtwork, userName: req.session.user.username, loggedIn: true, user: true});
-//   }
-//   else if (req.session && req.session.user && req.session.user.role === "artist"){
-//     return res.render("home/getProducts", {title: "Products", products: getArtwork, userName: req.session.user.username, loggedIn: true, user: false});
-//   }
-
-//   return res.render("home/getProducts", {
-//     title: "Products",
-//     products: getArtwork,
-//   });
-// });
 
 router.route("/getProducts").get(async (req, res) => {
   try {
@@ -193,16 +157,6 @@ router.route("/addProduct").get(async (req, res) => {
   return res.render("product/addProduct");
 });
 
-// router
-// .route('/addProduct')
-// .post(async(req,res)=>{
-//   console.log("In ADDproductsPOST")
-//   const productData = req.body
-//   const userId=req.session.user._id.trim()
-//   const fetchArtistID =  await artistMethods.getArtistProfile(userId)
-//   console.log(fetchArtistID)
-
-// });
 router
   .route("/addProduct")
   .post(uploads.array("images", 3), async (req, res) => {
@@ -241,15 +195,10 @@ router
         imagesArray
       );
 
-      // fetchArtistID.portfolio.push(addProduct._id);
       const result = await artistMethods.updateProductInArtist(
         fetchArtistID._id,
         addProduct._id
       );
-
-      // fetchArtistID.
-      // console.log(artworkId);
-      // const enterArtidintoArtist = await artistMethods.updateArtist()
 
       return res.redirect("/artist/getProducts");
     } catch (error) {
@@ -271,44 +220,14 @@ router
       res.status(400).render("error", { errorMessage: error });
     }
   })
-  // Upload Image
-  // .post( fileUpload({ createParentPath: true }),
-  // filesPayloadExists,
-  // fileExtLimiter([".png",".jpg",".jpeg"]),
-  // fileSizesLimiter,
-  // async (req, res) => {
+
   .post(uploads.single("profilePicture"), async (req, res) => {
     try {
       const artistData = req.body;
       validate.checkIfProperInput(artistData.bio);
-      validate.checkIfProperInput(artistData.profilePic);
 
       validate.checkIfString(artistData.bio);
-      // Upload Image
 
-      // let files = req.files;
-      // let fileName;
-      // let filepath;
-      // Object.keys(files).forEach((key) => {
-      //    filepath = path.join(
-      //     "public",
-      //     "images",
-      //     "files",
-      //     req.session.user.username
-      //     ,files[key].name
-      //   );
-      //   fileName = files[key].name;
-      //   console.log(filepath);
-      //   files[key].mv(filepath, (err) => {
-      //     if (err)
-      //       return res.status(500).json({ status: "error", message: err });
-      //   });
-      // });
-      // console.log(filepath)
-
-      // console.log(artistData);
-
-      // validate.checkIfValidObjectId(user_id);
       console.log(artistData);
       if (!artistData) {
         return res.status(400).json({ Error: "No fields in the request body" });
@@ -319,11 +238,7 @@ router
         req.session.user._id,
         req.body.bio,
         profilePicPath
-        // Upload Image
-        // req.body.bio,
-        // '/'+filepath
       );
-      // console.log(newArtist);
       res.redirect("/logout");
     } catch (error) {
       res.status(400).render("error", { errorMessage: error });
@@ -475,36 +390,3 @@ router.route("/rateArtist/:artistId").post(async (req, res) => {
 });
 
 export default router;
-
-// console.log("In ADDproductsPOST")
-//   const productData = req.body
-//   const userId=req.session.user._id.trim()
-//   const fetchArtistID =  await artistMethods.getArtistProfile(userId)
-//   console.log(fetchArtistID)
-
-// router.route("/addProduct").post(async (req, res) => {
-//   console.log("In ADDproductsPOST");
-//   const productData = req.body;
-//   // console.log(productData);
-//   const tagsArray = productData.tags.split(",");
-//   const imagesArray = productData.images.split(",");
-//   const userId = req.session.user._id;
-//   const fetchArtistID = await artistMethods.getArtistProfile(userId);
-//   // console.log(fetchArtistID);
-
-//   const addProduct = await productMethods.create(
-//     fetchArtistID._id,
-//     productData.productName,
-//     productData.productDescription,
-//     tagsArray,
-//     productData.price,
-//     imagesArray);
-
-//   // fetchArtistID.portfolio.push(addProduct._id);
-//   const result = await artistMethods.updateProductInArtist(fetchArtistID._id,addProduct._id)
-
-//   // fetchArtistID.
-//   // console.log(artworkId);
-//   // const enterArtidintoArtist = await artistMethods.updateArtist()
-
-//   return res.redirect("/artist/getProducts") ;

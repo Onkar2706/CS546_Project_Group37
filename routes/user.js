@@ -98,33 +98,14 @@ router
   .post(async (req, res) => {
     try {
       const authorizeUser = req.body;
-      // Validation
-      // validate.checkIfProperInput(_id);
-      // validate.checkIfProperInput(firstName);
-      // validate.checkIfProperInput(lastName);
-      // validate.checkIfProperInput(userName);
-      // validate.checkIfProperInput(email);
-      // validate.checkIfProperInput(city);
-      // console.log(req.body);
       validate.checkIfString(req.body.userName);
       validate.checkIfString(req.body.password);
 
-      // validate.checkIfName(firstName);
-      // validate.checkIfName(lastName);
+      
       validate.checkIfUsername(req.body.userName);
       validate.checkIfPassword(req.body.password);
 
-      // const authorizeUser = req.body;
-      // Validation
-      // validate.checkIfProperInput(authorizeUser.userName);
-      // validate.checkIfProperInput(authorizeUser.password);
-
-      // validate.checkIfString(authorizeUser.userName);
-      // validate.checkIfString(authorizeUser.password);
-
-      // validate.checkIfUsername(authorizeUser.userName);
-      // validate.checkIfPassword(authorizeUser.password);
-
+      
       if (!authorizeUser || Object.keys(authorizeUser).length === 0) {
         return res
           .status(400)
@@ -135,7 +116,6 @@ router
       const fetcheduser = await usercollection.findOne({
         userName: authorizeUser.userName.toLowerCase(),
       });
-      // console.log(fetcheduser);
       if (!fetcheduser) throw "Error: User Not Found";
       const match = await bcrypt.compare(
         authorizeUser.password,
@@ -186,39 +166,6 @@ router
     }
   });
 
-// router.route("/user").get(async (req, res) => {
-//   res.render("home/home", { title: "User" });
-// })
-// .post(async (req, res) => {
-//   if (req.session.user && req.session.user.role === "user") {
-//     const admin = req.session.user;
-//     const currentTime = new Date().toLocaleString();
-
-//     res.render("home/home", {
-//       firstName: admin.firstName,
-//       lastName: admin.lastName,
-//       userName: admin.userName,
-//       currentTime: currentTime,
-//     })
-//   }});
-
-// router.route("/registerArtist").get(async (req, res) => {
-//   res.render("artist/artist", { title: "artist" });
-// })
-// .post(async (req, res) => {
-//     if (req.session.user && req.session.user.role === "artist") {
-//       const admin = req.session.user;
-//       const currentTime = new Date().toLocaleString();
-
-//       res.render("artist/artist", {
-//         firstName: admin.firstName,
-//         lastName: admin.lastName,
-//         userName: admin.userName,
-//         currentTime: currentTime,
-//       });
-//     }
-//   });
-
 router.route("/getUserInfo").get(async (req, res) => {
   if (req.session && req.session.user && req.session.user.role === "user") {
     return res.render("user/userInfo", {
@@ -256,7 +203,6 @@ router.route("/getUserInfo").get(async (req, res) => {
       email: req.session.user.email,
       age: req.session.user.age,
       posts: req.session.user.posts,
-      // purchases: req.session.user.purchases.length === 0 ? "No Items" : req.session.user.purchases,
       purchases: req.session.user.purchases.length,
       city: req.session.user.city,
       state: req.session.user.state,
@@ -328,7 +274,6 @@ router.route('/editPassword')
 .post(async (req, res) => {
   try {
     let currentPassword = req.body.currentPassword;
-    // currentPassword = await bcrypt.hash(currentPassword, 10);
     const newPassword = req.body.newPassword;
     const id = req.session.user._id;
 

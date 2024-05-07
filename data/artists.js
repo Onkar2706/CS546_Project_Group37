@@ -4,7 +4,6 @@ import { ObjectId } from "mongodb";
 import productMethods from "./artwork.js";
 import userMethods from "./users.js";
 import validate from "../helpers.js";
-// import users from "./users.js";
 const exportedMethods = {
   async create(
     //creates a new artist in database and returns it
@@ -95,7 +94,6 @@ const exportedMethods = {
     //retrieves an artist if the artist exists in the database
     validate.checkIfProperInput(id)
     validate.checkIfString(id)
-    // validate.checkIfValidObjectId(id);
     const artistCollection = await artists();
     const artist = await artistCollection.findOne({ _id: new ObjectId(id) });
     if (!artist) {
@@ -107,9 +105,7 @@ const exportedMethods = {
 
   async removeArtist(artistid){
     validate.checkIfProperInput(artistid);
-    // validate.checkIfString(artistid);
-    // validate.checkIfString(productId);
-  
+
     const artistCollection = await artists();
     const removeUser = await artistCollection.deleteOne({
         _id: new ObjectId(artistid)

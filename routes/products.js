@@ -72,7 +72,6 @@ router.route("/cart").get(async (req, res) => {
       for (let i = 0; i < productData.length; i++) {
         totalPrice += productData[i]["price"];
       }
-      // productData.push(totalPrice);
     }
 
     return res.render("product/cart", {
