@@ -255,11 +255,6 @@ router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => 
     res.status(400).render("error", { errorMessage: error });
   }
 }); 
-      return res.redirect("/artist/getProducts");
-    } catch (e) {
-      res.status(400).render("error", { errorMessage: e });
-    }
-  });
 
 router
   .route("/artistreg")
