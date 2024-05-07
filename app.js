@@ -52,11 +52,7 @@ app.use("/", (res, req, next) => {
 });
 app.use("/user/login", (res, req, next) => {
   if (req.req.session.user) {
-    if (req.req.session.user.role === "user") {
-      return res.res.redirect("/");
-    } else if (req.req.session.user.role === "artist") {
-      return res.res.redirect("/");
-    }
+    res.res.redirect("/");
   }
   next();
 });

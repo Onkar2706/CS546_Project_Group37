@@ -62,6 +62,8 @@ a{
 
 .nav-links a {
     text-decoration: none;
+    word-spacing: -10px;
+    margin-right: 40px;
     color: whitesmoke;
     font-weight: bold;
 }

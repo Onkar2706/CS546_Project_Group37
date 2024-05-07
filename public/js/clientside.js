@@ -274,7 +274,7 @@ const validate = {
           method: "POST",
           URL: "/artist",
           contentType: "application/json",
-          data: JSON.stringify({ firstName: firstName, lastName: lastName }),
+          data: JSON.stringify({ firstName: firstName.toLowerCase(), lastName: lastName.toLowerCase()}),
         };
         $.ajax(requestConfig).then(function (response) {
           // let ulElement = $("<ul/>");

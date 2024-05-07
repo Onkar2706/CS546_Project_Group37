@@ -50,6 +50,8 @@ router.route("/").get(async (req, res) => {
       req.session.user.role === "admin"
     ) {
       return res.render("post/showPosts.handlebars", {
+        allPosts,
+        title: "Art Blogs",
         userName: req.session.user.username,
         loggedIn: true,
         artist: true,

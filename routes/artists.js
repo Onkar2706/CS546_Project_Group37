@@ -203,21 +203,23 @@ router.route("/addProduct").get(async (req, res) => {
 //   console.log(fetchArtistID)
 
 // });
-router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => {
-  try{
-  console.log("In ADDproductsPOST");
-  const productData = req.body;
-  console.log(productData);
+router
+  .route("/addProduct")
+  .post(uploads.array("images", 3), async (req, res) => {
+    try {
+      console.log("In ADDproductsPOST");
+      const productData = req.body;
+      console.log(productData);
 
-  validate.checkIfProperInput(productData.productName)
-  validate.checkIfProperInput(productData.productDescription)
-  validate.checkIfProperInput(productData.price)
-  // validate.checkIfProperInput(productData.images)
-  validate.checkIfProperInput(productData.tags)
+      validate.checkIfProperInput(productData.productName);
+      validate.checkIfProperInput(productData.productDescription);
+      validate.checkIfProperInput(productData.price);
+      // validate.checkIfProperInput(productData.images)
+      validate.checkIfProperInput(productData.tags);
 
-  validate.checkIfString(productData.productName);
-  validate.checkIfString(productData.productDescription);
-  validate.checkIfPositiveNumber(productData.price);
+      validate.checkIfString(productData.productName);
+      validate.checkIfString(productData.productDescription);
+      validate.checkIfPositiveNumber(productData.price);
 
       // console.log(productData);
       const tagsArray = productData.tags.split(",");
@@ -249,12 +251,11 @@ router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => 
       // console.log(artworkId);
       // const enterArtidintoArtist = await artistMethods.updateArtist()
 
-  return res.redirect("/artist/getProducts");
-  }
-  catch(error){
-    res.status(400).render("error", { errorMessage: error });
-  }
-}); 
+      return res.redirect("/artist/getProducts");
+    } catch (error) {
+      res.status(400).render("error", { errorMessage: error });
+    }
+  });
 
 router
   .route("/artistreg")
@@ -429,9 +430,11 @@ router
         req.session.user.role === "admin"
       ) {
         return res.render("artist/artist", {
+          allArtists,
+          title: "Artists",
           userName: req.session.user.username,
           loggedIn: true,
-          artist: true,
+          artist: false,
           admin: true,
         });
       }
@@ -456,8 +459,7 @@ router
     }
   });
 
-router.route("/rateArtist/:artistId")
-.post(async (req, res) => {
+router.route("/rateArtist/:artistId").post(async (req, res) => {
   try {
     const id = xss(req.params.artistId);
     const rating = xss(req.body.rating);

@@ -293,7 +293,7 @@ router
 })
 .post(async (req, res) => {
   try {
-    const updateInfo = xss(req.body);
+    const updateInfo = req.body;
     const userid = xss(req.session.user._id);
     const updateUser = await userMethods.updateUser(userid, updateInfo);
     return res.redirect('/logout');
