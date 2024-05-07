@@ -102,7 +102,7 @@ let user6 = await userMethods.create(
 let testArtist = await artistMethods.create(
   testUser._id,
   "Pablo Picasso",
-  ""
+  "https://media-assets.ad-italia.it/photos/6356653b65f61824e7746482/16:9/w_1920,c_limit/GettyImages-1152457573.jpg"
 );
 let artist1 = await artistMethods.create(
   user1._id,
