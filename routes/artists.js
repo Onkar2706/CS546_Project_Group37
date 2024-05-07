@@ -6,16 +6,16 @@ import { artistMethods } from "../data/index.js";
 // import { artistMethods } from "../data/index.js";
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
-import xss from 'xss'
+import xss from "xss";
 import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/') // Uploads folder where images will be stored temporarily
+    cb(null, "uploads/"); // Uploads folder where images will be stored temporarily
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname); // Use original filename
-  }
+  },
 });
 const uploads = multer({ storage: storage });
 
@@ -76,21 +76,20 @@ router.route("/edit/:id").get(async (req, res) => {
 router.route("/updateProduct").post(async (req, res) => {
   console.log("Inupdateproduct");
   try {
-   
-    let updatedProduct =req.body
+    let updatedProduct = req.body;
     // Validations
-    validate.checkIfProperInput(xss(updatedProduct.productName))
-    validate.checkIfProperInput(xss(updatedProduct.productDescription))
-    validate.checkIfProperInput(xss(updatedProduct.price))
-    validate.checkIfProperInput(xss(updatedProduct.images))
-    validate.checkIfProperInput(xss(updatedProduct.tags))
+    validate.checkIfProperInput(xss(updatedProduct.productName));
+    validate.checkIfProperInput(xss(updatedProduct.productDescription));
+    validate.checkIfProperInput(xss(updatedProduct.price));
+    validate.checkIfProperInput(xss(updatedProduct.images));
+    validate.checkIfProperInput(xss(updatedProduct.tags));
 
-    validate.checkIfString(xss(updatedProduct.productName))
-    validate.checkIfString(xss(updatedProduct.productDescription))
+    validate.checkIfString(xss(updatedProduct.productName));
+    validate.checkIfString(xss(updatedProduct.productDescription));
 
-    validate.checkIfPositiveNumber(xss(updatedProduct.price))
+    validate.checkIfPositiveNumber(xss(updatedProduct.price));
 
-    if (typeof updatedProduct.tags === 'string') {
+    if (typeof updatedProduct.tags === "string") {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }
 
@@ -176,14 +175,18 @@ router.route("/addProduct").get(async (req, res) => {
       user: xss(req.session.user.role) === "user" ? true : false,
       artist: xss(req.session.user.role) === "user" ? false : true,
     });
-  }
-  else if (req.session && req.session.user && req.session.user.role === "admin"){
+  } else if (
+    req.session &&
+    req.session.user &&
+    req.session.user.role === "admin"
+  ) {
     return res.render("product/addProduct", {
       userName: req.session.user.username,
       loggedIn: true,
       artist: true,
-      admin: true
-  })}
+      admin: true,
+    });
+  }
   return res.render("product/addProduct");
 });
 
@@ -197,57 +200,70 @@ router.route("/addProduct").get(async (req, res) => {
 //   console.log(fetchArtistID)
 
 // });
-router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => {
-  console.log("In ADDproductsPOST");
-  const productData = req.body;
-  console.log(productData)
+router
+  .route("/addProduct")
+  .post(uploads.array("images", 3), async (req, res) => {
+    try {
+      console.log("In ADDproductsPOST");
+      const productData = req.body;
+      console.log(productData);
 
-  validate.checkIfProperInput(xss(productData.productName))
-  validate.checkIfProperInput(xss(productData.productDescription))
-  validate.checkIfProperInput(xss(productData.price))
-  // validate.checkIfProperInput(xss(productData.images))
-  validate.checkIfProperInput(xss(productData.tags))
+      validate.checkIfProperInput(xss(productData.productName));
+      validate.checkIfProperInput(xss(productData.productDescription));
+      validate.checkIfProperInput(xss(productData.price));
+      // validate.checkIfProperInput(xss(productData.images));
+      validate.checkIfProperInput(xss(productData.tags));
 
-  validate.checkIfString(xss(productData.productName))
-  validate.checkIfString(xss(productData.productDescription))
-  validate.checkIfPositiveNumber(xss(productData.price))
+      validate.checkIfString(xss(productData.productName));
+      validate.checkIfString(xss(productData.productDescription));
+      validate.checkIfPositiveNumber(xss(productData.price));
 
-  // console.log(productData);
-  const tagsArray = productData.tags.split(",");
-  const userId = req.session.user._id;
-  console.log("i AM HERE")
-  const fetchArtistID = await artistMethods.getArtistProfile(userId);
-  let imagesArray = req.files.map(file => file.path);
-  imagesArray = imagesArray.map(image => '/'+ image.split('\\').join('/'));
-  // console.log(fetchArtistID);
+      // console.log(productData);
+      const tagsArray = productData.tags.split(",");
+      const userId = req.session.user._id;
+      console.log("i AM HERE");
+      const fetchArtistID = await artistMethods.getArtistProfile(userId);
+      let imagesArray = req.files.map((file) => file.path);
+      imagesArray = imagesArray.map(
+        (image) => "/" + image.split("\\").join("/")
+      );
+      // console.log(fetchArtistID);
 
-  const addProduct = await productMethods.create(
-    fetchArtistID._id,
-    productData.productName,
-    productData.productDescription,
-    tagsArray,
-    productData.price,
-    imagesArray
-  );
+      const addProduct = await productMethods.create(
+        fetchArtistID._id,
+        productData.productName,
+        productData.productDescription,
+        tagsArray,
+        productData.price,
+        imagesArray
+      );
 
-  // fetchArtistID.portfolio.push(addProduct._id);
-  const result = await artistMethods.updateProductInArtist(
-    fetchArtistID._id,
-    addProduct._id
-  );
+      // fetchArtistID.portfolio.push(addProduct._id);
+      const result = await artistMethods.updateProductInArtist(
+        fetchArtistID._id,
+        addProduct._id
+      );
 
-  // fetchArtistID.
-  // console.log(artworkId);
-  // const enterArtidintoArtist = await artistMethods.updateArtist()
+      // fetchArtistID.
+      // console.log(artworkId);
+      // const enterArtidintoArtist = await artistMethods.updateArtist()
 
-  return res.redirect("/artist/getProducts");
-});
+      return res.redirect("/artist/getProducts");
+    } catch (e) {
+      res.status(400).render("error", { errorMessage: e });
+    }
+  });
 
 router
   .route("/artistreg")
   .get(async (req, res) => {
     try {
-      return res.render("artist/artistreg", { title: "Artist Registration", loggedIn: true, user: true, userName: req.session.user.username});
+      return res.render("artist/artistreg", {
+        title: "Artist Registration",
+        loggedIn: true,
+        user: true,
+        userName: req.session.user.username,
+      });
     } catch (error) {
       res.status(400).render("error", { errorMessage: error });
     }
@@ -356,15 +372,18 @@ router.route("/:artistId").get(async (req, res) => {
         user: req.session.user.role === "user" ? true : false,
         artist: req.session.user.role === "user" ? false : true,
       });
-    }
-
-    else if (req.session && req.session.user && req.session.user.role === "admin"){
+    } else if (
+      req.session &&
+      req.session.user &&
+      req.session.user.role === "admin"
+    ) {
       return res.render("artist/artistclick", {
         userName: req.session.user.username,
         loggedIn: true,
         artist: true,
-        admin: true
-    })}
+        admin: true,
+      });
+    }
 
     return res.render("artist/artistclick", {
       artistInfo,
@@ -405,14 +424,18 @@ router
           user: req.session.user.role === "user" ? true : false,
           artist: req.session.user.role === "user" ? false : true,
         });
-      }
-      else if (req.session && req.session.user && req.session.user.role === "admin"){
+      } else if (
+        req.session &&
+        req.session.user &&
+        req.session.user.role === "admin"
+      ) {
         return res.render("artist/artist", {
           userName: req.session.user.username,
           loggedIn: true,
           artist: true,
-          admin: true
-      })}
+          admin: true,
+        });
+      }
 
       return res.render("artist/artist", { allArtists, title: "Artists" });
     } catch (error) {

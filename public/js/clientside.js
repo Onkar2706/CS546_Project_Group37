@@ -39,14 +39,6 @@ const validate = {
     if (!password.test(inp.trim())) "Error: Weak password";
   },
 
-  async hashPassword(inp) {
-    const saltRounds = 10;
-    let hash = null;
-    inp = inp.trim();
-    hash = await bcrypt.hash(inp, saltRounds);
-    return hash;
-  },
-
   checkIfProperInput: (inp) => {
     if (!inp || inp === undefined) throw "Error: Input parameter not provided";
   },
@@ -210,7 +202,6 @@ const validate = {
   let addProductForm = document.getElementById("addProductForm");
   let postForm = document.getElementById("blogForm");
   let searchResults = $("#searchResults");
-
   if (postForm) {
     postForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -219,8 +210,6 @@ const validate = {
         validate.checkIfString(title);
         let body = document.getElementById("body").value;
         validate.checkIfString(body);
-        let img = document.getElementById("addImg").value;
-        validate.checkIfString(img);
         postForm.submit();
       } catch (e) {
         console.log(e);
@@ -236,17 +225,11 @@ const validate = {
         let productDescription =
           document.getElementById("productDescription").value;
         let price = parseFloat(document.getElementById("price").value);
-        let images = document.getElementById("images").value;
-        console.log(images);
         let tags = document.getElementById("tags").value;
         validate.checkIfString(productName);
         validate.checkIfString(productDescription);
         validate.checkIfPositiveNumber(price);
-        // let imagesArray = images.split(",");
-        // console.log(imagesArray);
-        // imagesArray.forEach((element) => {
-        //   validate.checkIfString(element);
-        // });
+        console.log(typeof tags);
         let tagsArray = tags.split(",");
         tagsArray.forEach((element) => {
           validate.checkIfString(element);
@@ -263,9 +246,9 @@ const validate = {
       event.preventDefault();
       try {
         let bio = document.getElementById("bio").value;
-        let profilePic = document.getElementById("profilePicture").value;
+        // let profilePic = document.getElementById("profilePicture").value;
         validate.checkIfString(bio);
-        validate.checkIfString(profilePic);
+        // validate.checkIfString(profilePic);
         artistRegForm.submit();
       } catch (e) {
         console.log(e);
