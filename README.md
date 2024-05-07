@@ -33,7 +33,9 @@
 
 
 ## Features Implemented
-- {Feature 1}
+- {• Home page:
+o The home page will show the trending artists (profile photo, ratings, short intro)
+o Category wise art selection }
 - {Feature 2}
 
 ### Users and User Keys 
