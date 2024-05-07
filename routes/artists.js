@@ -6,6 +6,7 @@ import { artistMethods } from "../data/index.js";
 // import { artistMethods } from "../data/index.js";
 import validate from "../helpers.js";
 import artWork from "../data/artwork.js";
+import xss from 'xss'
 import multer from "multer";
 
 const storage = multer.diskStorage({
@@ -58,7 +59,7 @@ router.route("/deleteProduct/:id").get(async (req, res) => {
 
 router.route("/edit/:id").get(async (req, res) => {
   try {
-    idOutside = req.params.id;
+    idOutside = xss(req.params.id);
     // if(req.params.id === null) res.redirect("product/getProduct")
     const artData = await artWork.get(idOutside.trim());
     console.log(artData);
@@ -78,16 +79,16 @@ router.route("/updateProduct").post(async (req, res) => {
    
     let updatedProduct =req.body
     // Validations
-    validate.checkIfProperInput(updatedProduct.productName)
-    validate.checkIfProperInput(updatedProduct.productDescription)
-    validate.checkIfProperInput(updatedProduct.price)
-    validate.checkIfProperInput(updatedProduct.images)
-    validate.checkIfProperInput(updatedProduct.tags)
+    validate.checkIfProperInput(xss(updatedProduct.productName))
+    validate.checkIfProperInput(xss(updatedProduct.productDescription))
+    validate.checkIfProperInput(xss(updatedProduct.price))
+    validate.checkIfProperInput(xss(updatedProduct.images))
+    validate.checkIfProperInput(xss(updatedProduct.tags))
 
-    validate.checkIfString(updatedProduct.productName)
-    validate.checkIfString(updatedProduct.productDescription)
+    validate.checkIfString(xss(updatedProduct.productName))
+    validate.checkIfString(xss(updatedProduct.productDescription))
 
-    validate.checkIfPositiveNumber(updatedProduct.price)
+    validate.checkIfPositiveNumber(xss(updatedProduct.price))
 
     if (typeof updatedProduct.tags === 'string') {
       updatedProduct.tags = updatedProduct.tags.split(",");
@@ -139,10 +140,10 @@ router.route("/getProducts").get(async (req, res) => {
       return res.render("product/getProducts", {
         title: "Products",
         products: artworkArr,
-        userName: req.session.user.username,
+        userName: xss(req.session.user.username),
         loggedIn: true,
-        user: req.session.user.role === "user" ? true : false,
-        artist: req.session.user.role === "user" ? false : true,
+        user: xss(req.session.user.role) === "user" ? true : false,
+        artist: xss(req.session.user.role) === "user" ? false : true,
       });
     } else {
       getArtwork = await artWork.getAll();
@@ -159,21 +160,21 @@ router.route("/getProducts").get(async (req, res) => {
 router.route("/addProduct").get(async (req, res) => {
   if (req.session && req.session.user && req.session.user.role === "user") {
     return res.render("product/addProduct", {
-      userName: req.session.user.username,
+      userName: xss(req.session.user.username),
       loggedIn: true,
-      user: req.session.user.role === "user" ? true : false,
-      artist: req.session.user.role === "user" ? false : true,
+      user: xss(req.session.user.role) === "user" ? true : false,
+      artist: xss(req.session.user.role) === "user" ? false : true,
     });
   } else if (
     req.session &&
-    req.session.user &&
-    req.session.user.role === "artist"
+    xss(req.session.user) &&
+    xss(req.session.user.role) === "artist"
   ) {
     return res.render("product/addProduct", {
-      userName: req.session.user.username,
+      userName: xss(req.session.user.username),
       loggedIn: true,
-      user: req.session.user.role === "user" ? true : false,
-      artist: req.session.user.role === "user" ? false : true,
+      user: xss(req.session.user.role) === "user" ? true : false,
+      artist: xss(req.session.user.role) === "user" ? false : true,
     });
   }
   return res.render("product/addProduct");
@@ -194,15 +195,15 @@ router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => 
   const productData = req.body;
   console.log(productData)
 
-  validate.checkIfProperInput(productData.productName)
-  validate.checkIfProperInput(productData.productDescription)
-  validate.checkIfProperInput(productData.price)
-  validate.checkIfProperInput(productData.images)
-  validate.checkIfProperInput(productData.tags)
+  validate.checkIfProperInput(xss(productData.productName))
+  validate.checkIfProperInput(xss(productData.productDescription))
+  validate.checkIfProperInput(xss(productData.price))
+  validate.checkIfProperInput(xss(productData.images))
+  validate.checkIfProperInput(xss(productData.tags))
 
-  validate.checkIfString(productData.productName)
-  validate.checkIfString(productData.productDescription)
-  validate.checkIfPositiveNumber(productData.price)
+  validate.checkIfString(xss(productData.productName))
+  validate.checkIfString(xss(productData.productDescription))
+  validate.checkIfPositiveNumber(xss(productData.price))
 
   // console.log(productData);
   const tagsArray = productData.tags.split(",");
@@ -308,7 +309,7 @@ router
 
 router.route("/:artistId").get(async (req, res) => {
   try {
-    const id = req.params.artistId;
+    const id = xss(req.params.artistId);
     const artistInfo = await artistMethods.get(id.trim());
     const artworkArr = [];
     const fetchRatings = artistInfo.ratings;
@@ -399,8 +400,8 @@ router
   .post(async (req, res) => {
     try {
       let artists = await artistMethods.getByName(
-        req.body.firstName,
-        req.body.lastName
+        xss(req.body.firstName),
+        xss(req.body.lastName)
       );
       res.status(200).send(artists);
     } catch (e) {
@@ -411,8 +412,8 @@ router
 
 router.route("/rateArtist/:artistId").post(async (req, res) => {
   try {
-    const id = req.params.artistId;
-    const rating = req.body.rating;
+    const id = xss(req.params.artistId);
+    const rating = xss(req.body.rating);
     const addRating = await artistMethods.addArtistRating(
       id,
       rating,

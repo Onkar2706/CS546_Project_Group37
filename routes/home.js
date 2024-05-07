@@ -1,6 +1,7 @@
 import express from "express";
 import  artistMethods from "../data/artists.js";
 import { productMethods } from "../data/index.js";
+import xss from "xss"
 
 const router = express.Router();
 router

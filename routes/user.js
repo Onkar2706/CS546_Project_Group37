@@ -4,6 +4,7 @@ import { artistMethods, userMethods } from "../data/index.js";
 import bcrypt from "bcryptjs";
 import { posts, users } from "../config/mongoCollections.js";
 import validate from "../helpers.js";
+import xss from "xss"
 
 const saltRounds = 10;
 let hash = null;
@@ -20,8 +21,9 @@ router
   .post(async (req, res) => {
     try {
       const createUserData = req.body;
+      console.log(createUserData)
       const userNameValidator = await userMethods.getByUsername(
-        createUserData.userName.toLowerCase()
+        xss(createUserData.userName.toLowerCase())
       );
       if (!createUserData || Object.keys(createUserData).length === 0) {
         throw "Error: No fields in the request body";
@@ -102,6 +104,7 @@ router
   })
   .post(async (req, res) => {
     try {
+      const authorizeUser = req.body;
       // Validation
       // validate.checkIfProperInput(_id);
       // validate.checkIfProperInput(firstName);
@@ -118,7 +121,7 @@ router
       validate.checkIfUsername(req.body.userName);
       validate.checkIfPassword(req.body.password);
 
-      const authorizeUser = req.body;
+      // const authorizeUser = req.body;
       // Validation
       // validate.checkIfProperInput(authorizeUser.userName);
       // validate.checkIfProperInput(authorizeUser.password);
@@ -294,8 +297,8 @@ router
 })
 .post(async (req, res) => {
   try {
-    const updateInfo = req.body;
-    const userid = req.session.user._id;
+    const updateInfo = xss(req.body);
+    const userid = xss(req.session.user._id);
     const updateUser = await userMethods.updateUser(userid, updateInfo);
     return res.redirect('/logout');
   } catch (error) {
