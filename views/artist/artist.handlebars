@@ -34,10 +34,10 @@
 
 <form id="searchForArtists">
       <label for="firstNameInput">
-        <textarea id="firstNameInput" name="firstNameInput" placeholder="Insert username here"></textarea>
+        <textarea id="firstNameInput" name="firstNameInput" placeholder="Insert artist's firstname here"></textarea>
       </label>
       <label for="lastNameInput">
-        <textarea id="lastNameInput" name="lastNameInput" placeholder="Insert Lastname here"></textarea>
+        <textarea id="lastNameInput" name="lastNameInput" placeholder="Insert artist's Lastname here"></textarea>
       </label>
       <button class="submit-button">Submit</button>
   </form>
@@ -55,6 +55,7 @@
            </li>
         {{/each}}
     </div>
+    
 {{else}}
     <p>No Artists available at the moment.</p>
 {{/if}}

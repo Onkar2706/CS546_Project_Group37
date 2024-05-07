@@ -93,9 +93,9 @@ router.route("/updateProduct").post(async (req, res) => {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }
 
-    if (typeof updatedProduct.images === "string") {
-      updatedProduct.images = updatedProduct.images.split(",");
-    }
+    // if (typeof updatedProduct.images === "string") {
+    //   updatedProduct.images = updatedProduct.images.split(",");
+    // }
     console.log(updatedProduct);
     const updatedproductInDB = await artWork.updateProduct(
       idOutside,
@@ -159,6 +159,7 @@ router.route("/getProducts").get(async (req, res) => {
 router.route("/addProduct").get(async (req, res) => {
   if (req.session && req.session.user && req.session.user.role === "user") {
     return res.render("product/addProduct", {
+      title: addProduct,
       userName: xss(req.session.user.username),
       loggedIn: true,
       user: xss(req.session.user.role) === "user" ? true : false,
@@ -170,6 +171,7 @@ router.route("/addProduct").get(async (req, res) => {
     xss(req.session.user.role) === "artist"
   ) {
     return res.render("product/addProduct", {
+      title: "addProduct",
       userName: xss(req.session.user.username),
       loggedIn: true,
       user: xss(req.session.user.role) === "user" ? true : false,
@@ -181,6 +183,7 @@ router.route("/addProduct").get(async (req, res) => {
     req.session.user.role === "admin"
   ) {
     return res.render("product/addProduct", {
+      title: "addProduct",
       userName: req.session.user.username,
       loggedIn: true,
       artist: true,
@@ -200,23 +203,21 @@ router.route("/addProduct").get(async (req, res) => {
 //   console.log(fetchArtistID)
 
 // });
-router
-  .route("/addProduct")
-  .post(uploads.array("images", 3), async (req, res) => {
-    try {
-      console.log("In ADDproductsPOST");
-      const productData = req.body;
-      console.log(productData);
+router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => {
+  try{
+  console.log("In ADDproductsPOST");
+  const productData = req.body;
+  console.log(productData);
 
-      validate.checkIfProperInput(xss(productData.productName));
-      validate.checkIfProperInput(xss(productData.productDescription));
-      validate.checkIfProperInput(xss(productData.price));
-      // validate.checkIfProperInput(xss(productData.images));
-      validate.checkIfProperInput(xss(productData.tags));
+  validate.checkIfProperInput(productData.productName)
+  validate.checkIfProperInput(productData.productDescription)
+  validate.checkIfProperInput(productData.price)
+  // validate.checkIfProperInput(productData.images)
+  validate.checkIfProperInput(productData.tags)
 
-      validate.checkIfString(xss(productData.productName));
-      validate.checkIfString(xss(productData.productDescription));
-      validate.checkIfPositiveNumber(xss(productData.price));
+  validate.checkIfString(productData.productName);
+  validate.checkIfString(productData.productDescription);
+  validate.checkIfPositiveNumber(productData.price);
 
       // console.log(productData);
       const tagsArray = productData.tags.split(",");
@@ -248,11 +249,12 @@ router
       // console.log(artworkId);
       // const enterArtidintoArtist = await artistMethods.updateArtist()
 
-      return res.redirect("/artist/getProducts");
-    } catch (e) {
-      res.status(400).render("error", { errorMessage: e });
-    }
-  });
+  return res.redirect("/artist/getProducts");
+  }
+  catch(error){
+    res.status(400).render("error", { errorMessage: error });
+  }
+}); 
 
 router
   .route("/artistreg")
@@ -277,6 +279,10 @@ router
   .post(uploads.single("profilePicture"), async (req, res) => {
     try {
       const artistData = req.body;
+      validate.checkIfProperInput(artistData.bio);
+      validate.checkIfProperInput(artistData.profilePic);
+
+      validate.checkIfString(artistData.bio);
       // Upload Image
 
       // let files = req.files;
@@ -300,13 +306,6 @@ router
       // console.log(filepath)
 
       // console.log(artistData);
-      // validate.checkIfProperInput(user_id);
-      // validate.checkIfProperInput(bio);
-      // validate.checkIfProperInput(profilePic);
-
-      // validate.checkIfString(user_id);
-      // validate.checkIfString(bio);
-      // validate.checkIfString(profilePic);
 
       // validate.checkIfValidObjectId(user_id);
       console.log(artistData);
@@ -444,6 +443,8 @@ router
   })
   .post(async (req, res) => {
     try {
+      console.log(req.body);
+
       let artists = await artistMethods.getByName(
         xss(req.body.firstName),
         xss(req.body.lastName)
@@ -455,7 +456,8 @@ router
     }
   });
 
-router.route("/rateArtist/:artistId").post(async (req, res) => {
+router.route("/rateArtist/:artistId")
+.post(async (req, res) => {
   try {
     const id = xss(req.params.artistId);
     const rating = xss(req.body.rating);

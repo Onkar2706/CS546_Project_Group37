@@ -222,14 +222,19 @@ const validate = {
       event.preventDefault();
       try {
         let productName = document.getElementById("productName").value;
-        let productDescription =
-          document.getElementById("productDescription").value;
+        let productDescription = document.getElementById("productDescription").value;
         let price = parseFloat(document.getElementById("price").value);
+        // let image = document.getElementById("images").value;
         let tags = document.getElementById("tags").value;
         validate.checkIfString(productName);
         validate.checkIfString(productDescription);
         validate.checkIfPositiveNumber(price);
-        console.log(typeof tags);
+        // // let imagesArray = images.split(",");
+        // // console.log(imagesArray);
+        // // // imagesArray.forEach((element) => {
+        // // //   validate.checkIfString(element);
+        // // // });
+        // validate.checkIfString(image);
         let tagsArray = tags.split(",");
         tagsArray.forEach((element) => {
           validate.checkIfString(element);

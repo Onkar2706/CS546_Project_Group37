@@ -62,6 +62,8 @@ a{
 
 .nav-links a {
     text-decoration: none;
+    word-spacing: -10px;
+    margin-right: 40px;
     color: whitesmoke;
     font-weight: bold;
 }
@@ -195,8 +197,9 @@ body {
 
 .container {
     max-width: 600px;
-    margin: 50px auto;
+    margin: 50px ;
     padding: 20px;
+    
 }
 
 h1 {
@@ -207,7 +210,9 @@ h1 {
 form {
     top: 0px;
     width: 284px;
-    height: 231px;
+    height: 518px;
+    position: relative;
+    bottom: 300px;
 }
 
 label {
@@ -636,154 +641,19 @@ button:hover {
 }
 
 /* footer for all pages */
-#footer {
-    position: bottom;
-    bottom: 0;
-    width: 100%;
+footer {
+    position: relative;
+
+    color: white;
     background-color: #333;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-    word-spacing: 5px;
-    z-index: 9999; /* Ensure it appears above other content */
+    top: 500px;
+
   }
-  
-  footer p {
-    margin: 5px 0;
+  .container p{
+    position: relative;
+    bottom: 6px;
   }
-  
-  /* Optional: Add styles for links */
-  footer a {
-    color: #fff;
-    text-decoration: none;
+  .container #create-text{
+    position: relative;
+    bottom: 365px;
   }
-  
-  footer a:hover {
-    text-decoration: underline;
-  }
-  
-  
-
-
-
-
-  /* CSS FOR THE SIGNUP AND SIGN IN */
-
-  body {
-    background-color: #f2f2f2; /* Light grey background */
-    color: #333; /* Black text */
-    font-family: Arial, sans-serif; /* Default font */
-  }
-  
-  .container {
-    background-color: #fff; /* White container background */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    padding: 20px; /* Padding inside container */
-    margin: 50px auto; /* Center container */
-    max-width: 400px; /* Maximum width */
-  }
-  
-  h2 {
-    color: #333; /* Black heading text */
-  }
-  
-  .input-group {
-    margin-bottom: 20px; /* Spacing between input groups */
-  }
-  
-  label {
-    display: block; /* Display labels in block format */
-    margin-bottom: 5px; /* Spacing below labels */
-    color: #333; /* Black label text */
-  }
-  
-  input[type="text"],
-  input[type="password"] {
-    width: 100%; /* Full width input fields */
-    padding: 10px; /* Padding inside input fields */
-    border: 1px solid #ccc; /* Grey border */
-    border-radius: 5px; /* Rounded corners */
-    box-sizing: border-box; /* Include padding and border in width */
-  }
-  
-  input[type="submit"] {
-    width: 100%; /* Full width submit button */
-    padding: 10px; /* Padding inside button */
-    background-color: #333; /* Black button background */
-    color: #fff; /* White button text */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Show pointer cursor on hover */
-  }
-  
-  .input-group-icon {
-    position: relative; /* Position relative for icon */
-  }
-  
-  .input-group-icon i {
-    position: absolute; /* Position absolute for icon */
-    top: 50%; /* Align icon vertically */
-    right: 10px; /* Align icon to the right */
-    transform: translateY(-50%); /* Adjust vertical position */
-    color: #999; /* Grey icon color */
-  }
-  
-  .create-account-text {
-    margin-top: 20px; /* Spacing above create account text */
-    color: #666; /* Grey create account text */
-  }
-  
-  .create-account-text a {
-    color: #333; /* Black link text */
-    text-decoration: none; /* Remove underline */
-  }
-  
-  .create-account-text a:hover {
-    text-decoration: underline; /* Underline on hover */
-  }
-  
-
-  #admin-dashboard {
-    background-color: white;
-    text-align: center;
-    margin: 50px auto;
-}
-
-#admin-dashboard h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-#admin-dashboard nav ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#admin-dashboard nav ul li {
-    display: inline-block;
-    margin-right: 20px;
-}
-
-#admin-dashboard nav ul li a {
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 18px;
-}
-
-#admin-dashboard nav ul li a:hover {
-    color: #e69c2d;
-}
-
-
-#user-info img {
-    width: 250px;  /* You can adjust this value to fit your layout */
-    height: auto; /* Maintaining square dimension */
-    object-fit: cover; /* Ensures the image covers the area without distorting aspect ratio */
-    border-radius: 5%; /* Optional: rounds the image to make it circular, remove if not needed */
-}
-
-/* css for artist get products  */
-
-
-

@@ -13,126 +13,126 @@ await db.dropDatabase();
 
 // Creating Users
 let user1 = await userMethods.create(
-  "Rachel",
-  "Green",
-  "rgreen",
+  "Vincent",
+  "Van Gogh",
+  "vangogh",
   await bcrypt.hash("password@123", 10),
-  "rgreen@friends.com",
-  29,
-  "NJ",
-  "Hoboken",
+  "vincent.vangogh@example.com",
+  37,
+  "Netherlands",
+  "Nuenen",
   [],
   [],
   []
 );
 let testUser = await userMethods.create(
-  "Rachel",
-  "Green",
-  "rgreen1",
+  "Pablo",
+  "Picasso",
+  "ppicasso",
   await bcrypt.hash("password@123", 10),
-  "rgreen@friends.com",
-  29,
-  "NJ",
-  "Hoboken",
+  "pablo.picasso@example.com",
+  91,
+  "Spain",
+  "Malaga",
   [],
-  [],
+  []
 );
 let user2 = await userMethods.create(
-  "Chandler",
-  "Bing",
-  "cbing",
+  "Leonardo",
+  "da Vinci",
+  "ldavinci",
   await bcrypt.hash("password@123", 10),
-  "cbing@friends.com",
-  32,
-  "NJ",
-  "Hoboken",
+  "leonardo.davinci@example.com",
+  67,
+  "Italy",
+  "Vinci",
   [],
-  [],
+  []
 );
 let user3 = await userMethods.create(
-  "Joey",
-  "Tribianni",
-  "jtrib",
+  "Frida",
+  "Kahlo",
+  "fkahlo",
   await bcrypt.hash("password@123", 10),
-  "jtrib@friends.com",
-  30,
-  "NJ",
-  "Hoboken",
+  "frida.kahlo@example.com",
+  47,
+  "Mexico",
+  "Coyoacán",
   [],
-  [],
+  []
 );
 let user4 = await userMethods.create(
-  "Barney",
-  "Stinson",
-  "Bstin",
+  "Claude",
+  "Monet",
+  "cmonet",
   await bcrypt.hash("password@123", 10),
-  "bstin@friends.com",
-  32,
-  "NJ",
-  "Hoboken",
+  "claude.monet@example.com",
+  86,
+  "France",
+  "Paris",
   [],
-  [],
+  []
 );
 let user5 = await userMethods.create(
-  "Ted",
-  "Mosby",
-  "tmosby",
+  "Georgia",
+  "O'Keeffe",
+  "gokeeffe",
   await bcrypt.hash("password@123", 10),
-  "tmosby@friends.com",
-  31,
-  "NJ",
-  "Hoboken",
+  "georgia.okeeffe@example.com",
+  98,
+  "USA",
+  "Sun Prairie",
   [],
-  [],
+  []
 );
 let user6 = await userMethods.create(
-  "HIMYM",
-  "We Copied FRIENDS",
-  "himym",
+  "Salvador",
+  "Dali",
+  "sdali",
   await bcrypt.hash("password@123", 10),
-  "bstin@friends.com",
-  18,
-  "NJ",
-  "Hoboken",
+  "salvador.dali@example.com",
+  84,
+  "Spain",
+  "Figueres",
   [],
-  [],
+  []
 );
 
 // Saving Created Artists
 let testArtist = await artistMethods.create(
   testUser._id,
-  "Hi",
-  "https://www.instyle.com/thmb/kUBbYGxX9MRxi8yan8S4lFZA-30=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/100421-rachel-green-outfis-08-dd43a04a48b3493b90a5b508e9d8bd5a.jpg"
+  "Pablo Picasso",
+  "https://hips.hearstapps.com/hmg-prod/images/pablo-picasso-at-his-home-in-cannes-circa-1960-photo-by-popperfoto_getty-images.jpg?crop=1xw:1.0xh;center,top&resize=640:*"
 );
 let artist1 = await artistMethods.create(
   user1._id,
-  "Hi this is Rachel",
-  "https://www.instyle.com/thmb/kUBbYGxX9MRxi8yan8S4lFZA-30=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/100421-rachel-green-outfis-08-dd43a04a48b3493b90a5b508e9d8bd5a.jpg"
+  "Vincent van Gogh",
+  "https://cdn.britannica.com/36/69636-050-81A93193/Self-Portrait-artist-panel-board-Vincent-van-Gogh-1887.jpg?w=400&h=300&c=crop"
 );
 let artist2 = await artistMethods.create(
   user2._id,
-  "Hi this is Chandler",
-  "https://pyxis.nymag.com/v1/imgs/079/792/3ed0d94be0a9bd3d023f00532889bab152-30-chandler-bing.2x.h473.w710.jpg"
+  "Leonardo da Vinci",
+  "https://hips.hearstapps.com/hmg-prod/images/portrait-of-leonardo-da-vinci-1452-1519-getty.jpg?crop=1xw:1.0xh;center,top&resize=640:*"
 );
 let artist3 = await artistMethods.create(
   user3._id,
-  "Hi this is Joey",
-  "https://a1cf74336522e87f135f-2f21ace9a6cf0052456644b80fa06d4f.ssl.cf2.rackcdn.com/images/characters/large/2800/Joey-Tribbiani.Friends.webp"
+  "Frida Kahlo",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Frida_Kahlo%2C_by_Guillermo_Kahlo.jpg/330px-Frida_Kahlo%2C_by_Guillermo_Kahlo.jpg"
 );
 let artist4 = await artistMethods.create(
   user4._id,
-  `"Legen—wait for it—dary!"`,
-  "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/310613953_664827498341332_8131777393604310854_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=mqfHmrFEJFQQ7kNvgE4shma&_nc_ht=scontent-lga3-2.xx&oh=00_AfCvvVT8PxnG4Qdy4QvT6jJ6FX8EUnJLzb3ehH9Ax-4k8A&oe=663B7FF5"
+  "Claude Monet",
+  "https://cdn.britannica.com/57/250457-050-342611AD/Claude-Monet-French-Impressionist-painter.jpg?w=400&h=300&c=crop"
 );
 let artist5 = await artistMethods.create(
   user5._id,
-  "Hi this is Ted",
-  "https://home.adelphi.edu/~br21822/Ted.jpg"
+  "Georgia O'Keeffe",
+  "https://www.okeeffemuseum.org/wp-content/uploads/2022/04/2003-1-1-600x753-1-239x300.jpg"
 );
 let artist6 = await artistMethods.create(
   user6._id,
-  "Hi this is HIMYM",
-  "https://www.rollingstone.com/wp-content/uploads/2018/06/rs-28075-20140326-himym-x1800-1395857056.jpg?w=595&h=395&crop=1"
+  "Salvador Dalí",
+  "https://cdn.britannica.com/40/79340-050-7C62816E/Salvador-Dali.jpg?w=400&h=300&c=crop"
 );
 
 let product1 = await productMethods.create(
@@ -140,144 +140,139 @@ let product1 = await productMethods.create(
   "Starry Night",
   "Iconic Starry Night Painting",
   ["Fresh", "Classic"],
-  100.0,
-  [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/525px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
-  ],
+  1000000.0,
+  ["https://www.vangoghgallery.com/img/starry_night_full.jpg"],
   []
 );
 
 let product2 = await productMethods.create(
   artist2._id,
-  "The Persistence of Memory",
-  "Surreal Melting Clocks",
-  ["Modern", "Surreal"],
-  120.0,
+  "Mona Lisa",
+  "Iconic Mona Lisa Portrait",
+  ["Classic", "Portrait"],
+  1200000.0,
   [
-    "https://cdn.britannica.com/10/182610-050-77811599/The-Persistence-of-Memory-canvas-collection-Salvador-1931.jpg?w=300",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/330px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
   ],
   []
 );
 
 let product3 = await productMethods.create(
   artist3._id,
-  "The Scream",
-  "Symbolic Expressionist Painting",
-  ["Expressionist", "Symbolism"],
-  80.0,
+  "Self Portrait with Thorn Necklace and Hummingbird",
+  "Self Portrait with Thorn Necklace and Hummingbird is a 1940 painting by Frida Kahlo. Kahlo painted it after her divorce from Diego Rivera and when she was in the United States. It is notable for its surrealistic elements, and was painted shortly after her father bought her oil paints while she was recovering from a surgery.",
+  ["Surrealism", "Self Portrait"],
+  800000.0,
   [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/330px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
+    "https://upload.wikimedia.org/wikipedia/en/1/1e/Frida_Kahlo_%28self_portrait%29.jpg",
   ],
   []
 );
 
 let product4 = await productMethods.create(
   artist4._id,
-  "Guernica",
-  "Powerful Anti-War Statement",
-  ["Cubism", "Political"],
-  150.0,
+  "Water Lilies",
+  "Water Lilies is a series of approximately 250 oil paintings by French Impressionist Claude Monet. The paintings depict his flower garden at his home in Giverny, and were the main focus of his artistic production during the last thirty years of his life. Many of the works were painted while Monet suffered from cataracts.",
+  ["Impressionism", "Landscape"],
+  1500000.0,
   [
-    "https://imageio.forbes.com/specials-images/imageserve/61fdbb650178939252cba91b/Picasso-s-masterpiece--regarded-by-many-critics-as-the-most-powerful-anti-war/960x0.jpg?format=jpg&width=1440",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Claude_Monet_-_The_Water_Lilies_-_Setting_Sun_-_Google_Art_Project.jpg/600px-Claude_Monet_-_The_Water_Lilies_-_Setting_Sun_-_Google_Art_Project.jpg",
   ],
   []
 );
 
 let product5 = await productMethods.create(
   artist5._id,
-  "Girl with a Pearl Earring",
-  "Enigmatic Portrait",
-  ["Baroque", "Portrait"],
-  90.0,
+  "Red Canna",
+  "Red Canna is a series of approximately 250 oil paintings by Georgia O'Keeffe. The paintings depict her flower garden at her home in New Mexico. O'Keeffe painted this series during the last thirty years of her life. Many of the works were painted while she was experimenting with new techniques.",
+  ["Modernism", "Floral"],
+  900000.0,
   [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/405px-1665_Girl_with_a_Pearl_Earring.jpg",
+    "https://upload.wikimedia.org/wikipedia/en/c/ca/Red_Canna_%281924%29_by_Georgia_O%27Keeffe.jpg",
   ],
   []
 );
 
 let product6 = await productMethods.create(
   artist6._id,
-  "The Starry Night",
-  "Whimsical Night Sky",
-  ["Post-Impressionist", "Landscape"],
-  110.0,
+  "The Persistence of Memory",
+  "The Persistence of Memory is a 1931 painting by artist Salvador Dalí. It depicts a surreal landscape with melting clocks draped over various objects. The painting is widely considered one of Dalí's most recognizable works and an iconic example of surrealist art.",
+  ["Surrealism", "Time"],
+  1100000.0,
   [
-    "https://img.stablecog.com/insecure/1024w/aHR0cHM6Ly9iLnN0YWJsZWNvZy5jb20vYjM0YzA5YjYtNGU3Zi00ZmVmLThiM2UtN2E2NjgyNGNjOGQwLmpwZWc.webp",
+    "https://cdn.britannica.com/10/182610-050-77811599/The-Persistence-of-Memory-canvas-collection-Salvador-1931.jpg?w=300",
   ],
   []
 );
 
 let product7 = await productMethods.create(
   artist4._id,
-  "The Birth of Venus",
-  "Classical Mythological Allegory",
-  ["Renaissance", "Allegorical"],
-  130.0,
+  "Impression, Sunrise",
+  "Impression, Sunrise is a painting by Claude Monet. Shown at what would later be known as the 'Exhibition of the Impressionists' in April 1874, the painting is attributed to giving rise to the name of the Impressionist movement.",
+  ["Impressionism", "Landscape"],
+  1300000.0,
   [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/600px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
+    "https://images.squarespace-cdn.com/content/v1/58968d24ebbd1a423088c522/1669923148238-9AH5WP71KTOW2EN1NNFY/Screenshot+2022-11-29+at+15.26.53.png?format=1000w",
   ],
   []
 );
 
 let product8 = await productMethods.create(
   artist5._id,
-  "Water Lilies",
-  "Impressionist Water Garden",
-  ["Impressionist", "Landscape"],
-  95.0,
-  ["https://www.phaidon.com/resource/monetgardenlead.jpg"],
+  "Jimson Weed/White Flower No. 1",
+  "Jimson Weed/White Flower No. 1 is a painting by Georgia O'Keeffe. Completed in 1932, it depicts a close-up view of a jimson weed blossom. The painting is considered one of O'Keeffe's most famous works and is often cited as an iconic example of American modernism.",
+  ["Modernism", "Floral"],
+  950000.0,
+  ["https://www.georgiaokeeffe.net/assets/img/paintings/jimson-weed.jpg"],
   []
 );
+
 let product9 = await productMethods.create(
   artist4._id,
-  "The Bro Code",
-  "The Bro Code is a set of rules, seemingly started by Barney. A published version of the book,\
-   first shown in The Goat is now available in paperback and audiobook. The version was written by Barney Stinson with Matt Kuhn.",
-  ["Bro", "Code", "Barney", "HIMYM"],
-  225.0,
+  "The Artist's Garden at Giverny",
+  "The Artist's Garden at Giverny is a series of paintings by Claude Monet. Completed between 1900 and 1926, the series depicts the flower garden at his home in Giverny, France. The paintings are considered some of Monet's most famous works and exemplify his mastery of color and light.",
+  ["Impressionism", "Landscape"],
+  2250000.0,
   [
-    "https://static.wikia.nocookie.net/himym/images/1/19/Brocode_cover.jpg",
-    "https://static.wikia.nocookie.net/himym/images/2/2c/Barney.jpg",
-    "https://medias.spotern.com/spots/w640/10/10567-1532336916.webp",
+    "https://upload.wikimedia.org/wikipedia/commons/b/bc/Claude_Monet_The_Artist%27s_Garden_at_Giverny.jpg",
   ],
-  4.4,
   []
 );
 
 let post1 = await postsMethod.addPost(
   user2._id,
-  "cbing",
-  "Amazing",
-  "This thing is AMAZING!!!",
-  "https://images.pexels.com/photos/22940751/pexels-photo-22940751/free-photo-of-chiesa-di-budapest.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  "ldavinci",
+  "Masterpiece",
+  "I just finished another masterpiece!",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Leonardo_da_vinci_-_La_scapigliata.jpg/405px-Leonardo_da_vinci_-_La_scapigliata.jpg"
 );
 let post2 = await postsMethod.addPost(
   user3._id,
-  "jtrib",
-  "Foooood",
-  "This foood is AMAZING!!!",
-  "https://images.pexels.com/photos/1633525/pexels-photo-1633525.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  "fkahlo",
+  "Inspirations",
+  "Feeling inspired today!",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/330px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg"
 );
 let post3 = await postsMethod.addPost(
   user1._id,
-  "rgreen",
-  "Look what I found",
-  "This dress is AMAZING!!!",
-  "https://images.pexels.com/photos/1055691/pexels-photo-1055691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  "vangogh",
+  "New painting",
+  "Excited to share my new painting!",
+  "https://cdn.britannica.com/78/43678-050-F4DC8D93/Starry-Night-canvas-Vincent-van-Gogh-New-1889.jpg?w=300"
 );
 let post4 = await postsMethod.addPost(
   user1._id,
-  "rgreen",
-  "My fav dress",
-  "This dress is AMAZING!!!",
-  "https://images.pexels.com/photos/2235071/pexels-photo-2235071.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  "vangogh",
+  "Art Exhibition",
+  "Join us for our latest art exhibition!",
+  "https://www.artnews.com/wp-content/uploads/2024/04/1024px-Vincent-van-gogh-cafe-terrace-on-the-place-du-forum-arles-at-night-the.jpg?resize=400,512"
 );
 
 let purchase = await purchaseMethods.create(
   user2._id,
   product2._id,
   1,
-  100.0,
+  1000000.0,
   true,
   validate.getTodayDate()
 );

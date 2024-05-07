@@ -12,13 +12,11 @@ const exportedMethods = {
     bio,
     profilePic
   ) {
-    // validate.checkIfProperInput(user_id)
-    // validate.checkIfProperInput(bio)
-    // validate.checkIfProperInput(profilePic)
+    validate.checkIfProperInput(user_id)
+    validate.checkIfProperInput(bio)
 
-    // validate.checkIfString(user_id)
-    // validate.checkIfString(bio)
-    // validate.checkIfString(profilePic)
+    validate.checkIfString(user_id)
+    validate.checkIfString(bio)
 
     // validate.checkIfValidObjectId(user_id);
     user_id = user_id.trim();
@@ -95,8 +93,8 @@ const exportedMethods = {
 
   async get(id) {
     //retrieves an artist if the artist exists in the database
-    // validate.checkIfProperInput(id)
-    // validate.checkIfString(id)
+    validate.checkIfProperInput(id)
+    validate.checkIfString(id)
     // validate.checkIfValidObjectId(id);
     const artistCollection = await artists();
     const artist = await artistCollection.findOne({ _id: new ObjectId(id) });
@@ -120,6 +118,8 @@ const exportedMethods = {
   },
 
   async getArtistProfile(userid) {
+    validate.checkIfProperInput(userid)
+    validate.checkIfString(userid)
     const artistCollection = await artists();
     const findArtist = await artistCollection.findOne({ user_id: userid });
     if (!findArtist) {
