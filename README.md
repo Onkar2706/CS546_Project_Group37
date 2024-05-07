@@ -35,8 +35,9 @@
 
 
 ### Users and User Keys 
-- {User: }
-
+- {Admin: Admin Password: Imadmin@123 }
+-- {User: users Password: Password@123 }
+- {Artist: cmonet Password: Password@123 }
 
 
 
@@ -81,7 +82,7 @@ Art Hub is a web platform that connects artists and art enthusiasts, providing a
 
 - Trending artists section displaying profile photos, ratings, and short intros.
 - Category-wise art selection showcasing art images and categories.
-- Display discounts and deals for art products.
+
 
 ### Dashboard
 
@@ -93,12 +94,12 @@ Art Hub is a web platform that connects artists and art enthusiasts, providing a
 - Users and artists can create new posts containing images and text to share tips, tricks, and learning resources.
 - Unregistered users can view the forum with limited functionality.
 - Add, edit, or delete posts.
-- Report posts for review by administrators.
+- Delet posts for review by administrators.
 
 ### E-commerce
 
 - Display art products posted by artists, including images, descriptions, and ratings.
-- Users can purchase art directly from the site, with options for buying now, adding to cart, selecting quantity, and integrated PayPal payment.
+- Users can purchase art directly from the site, with options for buying now, adding to cart, selecting quantity.
 - Customer review and ratings system.
 
 ### Admin Account
@@ -109,14 +110,13 @@ Art Hub is a web platform that connects artists and art enthusiasts, providing a
 ### Profile Page
 
 - Users can change account settings and view profile details.
-- Adjust payment information and password.
+- Adjust password.
 
 ## Extra Features
 
-- Search functionality for artists, art topics, categories, and art products.
-- Map feature to locate local art events and museums.
-- Learning page where artists can conduct workshops and post informative videos.
-- User follow system to customize the home feed with recommended art.
+- Users can upload files from their Device and used multer package
+
+
 
 ## GitHub Repository
 
