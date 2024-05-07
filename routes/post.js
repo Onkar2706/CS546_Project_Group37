@@ -32,6 +32,13 @@ router.route("/").get(async (req, res) => {
       user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true });
     }
+    else if (req.session && req.session.user && req.session.user.role === "admin"){
+      return res.render("post/showPosts.handlebars", {
+        userName: req.session.user.username,
+        loggedIn: true,
+        artist: true,
+        admin: true
+    })}
     return res.render("post/showPosts.handlebars", {
       allPosts,
       title: "Art Blogs",
@@ -51,6 +58,13 @@ router
     else if (req.session && req.session.user && req.session.user.role === "artist"){
       return res.render('post/addPost', {title: "Create Blog", userName: req.session.user.username, loggedIn: true, user: false});
     }
+    else if (req.session && req.session.user && req.session.user.role === "admin"){
+      return res.render("post/addPost", {
+        userName: req.session.user.username,
+        loggedIn: true,
+        artist: true,
+        admin: true
+    })}
     return res.render('post/addPost', {title: "Create Blog"});
   }
   catch(error){
@@ -126,6 +140,13 @@ router
       return res.render('post/openPost', {getPost, title: "Post", userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
     }
+    else if (req.session && req.session.user && req.session.user.role === "admin"){
+      return res.render("post/openPost", {
+        userName: req.session.user.username,
+        loggedIn: true,
+        artist: true,
+        admin: true
+    })}
     return res.render('post/openPost', {getPost, title: "Post"});
   }
   catch(error){

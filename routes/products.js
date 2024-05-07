@@ -78,6 +78,13 @@ router.route("/:productId").get(async (req, res) => {
       return res.render("product/productclick", {productInfo, artistInfo, title: "Product Info", avgRating, userName: req.session.user.username, loggedIn: true, user: req.session.user.role === "user" ? true : false,
       artist: req.session.user.role === "user" ? false : true});
     }
+    else if (req.session && req.session.user && req.session.user.role === "admin"){
+      return res.render("product/productclick", {
+        userName: req.session.user.username,
+        loggedIn: true,
+        artist: true,
+        admin: true
+    })}
     return res.render("product/productclick", {
       productInfo,
       artistInfo,
