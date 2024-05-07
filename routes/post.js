@@ -44,6 +44,17 @@ router.route("/").get(async (req, res) => {
         user: req.session.user.role === "user" ? true : false,
         artist: req.session.user.role === "user" ? false : true,
       });
+    } else if (
+      req.session &&
+      req.session.user &&
+      req.session.user.role === "admin"
+    ) {
+      return res.render("post/showPosts.handlebars", {
+        userName: req.session.user.username,
+        loggedIn: true,
+        artist: true,
+        admin: true,
+      });
     }
     return res.render("post/showPosts.handlebars", {
       allPosts,
@@ -74,6 +85,17 @@ router.route("/addBlog").get(async (req, res) => {
         loggedIn: true,
         user: false,
       });
+    } else if (
+      req.session &&
+      req.session.user &&
+      req.session.user.role === "admin"
+    ) {
+      return res.render("post/addPost", {
+        userName: req.session.user.username,
+        loggedIn: true,
+        artist: true,
+        admin: true,
+      });
     }
     return res.render("post/addPost", { title: "Create Blog" });
   } catch (error) {
@@ -88,7 +110,7 @@ router.route("/addBlog").post(upload.single("addImg"), async (req, res) => {
     const blogData = req.body;
     blogData.title = xss(blogData.title);
     blogData.body = xss(blogData.body);
-    let imagePath = path.normalize(xss(req.file.path));
+    let imagePath = path.normalize(req.file.path);
     imagePath = "/" + imagePath.split("\\").join("/");
 
     //validation
@@ -160,6 +182,17 @@ router.route("/:postId").get(async (req, res) => {
         loggedIn: true,
         user: req.session.user.role === "user" ? true : false,
         artist: req.session.user.role === "user" ? false : true,
+      });
+    } else if (
+      req.session &&
+      req.session.user &&
+      req.session.user.role === "admin"
+    ) {
+      return res.render("post/openPost", {
+        userName: req.session.user.username,
+        loggedIn: true,
+        artist: true,
+        admin: true,
       });
     }
     return res.render("post/openPost", { getPost, title: "Post" });

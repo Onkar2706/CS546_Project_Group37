@@ -175,6 +175,17 @@ router.route("/addProduct").get(async (req, res) => {
       user: xss(req.session.user.role) === "user" ? true : false,
       artist: xss(req.session.user.role) === "user" ? false : true,
     });
+  } else if (
+    req.session &&
+    req.session.user &&
+    req.session.user.role === "admin"
+  ) {
+    return res.render("product/addProduct", {
+      userName: req.session.user.username,
+      loggedIn: true,
+      artist: true,
+      admin: true,
+    });
   }
   return res.render("product/addProduct");
 });
@@ -361,6 +372,17 @@ router.route("/:artistId").get(async (req, res) => {
         user: req.session.user.role === "user" ? true : false,
         artist: req.session.user.role === "user" ? false : true,
       });
+    } else if (
+      req.session &&
+      req.session.user &&
+      req.session.user.role === "admin"
+    ) {
+      return res.render("artist/artistclick", {
+        userName: req.session.user.username,
+        loggedIn: true,
+        artist: true,
+        admin: true,
+      });
     }
 
     return res.render("artist/artistclick", {
@@ -401,6 +423,17 @@ router
           loggedIn: true,
           user: req.session.user.role === "user" ? true : false,
           artist: req.session.user.role === "user" ? false : true,
+        });
+      } else if (
+        req.session &&
+        req.session.user &&
+        req.session.user.role === "admin"
+      ) {
+        return res.render("artist/artist", {
+          userName: req.session.user.username,
+          loggedIn: true,
+          artist: true,
+          admin: true,
         });
       }
 

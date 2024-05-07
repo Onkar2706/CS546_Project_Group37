@@ -29,8 +29,12 @@
                 <div class="dropdown">
                     <button class="dropbtn">{{userName}}</button>
                     <div class="dropdown-content">
+                        {{#if admin}}
+                        <a href="/user/admin">ADMIN DASHBOARD</a>
+                        {{else}}
                         <a href="/user/getUserInfo">PROFILE</a>
                         <a href="/products/cart">MY CART</a>
+                        {{/if}}
                         <a href="/logout">LOGOUT</a>
                     </div>
             {{else}}
