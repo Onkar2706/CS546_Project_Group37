@@ -39,24 +39,6 @@
 ### Users and User Keys 
 - {admin cred}
 
-# Project Title
-
-Brief description of your project.
-
-## Table of Contents
-
-- [Project Title](#project-title)
-  - [Table of Contents](#table-of-contents)
-  - [Description](#description)
-  - [Features](#features)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Contributing](#contributing)
-  - [License](#license)
-
-## Description
-
-Provide a more detailed description of your project here. Explain its purpose, what problem it solves, and any other relevant information. You can also include screenshots or GIFs to showcase the project.
 
 ## Features
 
