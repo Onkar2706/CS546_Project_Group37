@@ -75,10 +75,11 @@ npm install
 ```
 
 
-
+```bash
 run npm seed
+```
 
-
+```bash
 npm start
 ```
 
