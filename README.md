@@ -27,7 +27,7 @@
 
 ## Steps for installation
 - {Step 1 : Open a terminal and navigate to the root directory of our project}
-- {Step 2 : Install Node packages with: ```bash npm i```}
+- {Step 2 : Install Node packages with: ``` npm i```}
 - {Step 3 : Start the application with: `npm start`}
 - {Step 4 : Go to the landing page in web browser at: `localhost:3000/`}
 
