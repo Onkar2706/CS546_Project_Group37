@@ -144,6 +144,7 @@ let product1 = await productMethods.create(
   ["https://www.vangoghgallery.com/img/starry_night_full.jpg"],
   []
 );
+await artistMethods.updateProductInArtist(artist1._id, product1._id);
 
 let product2 = await productMethods.create(
   artist2._id,
@@ -157,6 +158,8 @@ let product2 = await productMethods.create(
   []
 );
 
+await artistMethods.updateProductInArtist(artist2._id, product2._id);
+
 let product3 = await productMethods.create(
   artist3._id,
   "Self Portrait with Thorn Necklace and Hummingbird",
@@ -168,6 +171,7 @@ let product3 = await productMethods.create(
   ],
   []
 );
+await artistMethods.updateProductInArtist(artist3._id, product3._id);
 
 let product4 = await productMethods.create(
   artist4._id,
@@ -180,6 +184,7 @@ let product4 = await productMethods.create(
   ],
   []
 );
+await artistMethods.updateProductInArtist(artist4._id, product4._id);
 
 let product5 = await productMethods.create(
   artist5._id,
@@ -192,6 +197,7 @@ let product5 = await productMethods.create(
   ],
   []
 );
+await artistMethods.updateProductInArtist(artist5._id, product5._id);
 
 let product6 = await productMethods.create(
   artist6._id,
@@ -204,6 +210,7 @@ let product6 = await productMethods.create(
   ],
   []
 );
+await artistMethods.updateProductInArtist(artist6._id, product6._id);
 
 let product7 = await productMethods.create(
   artist4._id,
@@ -216,6 +223,7 @@ let product7 = await productMethods.create(
   ],
   []
 );
+await artistMethods.updateProductInArtist(artist4._id, product7._id);
 
 let product8 = await productMethods.create(
   artist5._id,
@@ -226,6 +234,7 @@ let product8 = await productMethods.create(
   ["https://www.georgiaokeeffe.net/assets/img/paintings/jimson-weed.jpg"],
   []
 );
+await artistMethods.updateProductInArtist(artist5._id, product8._id);
 
 let product9 = await productMethods.create(
   artist4._id,
@@ -238,6 +247,7 @@ let product9 = await productMethods.create(
   ],
   []
 );
+await artistMethods.updateProductInArtist(artist4._id, product9._id);
 
 let post1 = await postsMethod.addPost(
   user2._id,
