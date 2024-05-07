@@ -97,6 +97,13 @@ const exportMethods = {
     return userList;
   },
 
+  async getUsersByRoles() {
+    const userCollection = await users();
+    const usersByRoles = await userCollection.find({ role: { $in: ["user", "artist"] } }).toArray();
+    
+    return usersByRoles;
+},
+
   async updateArtistId(userId, artistId) {
     if (!artistId || !userId) throw "Error: Must provide Id";
 
@@ -198,7 +205,32 @@ const exportMethods = {
     } else {
         console.log('No artist document was updated.');
     }
-  }
+  },
+  async removeUser(userid){
+    validate.checkIfProperInput(userid);
+    // validate.checkIfString(userid);
+    // validate.checkIfString(productId);
+  
+    const userCollection = await users();
+    const removeUser = await userCollection.deleteOne({
+        _id: new ObjectId(userid)
+    });
+    return removeUser;
+  },
+  
+  async changePassword(newPassword, userid){
+    validate.checkIfProperInput(newPassword);
+    validate.checkIfProperInput(userid);
+    const password = await bcrypt.hash(newPassword, 10);
+
+    const filter = { _id: new ObjectId(userid)};
+    const update = {$set: {password:password}};
+    const userCollection = await users();
+    const changeP = await userCollection.updateOne(filter, update);
+    console.log("success")
+  },
 };
+
+
 
 export default exportMethods;

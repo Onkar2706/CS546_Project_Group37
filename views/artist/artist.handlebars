@@ -41,7 +41,7 @@
       </label>
       <button class="submit-button">Submit</button>
   </form>
-<div id="searchResults"></div>
+<ul id="searchResults" class="card-container"></ul>
 {{#if allArtists}}
     <ul class="card-container">
         {{#each allArtists}}
@@ -50,9 +50,7 @@
               <img src="{{this.profilePic}}" alt="Image of {{this.firstName}}" class="artwork-image">
               <h2 class="artwork-name">{{this.firstName}} {{this.lastName}}</h2> 
               <p class="artwork-description">{{this.bio}}</p> 
-              <a href="/artist/{{this._id}}">
-                <button class="buy-button">Visit Profile</button>
-              </a>
+              <a href="/artist/{{this._id}}"class="buy-button">Visit Profile</a>
             </div>
            </li>
         {{/each}}

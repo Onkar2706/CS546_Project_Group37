@@ -9,34 +9,38 @@
 <body>
     <nav>
         <div class="logo">
-            <h1 ><a href="/", style="color: antiquewhite;">ArtistHub</a></h1> 
+            <h1 ><a href="/" style="color: antiquewhite;">ArtistHub</a></h1> 
         </div>
-        <ul class="nav-links">
-            <li><a href="/">HOME</a></li>
+        <div class="nav-links">
+            <a href="/">HOME</a>
             {{#if artist}}
-            <li><a href="/artist/getProducts">MY PRODUCTS</a></li>
+            <a href="/artist/getProducts">MY PRODUCTS</a>
             {{/if}}
-            <li><a href="/artist">ARTISTS</a></li>
+            <a href="/artist">ARTISTS</a>
             {{!-- <li><a href="/blogs">EXHIBITIONS</a></li> --}}
-            <li><a href="/products">MARKETPLACE</a></li>
-            <li><a href="/post">ART BLOG</a></li>
+           <a href="/products">MARKETPLACE</a>
+            <a href="/post">ART BLOG</a>
 
             {{#if user}}
-                    <li><a href="artist/artistreg">SIGNUP AS ARTIST</a></li>
+                   <a href="artist/artistreg">SIGNUP AS ARTIST</a>
             {{/if}}
 
             {{#if loggedIn}}
                 <div class="dropdown">
                     <button class="dropbtn">{{userName}}</button>
                     <div class="dropdown-content">
+                        {{#if admin}}
+                        <a href="/user/admin">ADMIN DASHBOARD</a>
+                        {{else}}
                         <a href="/user/getUserInfo">PROFILE</a>
                         <a href="/products/cart">MY CART</a>
+                        {{/if}}
                         <a href="/logout">LOGOUT</a>
                     </div>
             {{else}}
-                <li><a href="/user/login">SIGNIN/SIGNUP</a></li>
+               <a href="/user/login">SIGNIN/SIGNUP</a>
             {{/if}}
-        </ul>
+        </div>
     </nav>
     <main>
         {{{body}}}

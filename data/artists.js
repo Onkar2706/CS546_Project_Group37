@@ -105,6 +105,18 @@ const exportedMethods = {
     return artist;
   },
 
+  async removeArtist(artistid){
+    validate.checkIfProperInput(artistid);
+    // validate.checkIfString(artistid);
+    // validate.checkIfString(productId);
+  
+    const artistCollection = await artists();
+    const removeUser = await artistCollection.deleteOne({
+        _id: new ObjectId(artistid)
+    });
+    return removeUser;
+  },
+
   async getArtistProfile(userid) {
     validate.checkIfProperInput(userid)
     validate.checkIfString(userid)

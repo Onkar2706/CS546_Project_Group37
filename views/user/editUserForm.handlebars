@@ -1,39 +1,36 @@
-<div class="container">
+<div>
   <h2>Update Profile</h2>
-  <form action="/user/editUserInfo" id="registerForm" method="POST">
-    <div class="input-group">
+  <form action="/user/editUserInfo" method="POST">
+    <div>
       <label for="firstName">First Name:</label>
       <input type="text" id="firstName" name="firstName" value="{{userInfo.firstName}}" required />
     </div>
-    <div class="input-group">
+    <div>
       <label for="lastName">Last Name:</label>
       <input type="text" id="lastName" name="lastName" value="{{userInfo.lastName}}" required />
     </div>
-    <div class="input-group">
+    <div>
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" value="{{userInfo.email}}" required />
     </div>
-    <div class="input-group">
+    <div>
       <label for="state">State:</label>
       <input type="text" id="state" name="state" value="{{userInfo.state}}" required />
     </div>
-    <div class="input-group">
+    <div>
       <label for="city">City:</label>
       <input type="text" id="city" name="city" value="{{userInfo.city}}" required />
     </div>
       <input type="submit" value="Update" />
   </form>
 
+  <br><br><br><br><br><br><br>
   {{#if artist}}
         <form action="/user/editArtistInfo" method="POST">
-         <div class="input-group">
+         <div>
               <label for="bio">Bio:</label>
               <input type="text" id="bio" name="bio" value="{{artistInfo.bio}}" required />
           </div>
-        <div class="input-group">
-          <label for="profilePic">First Name:</label>
-          <input type="text" id="profilePic" name="profilePic" value="{{artistInfo.profilePic}}" required />
-        </div>
         <input type="submit" value="Update" />
         </form>
   {{/if}}

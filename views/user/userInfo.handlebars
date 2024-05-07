@@ -15,9 +15,10 @@
 
         {{#if artist}}
         <li>Bio: {{bio}}</li>
-        <li>profilePic: <img src="{{profilePic}}"/></li>
+        <li>profilePic: <img id="ppic" src="{{profilePic}}" alt="profile picture of {{userName}}"/></li>
         {{/if}}
     </ul>
 
     <a href="/user/editUserInfo">Edit Profile</a>
+    <a href="/user/editPassword">Edit Password</a>
 </div>
