@@ -63,21 +63,20 @@ router.route("/edit/:id").get(async (req, res) => {
 router.route("/updateProduct").post(async (req, res) => {
   console.log("Inupdateproduct");
   try {
-   
-    let updatedProduct =req.body
+    let updatedProduct = req.body;
     // Validations
-    validate.checkIfProperInput(updatedProduct.productName)
-    validate.checkIfProperInput(updatedProduct.productDescription)
-    validate.checkIfProperInput(updatedProduct.price)
-    validate.checkIfProperInput(updatedProduct.images)
-    validate.checkIfProperInput(updatedProduct.tags)
+    validate.checkIfProperInput(updatedProduct.productName);
+    validate.checkIfProperInput(updatedProduct.productDescription);
+    validate.checkIfProperInput(updatedProduct.price);
+    validate.checkIfProperInput(updatedProduct.images);
+    validate.checkIfProperInput(updatedProduct.tags);
 
-    validate.checkIfString(updatedProduct.productName)
-    validate.checkIfString(updatedProduct.productDescription)
+    validate.checkIfString(updatedProduct.productName);
+    validate.checkIfString(updatedProduct.productDescription);
 
-    validate.checkIfPositiveNumber(updatedProduct.price)
+    validate.checkIfPositiveNumber(updatedProduct.price);
 
-    if (typeof updatedProduct.tags === 'string') {
+    if (typeof updatedProduct.tags === "string") {
       updatedProduct.tags = updatedProduct.tags.split(",");
     }
 
@@ -177,27 +176,26 @@ router.route("/addProduct").get(async (req, res) => {
 //   console.log(fetchArtistID)
 
 // });
-router.route("/addProduct")
-.post(async (req, res) => {
+router.route("/addProduct").post(async (req, res) => {
   // console.log("In ADDproductsPOST");
   const productData = req.body;
-  console.log(productData)
+  console.log(productData);
 
-  validate.checkIfProperInput(productData.productName)
-  validate.checkIfProperInput(productData.productDescription)
-  validate.checkIfProperInput(productData.price)
-  validate.checkIfProperInput(productData.images)
-  validate.checkIfProperInput(productData.tags)
+  validate.checkIfProperInput(productData.productName);
+  validate.checkIfProperInput(productData.productDescription);
+  validate.checkIfProperInput(productData.price);
+  validate.checkIfProperInput(productData.images);
+  validate.checkIfProperInput(productData.tags);
 
-  validate.checkIfString(productData.productName)
-  validate.checkIfString(productData.productDescription)
-  validate.checkIfPositiveNumber(productData.price)
+  validate.checkIfString(productData.productName);
+  validate.checkIfString(productData.productDescription);
+  validate.checkIfPositiveNumber(productData.price);
 
   // console.log(productData);
   const tagsArray = productData.tags.split(",");
   const imagesArray = productData.images.split(",");
   const userId = req.session.user._id;
-  console.log("i AM HERE")
+  console.log("i AM HERE");
   const fetchArtistID = await artistMethods.getArtistProfile(userId);
   // console.log(fetchArtistID);
 
@@ -241,6 +239,10 @@ router
   .post(async (req, res) => {
     try {
       const artistData = req.body;
+      validate.checkIfProperInput(artistData.bio);
+      validate.checkIfProperInput(artistData.profilePic);
+
+      validate.checkIfString(artistData.bio);
       // Upload Image
 
       // let files = req.files;
@@ -264,13 +266,6 @@ router
       // console.log(filepath)
 
       // console.log(artistData);
-      // validate.checkIfProperInput(user_id);
-      // validate.checkIfProperInput(bio);
-      // validate.checkIfProperInput(profilePic);
-
-      // validate.checkIfString(user_id);
-      // validate.checkIfString(bio);
-      // validate.checkIfString(profilePic);
 
       // validate.checkIfValidObjectId(user_id);
       console.log(artistData);
@@ -385,9 +380,15 @@ router
   })
   .post(async (req, res) => {
     try {
+      console.log(req.body);
+
       let artists = await artistMethods.getByName(
         req.body.firstName,
-        req.body.lastName
+        req.body.lastName,
+        validate.checkIfProperInput(req.body.firstName),
+        validate.checkIfProperInput(req.body.lastName),
+        validate.checkIfString(req.body.firstName),
+        validate.checkIfString(req.body.lastName)
       );
       res.status(200).send(artists);
     } catch (e) {
@@ -396,10 +397,16 @@ router
     }
   });
 
-router.route("/rateArtist/:artistId").post(async (req, res) => {
+router.route("/rateArtist/:artistId")
+.post(async (req, res) => {
   try {
     const id = req.params.artistId;
     const rating = req.body.rating;
+
+    validate.checkIfProperInput(id);
+    validate.checkIfProperInput(rating);
+
+    validate.checkIfPositiveNumber(rating);
     const addRating = await artistMethods.addArtistRating(
       id,
       rating,

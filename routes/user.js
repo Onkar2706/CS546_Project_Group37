@@ -14,7 +14,7 @@ router
     try {
       res.render("home/register", { title: "Register" });
     } catch (error) {
-      res.status(400).render("error",{errorMessage:error});
+      res.status(400).render("error", { errorMessage: error });
     }
   })
   .post(async (req, res) => {
@@ -29,7 +29,7 @@ router
       if (createUserData.age < 13) throw "Error: Minimum required age is 13";
 
       if (userNameValidator) throw "Error: Username already in use";
-      
+
       // Securing password
       hash = await bcrypt.hash(createUserData.password.trim(), saltRounds);
 
@@ -47,30 +47,23 @@ router
       } = createUserData;
 
       // Validation
-      // validate.checkIfProperInput(firstName);;
-      // validate.checkIfProperInput(lastName);;
-      // validate.checkIfProperInput(userName);;
-      // validate.checkIfProperInput(email);;
-      // validate.checkIfProperInput(state);;
-      // validate.checkIfProperInput(city);;
-      // validate.checkIfProperInput(cart);;
-      // validate.checkIfProperInput(purchases);;
-      // validate.checkIfProperInput(posts);;
+      validate.checkIfProperInput(createUserData.firstName);
+      validate.checkIfProperInput(createUserData.lastName);
+      validate.checkIfProperInput(createUserData.userName);
+      validate.checkIfProperInput(createUserData.email);
+      validate.checkIfProperInput(createUserData.state);
+      validate.checkIfProperInput(createUserData.city);
 
-      // validate.checkIfString(firstName);
-      // validate.checkIfString(lastName);
-      // validate.checkIfString(userName);
-      // validate.checkIfString(email);
-      // validate.checkIfString(state);
-      // validate.checkIfString(city);
-      // validate.checkIfString(cart);
-      // validate.checkIfString(purchases);
-      // validate.checkIfString(posts);
-
-      // validate.checkIfUsername(userName);
-      // validate.checkIfName(firstName);
-      // validate.checkIfName(lastName);
-      // validate.validateState(state);
+      validate.checkIfString(createUserData.firstName);
+      validate.checkIfString(createUserData.lastName);
+      validate.checkIfString(createUserData.userName);
+      validate.checkIfString(createUserData.state);
+      validate.checkIfString(createUserData.city);
+  
+      validate.checkIfUsername(createUserData.userName);
+      validate.checkIfName(createUserData.firstName);
+      validate.checkIfName(createUserData.lastName);
+      validate.validateState(createUserData.state);
 
       const newUser = await userMethods.create(
         firstName,
@@ -87,7 +80,7 @@ router
       console.log("User Created!");
       return res.redirect("/user/login");
     } catch (error) {
-      res.status(400).render("error",{errorMessage:error});
+      res.status(400).render("error", { errorMessage: error });
     }
   });
 
@@ -97,7 +90,7 @@ router
     try {
       res.render("home/login", { title: "Login" });
     } catch (error) {
-      res.status(400).render("error",{errorMessage:error});
+      res.status(400).render("error", { errorMessage: error });
     }
   })
   .post(async (req, res) => {
@@ -168,15 +161,15 @@ router
         .status(400)
         .render("error", { errorMessage: "Invalid username or password" });
     } catch (error) {
-      return res
-        .status(500)
-        .render("error", { errorMessage: error });
+      return res.status(500).render("error", { errorMessage: error });
     }
-});
+  });
 
-router.route("/admin").get(async (req, res) => {
-  res.render("admin/admin", { title: "Admin Dashboard" });
-})
+router
+  .route("/admin")
+  .get(async (req, res) => {
+    res.render("admin/admin", { title: "Admin Dashboard" });
+  })
   .post(async (req, res) => {
     if (req.session.user && req.session.user.role === "admin") {
       const admin = req.session.user;
@@ -191,26 +184,31 @@ router.route("/admin").get(async (req, res) => {
     }
   });
 
-router.route("/user").get(async (req, res) => {
-  res.render("home/home", { title: "User" });
-})
-.post(async (req, res) => {
-  if (req.session.user && req.session.user.role === "user") {
-    const admin = req.session.user;
-    const currentTime = new Date().toLocaleString();
+router
+  .route("/user")
+  .get(async (req, res) => {
+    res.render("home/home", { title: "User" });
+  })
+  .post(async (req, res) => {
+    if (req.session.user && req.session.user.role === "user") {
+      const admin = req.session.user;
+      const currentTime = new Date().toLocaleString();
 
-    res.render("home/home", {
-      firstName: admin.firstName,
-      lastName: admin.lastName,
-      userName: admin.userName,
-      currentTime: currentTime,
-    })
-  }});
+      res.render("home/home", {
+        firstName: admin.firstName,
+        lastName: admin.lastName,
+        userName: admin.userName,
+        currentTime: currentTime,
+      });
+    }
+  });
 
-router.route("/registerArtist").get(async (req, res) => {
-  res.render("artist/artist", { title: "artist" });
-})
-.post(async (req, res) => {
+router
+  .route("/registerArtist")
+  .get(async (req, res) => {
+    res.render("artist/artist", { title: "artist" });
+  })
+  .post(async (req, res) => {
     if (req.session.user && req.session.user.role === "artist") {
       const admin = req.session.user;
       const currentTime = new Date().toLocaleString();
@@ -225,7 +223,6 @@ router.route("/registerArtist").get(async (req, res) => {
   });
 
 router.route("/getUserInfo").get(async (req, res) => {
-
   if (req.session && req.session.user && req.session.user.role === "user") {
     return res.render("user/userInfo", {
       title: "My Profile",
@@ -238,19 +235,22 @@ router.route("/getUserInfo").get(async (req, res) => {
       purchases: req.session.user.purchases.length,
       city: req.session.user.city,
       state: req.session.user.state,
-      cart: req.session.user.cart.length === 0 ? "No Items" : req.session.user.cart,
+      cart:
+        req.session.user.cart.length === 0 ? "No Items" : req.session.user.cart,
       role: req.session.user.role,
       userName: req.session.user.username,
       loggedIn: true,
       user: req.session.user.role === "user" ? true : false,
-      artist: req.session.user.role === "user" ? false : true
+      artist: req.session.user.role === "user" ? false : true,
     });
   } else if (
     req.session &&
     req.session.user &&
     req.session.user.role === "artist"
   ) {
-    const artistInfo = await artistMethods.getArtistProfile(req.session.user._id);
+    const artistInfo = await artistMethods.getArtistProfile(
+      req.session.user._id
+    );
 
     return res.render("user/userInfo", {
       title: "My Profile",
@@ -263,59 +263,64 @@ router.route("/getUserInfo").get(async (req, res) => {
       purchases: req.session.user.purchases.length,
       city: req.session.user.city,
       state: req.session.user.state,
-      cart: req.session.user.cart.length === 0 ? "No Items" : req.session.user.cart,
+      cart:
+        req.session.user.cart.length === 0 ? "No Items" : req.session.user.cart,
       role: req.session.user.role,
       bio: artistInfo.bio,
       profilePic: artistInfo.profilePic,
       userName: req.session.user.username,
       loggedIn: true,
       user: req.session.user.role === "user" ? true : false,
-      artist: req.session.user.role === "user" ? false : true
+      artist: req.session.user.role === "user" ? false : true,
     });
   }
 });
 
 router
-.route('/editUserInfo')
-.get(async (req, res) => {
-  try {
-    let artistInfo;
-    if (req.session.user.role == "artist"){
-      artistInfo = await artistMethods.getArtistProfile(req.session.user._id);
+  .route("/editUserInfo")
+  .get(async (req, res) => {
+    try {
+      let artistInfo;
+      if (req.session.user.role == "artist") {
+        artistInfo = await artistMethods.getArtistProfile(req.session.user._id);
+      }
+      const userInfo = req.session.user;
+      return res.render("user/editUserForm", {
+        userInfo,
+        title: "Update Profile",
+        userName: req.session.user.username,
+        artistInfo,
+        loggedIn: true,
+        user: req.session.user.role === "user" ? true : false,
+        artist: req.session.user.role === "user" ? false : true,
+      });
+    } catch (error) {
+      res.status(400).render("error", { errorMessage: error });
     }
-    const userInfo = req.session.user;
-    return res.render('user/editUserForm', {userInfo, title: "Update Profile",  userName: req.session.user.username, artistInfo,
-    loggedIn: true,
-    user: req.session.user.role === "user" ? true : false,
-    artist: req.session.user.role === "user" ? false : true});
-  } catch (error) {
-    res.status(400).render("error",{errorMessage:error});
-  }
-})
-.post(async (req, res) => {
-  try {
-    const updateInfo = req.body;
-    const userid = req.session.user._id;
-    const updateUser = await userMethods.updateUser(userid, updateInfo);
-    return res.redirect('/user/login');
-  } catch (error) {
-    res.status(400).render("error",{errorMessage:error});
-  }
-});
+  })
+  .post(async (req, res) => {
+    try {
+      const updateInfo = req.body;
+      const userid = req.session.user._id;
+      const updateUser = await userMethods.updateUser(userid, updateInfo);
+      return res.redirect("/user/login");
+    } catch (error) {
+      res.status(400).render("error", { errorMessage: error });
+    }
+  });
 
-router
-.route('/editArtistInfo')
-.post(async (req, res) => {
+router.route("/editArtistInfo").post(async (req, res) => {
   try {
-    const artistInfo = await artistMethods.getArtistProfile(req.session.user._id);
+    const artistInfo = await artistMethods.getArtistProfile(
+      req.session.user._id
+    );
     const updateInfo = req.body;
     const artistId = artistInfo._id;
     const updateUser = await userMethods.updateArtist(artistId, updateInfo);
-    return res.redirect('/user/login');
+    return res.redirect("/user/login");
   } catch (error) {
-    res.status(400).render("error",{errorMessage:error});
+    res.status(400).render("error", { errorMessage: error });
   }
 });
-
 
 export default router;
