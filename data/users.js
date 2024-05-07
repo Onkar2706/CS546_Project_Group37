@@ -218,6 +218,17 @@ const exportMethods = {
     return removeUser;
   },
   
+  async changePassword(newPassword, userid){
+    validate.checkIfProperInput(newPassword);
+    validate.checkIfProperInput(userid);
+    const password = await bcrypt.hash(newPassword, 10);
+
+    const filter = { _id: new ObjectId(userid)};
+    const update = {$set: {password:password}};
+    const userCollection = await users();
+    const changeP = await userCollection.updateOne(filter, update);
+    console.log("success")
+  },
 };
 
 

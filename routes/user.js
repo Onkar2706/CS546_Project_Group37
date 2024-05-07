@@ -186,10 +186,9 @@ router.route("/admin").get(async (req, res) => {
       const currentTime = new Date().toLocaleString();
 
       res.render("admin/admin", {
-        firstName: admin.firstName,
-        lastName: admin.lastName,
-        userName: admin.userName,
-        currentTime: currentTime,
+        loggedIn: true,
+        admin: true,
+        userName:req.session.user.username
       });
     }
   });
@@ -276,6 +275,7 @@ router.route("/getUserInfo").get(async (req, res) => {
       artist: req.session.user.role === "user" ? false : true
     });
   }
+
 });
 
 router
@@ -319,6 +319,43 @@ router
     res.status(400).render("error",{errorMessage:error});
   }
 });
+
+router.route('/editPassword')
+.get(async (req, res) => {
+  try {
+    return res.render('user/editPasswordForm', {title: "Update Password",  userName: req.session.user.username,
+    loggedIn: true,
+    user: req.session.user.role === "user" ? true : false,
+    artist: req.session.user.role === "user" ? false : true});
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
+  }
+})
+.post(async (req, res) => {
+  try {
+    let currentPassword = req.body.currentPassword;
+    // currentPassword = await bcrypt.hash(currentPassword, 10);
+    const newPassword = req.body.newPassword;
+    const id = req.session.user._id;
+
+    const fetchUser = await userMethods.get(id);
+    const match = await bcrypt.compare(
+      currentPassword,
+      fetchUser.password
+    );
+    if (match){
+      const changePassword = await userMethods.changePassword(newPassword.trim(), id.trim());
+    }
+    else throw("Error: Wrong Password")
+    return res.redirect('/user/getUserInfo');
+
+
+    
+  } catch (error) {
+    res.status(400).render("error",{errorMessage:error});
+    
+  }
+})
 
 
 export default router;
