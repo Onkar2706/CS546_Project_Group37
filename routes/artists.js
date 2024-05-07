@@ -363,8 +363,8 @@ router
       console.log(req.body);
 
       let artists = await artistMethods.getByName(
-        xss(req.body.firstName),
-        xss(req.body.lastName)
+        req.body.firstName,
+        req.body.lastName
       );
       res.status(200).send(artists);
     } catch (e) {

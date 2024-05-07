@@ -284,8 +284,8 @@ const validate = {
           URL: "/artist",
           contentType: "application/json",
           data: JSON.stringify({
-            firstName: firstName.toLowerCase(),
-            lastName: lastName.toLowerCase(),
+            firstName: firstName,
+            lastName: lastName,
           }),
         };
         $.ajax(requestConfig).then(function (response) {
