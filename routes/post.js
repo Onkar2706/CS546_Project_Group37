@@ -105,7 +105,7 @@ router.route("/addBlog").get(async (req, res) => {
   }
 });
 
-router.route("/addBlog").post(upload.single("addImg"), async (req, res) => {
+router.route("/addBlog").post(upload.single("image"), async (req, res) => {
   try {
     const userInfo = req.session.user;
     const userId = userInfo._id.toString().trim();
