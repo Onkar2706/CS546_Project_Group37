@@ -34,9 +34,17 @@ const validate = {
     if (!letters.test(inp)) throw "Error: Input should only contain letters";
   },
 
+  // checkIfPassword: (inp) => {
+  //   let password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
+  //   if (!password.test(inp.trim())) "Error: Weak password";
+  // },
+
   checkIfPassword: (inp) => {
-    let password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
-    if (!password.test(inp.trim())) "Error: Weak password";
+    let passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+    if (!passwordRegex.test(inp.trim())) {
+      throw new Error("Weak password");
+    }
   },
 
   checkIfProperInput: (inp) => {
@@ -222,7 +230,8 @@ const validate = {
       event.preventDefault();
       try {
         let productName = document.getElementById("productName").value;
-        let productDescription = document.getElementById("productDescription").value;
+        let productDescription =
+          document.getElementById("productDescription").value;
         let price = parseFloat(document.getElementById("price").value);
         // let image = document.getElementById("images").value;
         let tags = document.getElementById("tags").value;
@@ -274,7 +283,10 @@ const validate = {
           method: "POST",
           URL: "/artist",
           contentType: "application/json",
-          data: JSON.stringify({ firstName: firstName.toLowerCase(), lastName: lastName.toLowerCase()}),
+          data: JSON.stringify({
+            firstName: firstName.toLowerCase(),
+            lastName: lastName.toLowerCase(),
+          }),
         };
         $.ajax(requestConfig).then(function (response) {
           // let ulElement = $("<ul/>");
