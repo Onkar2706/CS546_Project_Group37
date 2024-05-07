@@ -69,7 +69,7 @@ router
     const blogData = req.body;
     blogData.title=xss(blogData.title)
     blogData.body=xss(blogData.body)
-    let imagePath = path.normalize(xss(req.file.path));
+    let imagePath = path.normalize(req.file.path);
     imagePath = '/'+ imagePath.split('\\').join('/');
 
     //validation

@@ -198,7 +198,7 @@ router.route("/addProduct").post(uploads.array('images', 3),async (req, res) => 
   validate.checkIfProperInput(xss(productData.productName))
   validate.checkIfProperInput(xss(productData.productDescription))
   validate.checkIfProperInput(xss(productData.price))
-  validate.checkIfProperInput(xss(productData.images))
+  // validate.checkIfProperInput(xss(productData.images))
   validate.checkIfProperInput(xss(productData.tags))
 
   validate.checkIfString(xss(productData.productName))
