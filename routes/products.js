@@ -1,6 +1,7 @@
 import express from "express";
 import { artistMethods, productMethods, userMethods } from "../data/index.js";
 import validate from "../helpers.js";
+import xss from "xss"
 
 const router = express.Router();
 router.route("/").get(async (req, res) => {
@@ -123,9 +124,9 @@ router.route('/removeFromCart/:productId').get( async (req, res) => {
 
 router.route('/rate/:productId').post(async (req, res) => {
   try {
-    const id = req.params.productId;
-    const rating = req.body.rating;
-    const comment = req.body.comment;
+    const id = xss(req.params.productId);
+    const rating = xss(req.body.rating);
+    const comment = xss(req.body.comment);
     const addReview = await productMethods.addReview(id, req.session.user.username, rating, comment);
     console.log('success');
     return res.redirect(`/products/${id}`);

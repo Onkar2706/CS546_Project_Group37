@@ -1,11 +1,15 @@
 <body>
     <h1>Artist Registration</h1>
-    <form action="/artist/artistreg" method="POST" id="artistRegisterForm">
+    <form action="/artist/artistreg" method="POST" id="artistRegisterForm" enctype="multipart/form-data" >
         <label for="bio">Bio:</label><br>
         <textarea id="bio" name="bio" rows="4" cols="50"></textarea><br><br>
 
-        <label for="profilePicture">Profile Picture:</label><br>
-        <input type="url" name="profilePicture" id="profilePicture">
+        {{!-- <label for="profilePicture">Profile Picture:</label><br> --}}
+        <label for="image">
+        <span>Profile Picture</span>
+        <input name="profilePicture" id="addImg" type="file" accept="image/jpg, image/png, image/jpeg, image/gif, image/tiff" multiple>
+        </label>
+        {{!-- <input type="url" name="profilePicture" id="profilePicture"> --}}
         {{!-- <input type="file" id="profilePicture" accept=".png,.jpg,.jpeg" ><br><br> --}}
 {{!-- <input type="file" id="fileInput" accept=".pdf" /> --}}
         <button type="submit">Submit</button>

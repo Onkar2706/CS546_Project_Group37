@@ -6,6 +6,7 @@ import postRoutes from "./post.js";
 import productRoutes from "./products.js";
 import adminRoutes from "./admin.js";
 import path from "path";
+import xss from "xss"
 
 let constructor = null
 try {
