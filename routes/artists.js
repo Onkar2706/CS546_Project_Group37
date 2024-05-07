@@ -159,6 +159,7 @@ router.route("/getProducts").get(async (req, res) => {
 router.route("/addProduct").get(async (req, res) => {
   if (req.session && req.session.user && req.session.user.role === "user") {
     return res.render("product/addProduct", {
+      title: addProduct,
       userName: xss(req.session.user.username),
       loggedIn: true,
       user: xss(req.session.user.role) === "user" ? true : false,
@@ -170,6 +171,7 @@ router.route("/addProduct").get(async (req, res) => {
     xss(req.session.user.role) === "artist"
   ) {
     return res.render("product/addProduct", {
+      title: "addProduct",
       userName: xss(req.session.user.username),
       loggedIn: true,
       user: xss(req.session.user.role) === "user" ? true : false,
@@ -181,6 +183,7 @@ router.route("/addProduct").get(async (req, res) => {
     req.session.user.role === "admin"
   ) {
     return res.render("product/addProduct", {
+      title: "addProduct",
       userName: req.session.user.username,
       loggedIn: true,
       artist: true,
