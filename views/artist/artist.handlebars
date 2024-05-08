@@ -1,47 +1,13 @@
-{{!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/public/css/style.css">
-</head>
-<body>
-    <div class="container">
-        <h2>Welcome to Artist Dashboard</h2>
-        <nav>
-            <ul>
-                <li><a href="/admin/dashboard">Dashboard</a></li>
-                <li><a href="/admin/users">Manage Users</a></li>
-                <li><a href="/admin/products">Manage Products</a></li>
-                <li><a href="/admin/orders">Manage Orders</a></li>
-                <li><a href="/admin/settings">Settings</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
-        </nav>
-        <div class="admin-content">
-        </div>
-        <div class="input-group">
-          <label for="Bio">Please Enter your Bio:</label>
-          <input type="text" id="bio" name="bio" required />
-        </div>
-        <input type="submit" value="Register" />
-        
-    </div>
-</body>
-</html> --}}
-
-
 <form id="searchForArtists">
       <label for="firstNameInput">
-        <textarea id="firstNameInput" name="firstNameInput" placeholder="Insert username here"></textarea>
+        <textarea id="firstNameInput" name="firstNameInput" placeholder="Insert artist's firstname here"></textarea>
       </label>
       <label for="lastNameInput">
-        <textarea id="lastNameInput" name="lastNameInput" placeholder="Insert Lastname here"></textarea>
+        <textarea id="lastNameInput" name="lastNameInput" placeholder="Insert artist's Lastname here"></textarea>
       </label>
       <button class="submit-button">Submit</button>
-  </form>
-<ul id="searchResults" class="card-container"></ul>
+  </form> 
+<ul id="searchResults" class="card-container"></ul> 
 {{#if allArtists}}
     <ul class="card-container">
         {{#each allArtists}}
@@ -55,6 +21,7 @@
            </li>
         {{/each}}
     </div>
+    
 {{else}}
     <p>No Artists available at the moment.</p>
 {{/if}}

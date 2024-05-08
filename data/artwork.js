@@ -1,12 +1,10 @@
-// This data file should export all functions using the ES6 standard as shown in the lecture code
-// This data file should export all functions using the ES6 standard as shown in the lecture code
+
 import { artworks } from "../config/mongoCollections.js";
 import { artists } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validate from "../helpers.js";
 import pkg from "validator";
 import artistMethods from "./artists.js";
-// import { validate.checkIfProperInput, validate.checkIfString, checkIfPositiveNumber, checkIfBoolean, checkIfValidArray, checkIfValidDate, checkIfValidURL } from "../helpers.js";
 
 const exportMethods = {
   async get(id) {
@@ -30,25 +28,6 @@ const exportMethods = {
     images,
     reviews
   ) {
-    // validate.checkIfProperInput(artistId);
-    // validate.checkIfProperInput(name);
-    // validate.checkIfProperInput(description);
-    // validate.checkIfProperInput(tags);
-    // validate.checkIfProperInput(price);
-    // validate.checkIfProperInput(images);
-    // validate.checkIfProperInput(reviews);
-
-    // validate.checkIfString(name);
-    // validate.checkIfString(description);
-
-    // validate.checkIfPositiveNumber(price);
-    // validate.checkIfValidURL(images);
-    // pkg.isURL(images[0]);
-    // validate.checkIfValidArray(tags);
-    // validate.checkIfValidArray(reviews);
-
-    // tags = tags.map((string) => string.trim());
-    // reviews = reviews.map((string) => string.trim());
 
     let newProduct = {
       artistId: artistId.trim(),
@@ -78,21 +57,7 @@ const exportMethods = {
     const productCollection = await artworks();
     let allProducts = await productCollection.find({}).toArray();
     if (!allProducts) throw "Error: Could not get all products";
-    // allProducts = allProducts.map((element) => {
-    //   element._id = element._id.toString();
-    //   // return allProducts
-    //   // {
-    //   //   _id: element._id,
-    //   //   productName: element.productName,
-    //   //   productDescription:element.productDescription,
-    //   //   tags:element.tags,
-    //   //   price:element.price,
-    //   //   date:element.date,
-    //   //   images:element.images,
-    //   //   rating:element.rating,
-    //   //   reviews:element.reviews
-    //   // };
-    // });
+    
     if (allProducts.length === 0) return [];
     return allProducts;
   },
@@ -153,23 +118,6 @@ const exportMethods = {
     }
     return removeProduct;
   },
-
-
-  // async updateProduct(productId, updateInfo){
-  //   const filter = { _id: new ObjectId(productId)};
-  //   const update = {
-  //     $mod: updateInfo
-  //   };
-  //   const productCollection = await artworks();
-  //   const result = await productCollection.updateOne(filter, update);
-  //   if (result.modifiedCount === 1) {
-  //       console.log('User information updated successfully.');
-  //   } else {
-  //       console.log('No user document was updated.');
-  //   }
-  //   return result
-  // }
-
 
   async updateProduct(productId, updatedProduct) {
     if (!productId || typeof productId !== 'string') {

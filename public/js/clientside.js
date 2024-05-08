@@ -34,9 +34,17 @@ const validate = {
     if (!letters.test(inp)) throw "Error: Input should only contain letters";
   },
 
+  // checkIfPassword: (inp) => {
+  //   let password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
+  //   if (!password.test(inp.trim())) "Error: Weak password";
+  // },
+
   checkIfPassword: (inp) => {
-    let password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
-    if (!password.test(inp.trim())) "Error: Weak password";
+    let passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+    if (!passwordRegex.test(inp.trim())) {
+      throw new Error("Weak password");
+    }
   },
 
   checkIfProperInput: (inp) => {
@@ -225,11 +233,17 @@ const validate = {
         let productDescription =
           document.getElementById("productDescription").value;
         let price = parseFloat(document.getElementById("price").value);
+        // let image = document.getElementById("images").value;
         let tags = document.getElementById("tags").value;
         validate.checkIfString(productName);
         validate.checkIfString(productDescription);
         validate.checkIfPositiveNumber(price);
-        console.log(typeof tags);
+        // // let imagesArray = images.split(",");
+        // // console.log(imagesArray);
+        // // // imagesArray.forEach((element) => {
+        // // //   validate.checkIfString(element);
+        // // // });
+        // validate.checkIfString(image);
         let tagsArray = tags.split(",");
         tagsArray.forEach((element) => {
           validate.checkIfString(element);
@@ -269,7 +283,10 @@ const validate = {
           method: "POST",
           URL: "/artist",
           contentType: "application/json",
-          data: JSON.stringify({ firstName: firstName, lastName: lastName }),
+          data: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+          }),
         };
         $.ajax(requestConfig).then(function (response) {
           // let ulElement = $("<ul/>");

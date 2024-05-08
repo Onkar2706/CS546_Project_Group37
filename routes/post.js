@@ -50,6 +50,8 @@ router.route("/").get(async (req, res) => {
       req.session.user.role === "admin"
     ) {
       return res.render("post/showPosts.handlebars", {
+        allPosts,
+        title: "Art Blogs",
         userName: req.session.user.username,
         loggedIn: true,
         artist: true,
@@ -103,7 +105,7 @@ router.route("/addBlog").get(async (req, res) => {
   }
 });
 
-router.route("/addBlog").post(upload.single("addImg"), async (req, res) => {
+router.route("/addBlog").post(upload.single("image"), async (req, res) => {
   try {
     const userInfo = req.session.user;
     const userId = userInfo._id.toString().trim();
@@ -117,9 +119,6 @@ router.route("/addBlog").post(upload.single("addImg"), async (req, res) => {
     validate.checkIfProperInput(blogData.title);
     validate.checkIfProperInput(blogData.body);
 
-    // validate.checkIfString(blogData.title)
-    // validate.checkIfString(blogData.body)
-
     const createBlog = await postsMethod.addPost(
       userId,
       userInfo.username.trim(),
@@ -132,30 +131,6 @@ router.route("/addBlog").post(upload.single("addImg"), async (req, res) => {
     res.status(400).render("error", { errorMessage: error });
   }
 });
-
-// router
-//   .route('/addBlog')
-//   .post(async (req, res) => {
-//     try {
-//       const form = formidable({ multiples: true });
-//       form.uploadDir = path.join(__dirname, '../uploads');
-//       form.keepExtensions = true;
-//       form.parse(req, async (err, fields, files) => {
-//         if(err){
-//           res.status(400).render("error", { errorMessage: err });
-//         }
-//         const userInfo = req.session.user;
-//         const userId = userInfo._id.toString().trim();
-//         const blogData = fields;
-//         const imagePath = files.image.path;
-
-//         const createBlog = await postsMethod.addPost(userId, userInfo.username, blogData.title, blogData.body, imagePath);
-//         return res.redirect('/post');
-//       });
-//     } catch (error) {
-//       res.status(400).render("error", { errorMessage: error });
-//     }
-//   });
 
 router.route("/:postId").get(async (req, res) => {
   try {

@@ -4,7 +4,6 @@ import validate from "../helpers.js";
 import bcrypt from "bcryptjs";
 import pkg from "validator";
 
-
 const exportMethods = {
   async create(
     firstName,
@@ -16,21 +15,21 @@ const exportMethods = {
     state,
     city,
     cart,
-    purchases,
+    purchases
   ) {
     try {
-      // validate.checkIfProperInput(firstName);
-      // validate.checkIfProperInput(lastName);
-      // validate.checkIfProperInput(userName);
-      // validate.checkIfProperInput(password);
-      // validate.checkIfProperInput(email);
-      // validate.checkIfProperInput(state);
-      // validate.checkIfProperInput(city);
+      validate.checkIfProperInput(firstName);
+      validate.checkIfProperInput(lastName);
+      validate.checkIfProperInput(userName);
+      validate.checkIfProperInput(password);
+      validate.checkIfProperInput(email);
+      validate.checkIfProperInput(state);
+      validate.checkIfProperInput(city);
     } catch (e) {
       throw e;
     }
 
-    if (await this.getByUsername(userName.trim()) != null) {
+    if ((await this.getByUsername(userName.trim())) != null) {
       throw `a user with this username already exists!`;
     }
     let newUser = {
@@ -99,10 +98,12 @@ const exportMethods = {
 
   async getUsersByRoles() {
     const userCollection = await users();
-    const usersByRoles = await userCollection.find({ role: { $in: ["user", "artist"] } }).toArray();
-    
+    const usersByRoles = await userCollection
+      .find({ role: { $in: ["user", "artist"] } })
+      .toArray();
+
     return usersByRoles;
-},
+  },
 
   async updateArtistId(userId, artistId) {
     if (!artistId || !userId) throw "Error: Must provide Id";
@@ -143,15 +144,15 @@ const exportMethods = {
       throw "Either the username or password is invalid";
   },
 
-  async purchaseProduct(productId, userid){
+  async purchaseProduct(productId, userid) {
     validate.checkIfProperInput(userid);
     validate.checkIfProperInput(productId);
     validate.checkIfString(productId);
     validate.checkIfString(userid);
 
-    const filter = {_id: new ObjectId(userid)};
+    const filter = { _id: new ObjectId(userid) };
     const updateArr = {
-      $push:{purchases: productId}
+      $push: { purchases: productId },
     };
 
     const userCollection = await users();
@@ -162,7 +163,7 @@ const exportMethods = {
     return addPurchase;
   },
 
-  async removeFromCart(productId, userid){
+  async removeFromCart(productId, userid) {
     validate.checkIfProperInput(userid);
     validate.checkIfProperInput(productId);
     validate.checkIfString(productId);
@@ -170,8 +171,8 @@ const exportMethods = {
 
     const userCollection = await users();
     const removeProduct = await userCollection.updateOne(
-      {_id: new ObjectId(userid)},
-      {$pull: {purchases: productId}}
+      { _id: new ObjectId(userid) },
+      { $pull: { purchases: productId } }
     );
     if (!(removeProduct.matchedCount && removeProduct.modifiedCount)) {
       throw "Error: Could't remove product from purchases";
@@ -179,58 +180,54 @@ const exportMethods = {
     return removeProduct;
   },
 
-  async updateUser(userId, updateInfo){
-    const filter = { _id: new ObjectId(userId)};
+  async updateUser(userId, updateInfo) {
+    const filter = { _id: new ObjectId(userId) };
     const update = {
-      $set: updateInfo
+      $set: updateInfo,
     };
     const userCollection = await users();
     const result = await userCollection.updateOne(filter, update);
     if (result.modifiedCount === 1) {
-        console.log('User information updated successfully.');
+      console.log("User information updated successfully.");
     } else {
-        console.log('No user document was updated.');
+      console.log("No user document was updated.");
     }
   },
 
-  async updateArtist(artistId, updateInfo){
-    const filter = { _id: new ObjectId(artistId)};
+  async updateArtist(artistId, updateInfo) {
+    const filter = { _id: new ObjectId(artistId) };
     const update = {
-      $set: updateInfo
+      $set: updateInfo,
     };
     const artistCollection = await artists();
     const result = await artistCollection.updateOne(filter, update);
     if (result.modifiedCount === 1) {
-        console.log('Artist information updated successfully.');
+      console.log("Artist information updated successfully.");
     } else {
-        console.log('No artist document was updated.');
+      console.log("No artist document was updated.");
     }
   },
-  async removeUser(userid){
+  async removeUser(userid) {
     validate.checkIfProperInput(userid);
-    // validate.checkIfString(userid);
-    // validate.checkIfString(productId);
-  
+
     const userCollection = await users();
     const removeUser = await userCollection.deleteOne({
-        _id: new ObjectId(userid)
+      _id: new ObjectId(userid),
     });
     return removeUser;
   },
-  
-  async changePassword(newPassword, userid){
+
+  async changePassword(newPassword, userid) {
     validate.checkIfProperInput(newPassword);
     validate.checkIfProperInput(userid);
     const password = await bcrypt.hash(newPassword, 10);
 
-    const filter = { _id: new ObjectId(userid)};
-    const update = {$set: {password:password}};
+    const filter = { _id: new ObjectId(userid) };
+    const update = { $set: { password: password } };
     const userCollection = await users();
     const changeP = await userCollection.updateOne(filter, update);
-    console.log("success")
+    console.log("success");
   },
 };
-
-
 
 export default exportMethods;
