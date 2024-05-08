@@ -50,27 +50,60 @@ app.use("/", (res, req, next) => {
   }
   next();
 });
-// app.use("/user/login", (res, req, next) => {
-//   if (req.req.session.user) {
-//     if (req.req.session.user.role === "user") {
-//       return res.res.redirect("/user/user");
-//     } else if (req.req.session.user.role === "artist") {
-//       return res.res.redirect("");
-//     }
+app.use("/user/login", (res, req, next) => {
+  if (req.req.session.user) {
+    res.res.redirect("/");
+  }
+  next();
+});
+
+// app.use("/user/registerArtist", (res, req, next) => {
+//   if (req.req.session.user && req.req.session.user.role === "user") {
+//     next();
 //   }
-//   next();
 // });
+
+app.use("/user/userInfo", (res, req, next) => {
+  if (req.req.session.user) {
+    next();
+  } else {
+    return res.res.redirect("/");
+  }
+});
+app.use("/user/editUserInfo", (res, req, next) => {
+  if (req.req.session.user) {
+    next();
+  } else {
+    return res.res.redirect("/");
+  }
+});
+app.use("/user/editArtistInfo", (res, req, next) => {
+  if (!req.req.session.user || req.req.session.user.role !== "artist") {
+    return res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+app.use("/post/addBlog", (res, req, next) => {
+  if (!req.req.session.user) {
+    return res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+app.use("/post/:postId/comment", (res, req, next) => {
+  if (!req.req.session.user) {
+    return res.res.redirect("/");
+  } else {
+    next();
+  }
+});
 
 app.use("/user/register", (res, req, next) => {
   if (req.req.session.user) {
-    if (
-      req.req.session.user.role === "user" ||
-      req.req.session.user.role === "artist"
-    ) {
-      return res.res.redirect("/");
-    } else {
-      return res.res.redirect("/");
-    }
+    return res.res.redirect("/");
   }
   next();
 });
@@ -99,23 +132,25 @@ app.use("/user/admin", (res, req, next) => {
   }
 });
 
-app.use("/artist/addProduct", (res, req, next) => {
-  if (!req.req.session.user) {
-    return res.res.redirect("/");
-  } else {
-    if (req.req.session.user === "artist") {
-      next();
-    } else {
-      res.res.redirect("/");
-    }
-  }
-});
+// app.use("/artist/addProduct", (res, req, next) => {
+//   if (!req.req.session.user) {
+//     console.log(req.req.session);
+//     return res.res.redirect("/");
+//   } else {
+//     if (req.req.session.user.role === "artist") {
+//       next();
+//     } else {
+//       console.log(req.req.session.user.role);
+//       res.res.redirect("/");
+//     }
+//   }
+// });
 
 app.use("/artist/deleteProduct/:id", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
@@ -127,7 +162,7 @@ app.use("/artist/edit/:id", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
@@ -139,7 +174,7 @@ app.use("/artist/updateProduct", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
@@ -151,7 +186,7 @@ app.use("/artist/addProduct", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
@@ -162,7 +197,7 @@ app.use("/artist/getProducts", (res, req, next) => {
   if (!req.req.session.user) {
     return res.res.redirect("/");
   } else {
-    if (req.req.session.user === "artist") {
+    if (req.req.session.user.role === "artist") {
       next();
     } else {
       res.res.redirect("/");
@@ -189,6 +224,66 @@ app.use("/admin/posts", (res, req, next) => {
 });
 
 app.use("/admin/removePost/:postId", (res, req, next) => {
+  if (!req.req.session.user || req.req.session.user.role !== "admin") {
+    return res.res.status(403).render("error", {
+      errorMessage: "Woops, looks like you can't access this page!",
+    });
+  } else {
+    next();
+  }
+});
+app.use("/admin/users", (res, req, next) => {
+  if (!req.req.session.user || req.req.session.user.role !== "admin") {
+    return res.res.status(403).render("error", {
+      errorMessage: "Woops, looks like you can't access this page!",
+    });
+  } else {
+    next();
+  }
+});
+app.use("/admin/removeUser/:userId", (res, req, next) => {
+  if (!req.req.session.user || req.req.session.user.role !== "admin") {
+    return res.res.status(403).render("error", {
+      errorMessage: "Woops, looks like you can't access this page!",
+    });
+  } else {
+    next();
+  }
+});
+
+app.use("/products/cart", (res, req, next) => {
+  if (!req.req.session.user) {
+    res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+app.use("/products/addToCart/:productId", (res, req, next) => {
+  if (!req.req.session.user) {
+    res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+app.use("/products/removeFromCart/:productId", (res, req, next) => {
+  if (!req.req.session.user) {
+    res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+app.use("/products/rate/:productId", (res, req, next) => {
+  if (!req.req.session.user) {
+    res.res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+app.use("/admin/products", (res, req, next) => {
   if (!req.req.session.user || req.req.session.user.role !== "admin") {
     return res.res.status(403).render("error", {
       errorMessage: "Woops, looks like you can't access this page!",

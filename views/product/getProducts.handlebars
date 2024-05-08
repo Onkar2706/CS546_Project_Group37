@@ -70,7 +70,7 @@
 {{!-- <button onclick="deleteProduct()">Delete Product</button> --}}
 
 
-<button class="add-button"><a href='/artist/addProduct' class="add-product-button" >Add Product</a></button>
+<a href='/artist/addProduct' class="add-button">Add Products</a>
 
 <div class="card-container">
     {{#each products}}
@@ -78,7 +78,6 @@
         <h2>{{productName}}</h2>
         <p>{{productDescription}}</p>
         <p>Price: ${{price}}</p>
-        <p>Rating: {{rating}}</p>
         <p>Release Date: {{date}}</p>
         <h3>Images</h3>
         <div class="images">

@@ -34,17 +34,17 @@ const validate = {
     if (!letters.test(inp)) throw "Error: Input should only contain letters";
   },
 
-  checkIfPassword: (inp) => {
-    let password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
-    if (!password.test(inp.trim())) "Error: Weak password";
-  },
+  // checkIfPassword: (inp) => {
+  //   let password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
+  //   if (!password.test(inp.trim())) "Error: Weak password";
+  // },
 
-  async hashPassword(inp) {
-    const saltRounds = 10;
-    let hash = null;
-    inp = inp.trim();
-    hash = await bcrypt.hash(inp, saltRounds);
-    return hash;
+  checkIfPassword: (inp) => {
+    let passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+    if (!passwordRegex.test(inp.trim())) {
+      throw new Error("Weak password");
+    }
   },
 
   checkIfProperInput: (inp) => {
@@ -76,31 +76,6 @@ const validate = {
       if (temp[1].length > 2) throw "Error: Only two decimal points allowed";
     }
   },
-
-  checkIfValidURL: (inp) => {
-    validate.checkIfProperInput(inp);
-    inp = inp.trim();
-    let strLength = inp.length;
-    const url = new URL(inp);
-    if (strLength < 20) throw "Error: Invalid URL";
-    if (url.protocol !== "http:") throw "Error: Invalid URL";
-    if (inp.substring(strLength - 4, strLength) !== ".com")
-      throw "Error: Invalid URL";
-    if (inp.slice(11, -4).length < 5) throw "Error: Invalid URL";
-    let site = inp.slice(11, -4);
-    if (/^[a-zA-Z0-9]+([\-_\.][a-zA-Z0-9]+)*$/.test(site) === false)
-      throw "Error: Invalid URL"; // https://javascript.plainenglish.io/check-if-string-is-alphanumeric-in-javascript-e325caa3ee
-  },
-
-  // checkIfValidArray: (inp) => {
-  //   checkIfProperInput(inp);
-  //   if (typeof inp !== "object" || Array.isArray(inp) !== true)
-  //     throw "Error: Input parameter must be an array";
-  //   // if (inp.length === 0) throw "Error: Empty array provided";
-  //   for (let string of inp) {
-  //     validate.checkIfString(string);
-  //   }
-  // },
 
   checkIfValidDate: (inp) => {
     validate.checkIfProperInput(inp);
@@ -231,26 +206,98 @@ const validate = {
   const registerForm = document.getElementById("registerForm");
   const loginForm = document.getElementById("loginForm");
   const searchArtistsForm = document.getElementById("searchForArtists");
+  let artistRegForm = document.getElementById("artistRegisterForm");
+  let addProductForm = document.getElementById("addProductForm");
+  let postForm = document.getElementById("blogForm");
   let searchResults = $("#searchResults");
+  if (postForm) {
+    postForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      try {
+        let title = document.getElementById("title").value;
+        validate.checkIfString(title);
+        let body = document.getElementById("body").value;
+        validate.checkIfString(body);
+        postForm.submit();
+      } catch (e) {
+        console.log(e);
+        alert(e);
+      }
+    });
+  }
+  if (addProductForm) {
+    addProductForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      try {
+        let productName = document.getElementById("productName").value;
+        let productDescription =
+          document.getElementById("productDescription").value;
+        let price = parseFloat(document.getElementById("price").value);
+        // let image = document.getElementById("images").value;
+        let tags = document.getElementById("tags").value;
+        validate.checkIfString(productName);
+        validate.checkIfString(productDescription);
+        validate.checkIfPositiveNumber(price);
+        // // let imagesArray = images.split(",");
+        // // console.log(imagesArray);
+        // // // imagesArray.forEach((element) => {
+        // // //   validate.checkIfString(element);
+        // // // });
+        // validate.checkIfString(image);
+        let tagsArray = tags.split(",");
+        tagsArray.forEach((element) => {
+          validate.checkIfString(element);
+        });
+        addProductForm.submit();
+      } catch (e) {
+        console.log(e);
+        alert(e);
+      }
+    });
+  }
+  if (artistRegForm) {
+    artistRegForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      try {
+        let bio = document.getElementById("bio").value;
+        // let profilePic = document.getElementById("profilePicture").value;
+        validate.checkIfString(bio);
+        // validate.checkIfString(profilePic);
+        artistRegForm.submit();
+      } catch (e) {
+        console.log(e);
+        alert(e);
+      }
+    });
+  }
   if (searchArtistsForm) {
-    console.log(searchResults);
-    searchResults.empty();
     searchResults.hide();
     searchArtistsForm.addEventListener("submit", (event) => {
       event.preventDefault();
       try {
         let firstName = document.getElementById("firstNameInput").value;
         let lastName = document.getElementById("lastNameInput").value;
+        validate.checkIfString(firstName);
+        validate.checkIfString(lastName);
         let requestConfig = {
           method: "POST",
           URL: "/artist",
           contentType: "application/json",
-          data: JSON.stringify({ firstName: firstName, lastName: lastName }),
+          data: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+          }),
         };
-        $.ajax(requestConfig).then(function (responseMessage) {
-          let ulElement = $("<ul/>");
-          ulElement.attr("class", "card-container");
-          responseMessage.forEach((element) => {
+        $.ajax(requestConfig).then(function (response) {
+          // let ulElement = $("<ul/>");
+          // ulElement.attr("class", "card-container");
+          console.log(response);
+          if (response.length === 0) {
+            console.log(`Couldn't find an artist with that name!`);
+            alert("Couldn't find an artist with that name!");
+          }
+          searchResults.empty();
+          response.forEach((element) => {
             let li = $("<li/>");
             li.attr("class", "card");
             let div = $("<div/>");
@@ -261,29 +308,34 @@ const validate = {
             img.attr("alt", "Image of " + element.firstName);
             let h2 = $("<h2/>");
             h2.attr("class", "artwork-name");
-            h2.textContent = element.firstName + " " + element.lastName;
+            h2.text(element.firstName + " " + element.lastName);
             let p = $("<p/>");
             p.attr("class", "artwork-description");
-            p.textContent = element.bio;
+            p.text(element.bio);
             let a = $("<a/>");
             a.attr("href", "/artist/" + element._id);
-            let button = $("<button/>");
-            button.attr("class", "buy-button");
-            button.textContent = "Visit Profile";
-            a.append(button);
+            a.attr("class", "buy-button");
+            a.text("Visit Profile");
+            // let button = $("<button/>");
+            // button.attr("class", "buy-button");
+            // button.textContent = "Visit Profile";
+            // a.append(button);
             div.append(img);
             div.append(h2);
             div.append(p);
             div.append(a);
             li.append(div);
-            ulElement.append(li);
+            searchResults.append(li);
           });
           // console.log(responseMessage);
-          searchResults.append(ulElement);
-          searchResults.show();
+          // searchResults.append(ulElement);
+          firstName.value = "";
+          lastName.value = "";
         });
+        searchResults.show();
       } catch (e) {
         console.log(e);
+        alert(e);
       }
     });
   }

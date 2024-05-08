@@ -1,6 +1,6 @@
 
 
-<form id="addProductForm" action="/artist/addProduct" method="POST" >
+<form id="addProductForm" action="/artist/addProduct" method="POST" enctype="multipart/form-data" >
     <label for="productName">Product Name:</label>
     <input required type="text" id="productName"  name="productName">
     <br>
@@ -22,13 +22,12 @@
     {{!-- <label for="date">Release Date:</label><br>
     <input required type="date" id="date" name="date"><br> --}}
     
-    <label for="images">Images:</label>
-    <input required type="text" id="images"    name="images">
+    <label for="images">
+        <span>Choose photos</span>
+        <input name="images" id="images" type="file" accept="image/jpg, image/png, image/jpeg, image/gif, image/tiff" multiple>
+    </label>
     <br>
     <br>
-    
-    {{!-- <label for="reviews">Reviews :</label><br>
-    <textarea id="reviews" name="reviews"></textarea><br> --}}
     
     <label for="tags">Tags :</label>
     <input  type="text" id="tags"  name="tags">

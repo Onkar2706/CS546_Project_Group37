@@ -24,11 +24,12 @@
     </div>
     <div class="input-group">
       <label for="age">Age:</label>
-      <input type="number" id="age" name="age" min="0" required />
+      <input type="number" id="age" name="age" min="0" required/>
     </div>
     <div class="input-group">
       <label for="state">State:</label>
-      <select id="state" name="state" required>
+      <select id="state" name="state" required size="1">
+        <option value ="">choose state</option>
         <option value ="AL">Alabama</option>
         <option value ="AK">Alaska</option>
         <option value="AZ">Arizona</option>
@@ -80,17 +81,12 @@
         <option value="WI">Wisconsin</option>
         <option value="WY">Wyoming</option>
       </select>
-      {{!-- <input type="text" id="state" name="state" required /> --}}
     </div>
     <div class="input-group">
       <label for="city">City:</label>
       <input type="text" id="city" name="city" required />
     </div>
-      <input type="submit" value="Register" />
-
+    <input type="submit" value="Register" />
   </form>
-  <p class="login-link">Already have an account?
-    <form action="/user/login" id="loginForm" method="POST"></form>
-
-    <a href="/user/login">Login here </a></p>
+  <p class="login-link">Already have an account? <a href="/user/login">Login here</a></p>
 </div>

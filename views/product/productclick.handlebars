@@ -5,7 +5,9 @@
             <img src="{{this}}" alt="Product Image">
     {{/each}}
     <p>Price: {{productInfo.price}}$</p>
+    {{#if loggedIn}}
     <a href= "/products/addToCart/{{productInfo._id}}" class="addtocart">Add to Cart</a> 
+    {{/if}}
     <br>
 
     <p>Ratings: {{avgRating}}</p>
