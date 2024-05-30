@@ -19,7 +19,6 @@ const createAdmin = async (userid) => {
     { _id: new ObjectId(userid) },
     { $set: { role: "admin" } }
   );
-  console.log(updateRole);
 };
 
 // Creating Users

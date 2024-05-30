@@ -56,13 +56,6 @@ app.use("/user/login", (res, req, next) => {
   }
   next();
 });
-
-// app.use("/user/registerArtist", (res, req, next) => {
-//   if (req.req.session.user && req.req.session.user.role === "user") {
-//     next();
-//   }
-// });
-
 app.use("/user/userInfo", (res, req, next) => {
   if (req.req.session.user) {
     next();
